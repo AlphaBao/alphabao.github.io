@@ -1,0 +1,1044 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>天方夜</title>
+  <subtitle>不患人之不己知，患不知人也</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://tianfangye.com/"/>
+  <updated>2016-11-02T09:55:21.000Z</updated>
+  <id>http://tianfangye.com/</id>
+  
+  <author>
+    <name>天方夜</name>
+    <email>007nec@163.com</email>
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>从状态模式看 JavaScript 与 Java</title>
+    <link href="http://tianfangye.com/2016/10/29/state-pattern-the-difference-between-javascript-and-java/"/>
+    <id>http://tianfangye.com/2016/10/29/state-pattern-the-difference-between-javascript-and-java/</id>
+    <published>2016-10-29T11:51:31.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>这篇文章缘起于前几天微博上有关动态语言与静态语言的讨论，因为有几个编程高手参加，所以能看到一些特别有启发性的发言。本文主要是下面这一条微博的读后感，也是我的练习与思考。</p>
+<p><a href="http://weibo.com/1655747731/EebsQBk82" target="_blank" rel="external">@有个梨UGlee：如果你去看四人帮的Design Pattern里，就有State Pattern；State Pattern用类型编码State，就是我们说的问题；但是动态语言里写出来非常简单，类型语言里写得极其繁琐。</a></p>
+<p>关于动态语言与静态语言，有很多比较和讨论它们的文章，但大部分都没有抓住重点。而上面一条微博，提到了一个很好的切入点，那就是「状态模式（State Pattern）」。</p>
+<h2 id="状态模式：蝙蝠侠-布鲁斯·韦恩"><a href="#状态模式：蝙蝠侠-布鲁斯·韦恩" class="headerlink" title="状态模式：蝙蝠侠/布鲁斯·韦恩"></a>状态模式：蝙蝠侠/布鲁斯·韦恩</h2><p>蝙蝠侠（英语：Batman）是一名出现于DC漫画的虚构超级英雄角色，由鲍勃·凯恩和比尔·芬格创作。他的名字叫 Bruce，是一位美国亿万富翁，这是他的正常身份，用于正常生活，例如进行参加宴会之类的活动。他的另一个身份是 Batman，是打击犯罪的黑暗骑士。</p>
+<p>这是一个状态模式的好示例，我用 Java 和 JavaScript 各写了一个示例，体会体会「极其繁琐」与「非常简单」。</p>
+<a id="more"></a>
+<h2 id="极其繁琐：Java-版本"><a href="#极其繁琐：Java-版本" class="headerlink" title="极其繁琐：Java 版本"></a>极其繁琐：Java 版本</h2><p>目录结构：</p>
+<pre><code>com
+  |-- tianfangye
+    |-- Client.java
+    |-- person
+        |-- Person.java
+    |-- state
+        |-- BatmanState.java
+        |-- BruceState.java
+        |-- IState.java
+</code></pre><p><strong>Person.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tianfangye.person;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.tianfangye.state.IState;</div><div class="line"><span class="keyword">import</span> com.tianfangye.state.BruceState;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// 当前状态</span></div><div class="line">  <span class="keyword">private</span> IState state;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Person</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.state = <span class="keyword">new</span> BruceState();</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// 设置当前状态</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">changeState</span><span class="params">(IState state)</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.state = state;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// 改变状态（变身）</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">convertState</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.state.convertState(<span class="keyword">this</span>);</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// 开始行动</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">takeAction</span><span class="params">()</span> </span>&#123;</div><div class="line">    <span class="keyword">this</span>.state.doActivities();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>IState.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tianfangye.state;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.tianfangye.person.Person;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">IState</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// 转换状态</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">convertState</span><span class="params">(Person person)</span></span>;</div><div class="line"></div><div class="line">  <span class="comment">// 执行活动</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doActivities</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>Bruce.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tianfangye.state;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.tianfangye.person.Person;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BruceState</span> <span class="keyword">implements</span> <span class="title">IState</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> String name = <span class="string">"- Bruce -"</span>;</div><div class="line"></div><div class="line">  <span class="comment">// 转换状态</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">convertState</span><span class="params">(Person person)</span> </span>&#123;</div><div class="line">    person.changeState(<span class="keyword">new</span> BatmanState());</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// 执行活动</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doActivities</span><span class="params">()</span> </span>&#123;</div><div class="line">    System.out.println(<span class="keyword">this</span>.name + <span class="string">" &lt;&gt; "</span> + <span class="string">"参加宴会"</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>Batman.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tianfangye.state;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.tianfangye.person.Person;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BatmanState</span> <span class="keyword">implements</span> <span class="title">IState</span> </span>&#123;</div><div class="line"></div><div class="line">  <span class="keyword">private</span> String name = <span class="string">"- Batman -"</span>;</div><div class="line"></div><div class="line">  <span class="comment">// 转换状态</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">convertState</span><span class="params">(Person person)</span> </span>&#123;</div><div class="line">    person.changeState(<span class="keyword">new</span> BruceState());</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="comment">// 执行活动</span></div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">doActivities</span><span class="params">()</span> </span>&#123;</div><div class="line">    System.out.println(<span class="keyword">this</span>.name + <span class="string">" &lt;&gt; "</span> + <span class="string">"打击犯罪"</span>);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>Client.java</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">package</span> com.tianfangye;</div><div class="line"></div><div class="line"><span class="keyword">import</span> com.tianfangye.person.Person;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Client</span> </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">    Person person = <span class="keyword">new</span> Person();</div><div class="line">    person.takeAction();</div><div class="line">    person.convertState();</div><div class="line">    person.takeAction();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>程序输出：</p>
+<ul>
+<li><code>- Bruce - &lt;&gt; 参加宴会</code></li>
+<li><code>- Batman - &lt;&gt; 打击犯罪</code></li>
+</ul>
+<p>关于状态模式的实现，GoF 的 Design Patterns 里面提到过一些需要考虑的方面，其中之一是「谁来定义状态的转换」。可以由状态的使用者（Person）实现，也可以由每个状态各自实现，各有利弊。上例由每个状态各自实现，接下来的 JavaScript 示例也是这种选择（对于示例程序，另一种实现更简单）。</p>
+<h2 id="非常简单：JavaScript-版本"><a href="#非常简单：JavaScript-版本" class="headerlink" title="非常简单：JavaScript 版本"></a>非常简单：JavaScript 版本</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">const</span> state = &#123;</div><div class="line">  <span class="attr">_Bruce</span>: &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"- Bruce -"</span>,</div><div class="line">    convertState() &#123;</div><div class="line">      <span class="keyword">this</span>.identity = state._Batman;</div><div class="line">    &#125;,</div><div class="line">    takeAction() &#123;</div><div class="line">      <span class="built_in">window</span>.console.log(<span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> &lt;&gt; 参加宴会`</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line"></div><div class="line">  <span class="attr">_Batman</span>: &#123;</div><div class="line">    <span class="attr">name</span>: <span class="string">"- Batman -"</span>,</div><div class="line">    convertState() &#123;</div><div class="line">      <span class="keyword">this</span>.identity = state._Bruce;</div><div class="line">    &#125;,</div><div class="line">    takeAction() &#123;</div><div class="line">      <span class="built_in">window</span>.console.log(<span class="string">`<span class="subst">$&#123;<span class="keyword">this</span>.name&#125;</span> &lt;&gt; 打击犯罪`</span>);</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">const</span> person = &#123;</div><div class="line">  <span class="attr">identity</span>: state._Bruce,</div><div class="line">  convertState() &#123;</div><div class="line">    <span class="keyword">this</span>.identity.convertState.call(<span class="keyword">this</span>);</div><div class="line">  &#125;,</div><div class="line">  takeAction() &#123;</div><div class="line">    <span class="keyword">this</span>.identity.takeAction();</div><div class="line">  &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">person.takeAction();</div><div class="line">person.convertState();</div><div class="line">person.takeAction();</div></pre></td></tr></table></figure>
+<p>程序输出：</p>
+<ul>
+<li><code>- Bruce - &lt;&gt; 参加宴会</code></li>
+<li><code>- Batman - &lt;&gt; 打击犯罪</code></li>
+</ul>
+<p>可以看到，相比静态语言的版本，动态语言的版本竟是如此浑然天成！甚至不是在实现「设计模式」，只是对语言特性的正常使用而已。所以，什么是设计模式？聪明人应该想通了——设计模式是一个衍生问题，不是本质问题。本质问题是程序设计，是静态语言与动态语言，是静态类型与动态类型，是编程语言抽象。</p>
+<p><a href="https://www.zhihu.com/people/excited-vczh" target="_blank" rel="external">@vczh</a>的一个知乎回答对这一点讲得很透彻：</p>
+<p><a href="https://www.zhihu.com/question/23757237/answer/102665315" target="_blank" rel="external">设计模式说白了就是在不允许使用dynamic_cast的情况下如何让你的设计通过类型系统的检验，于是发明出了一大堆行之有效的做法。为什么不能用dynamic_cast？因为通常如果你可以通过修改设计来避免所有dynamic_cast，那你就得到了最优的性能（通常指的是系数，不是复杂度）。</a></p>
+<p><a href="https://www.zhihu.com/question/23757237/answer/102665315" target="_blank" rel="external">但是很多人都知其然不知其所以然，盲目的背诵却不练习（这并不是让你不要去背诵），喜欢过度设计控制不住自己，还可以拿它来装逼等等。其实这都不是设计模式的问题，而是人的劣根性的问题，这些人不管学什么都是一样的，只不过设计模式把这些人的效果放大了。</a></p>
+<p>显而易见，类型是个大问题！动态语言能做到非常简洁是由于动态类型系统的灵活性。它们在相当大的程度上简化了程度设计，也就是所谓的「非常简单」。要明白，这里的「简单」与「复杂」并不是指代码量的多少，也不是指语言特性使用的多少，而是指花费在程序设计上面的心思的多少。具体到本例，主要是下面两点：</p>
+<ul>
+<li>动态类型：不需要花心思去搞定类型检查。</li>
+<li>运行时绑定上下文的 this 对象：不需要将有状态的对象传来传去。</li>
+</ul>
+<p>当然，这些灵活性并非没有代价（性能）。另外，关于动态语言与静态语言的选择，一直有很多工程问题上的争议（从文章开头的微博往下探索，可以找到大段这方面的争论）。我个人对于动态语言、静态语言没有明显偏好，只是喜欢把问题弄清楚——不论有没有偏好，偏好强烈还是微弱，这都是首要的一步。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;这篇文章缘起于前几天微博上有关动态语言与静态语言的讨论，因为有几个编程高手参加，所以能看到一些特别有启发性的发言。本文主要是下面这一条微博的读后感，也是我的练习与思考。&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://weibo.com/1655747731/EebsQBk82&quot;&gt;@有个梨UGlee：如果你去看四人帮的Design Pattern里，就有State Pattern；State Pattern用类型编码State，就是我们说的问题；但是动态语言里写出来非常简单，类型语言里写得极其繁琐。&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;关于动态语言与静态语言，有很多比较和讨论它们的文章，但大部分都没有抓住重点。而上面一条微博，提到了一个很好的切入点，那就是「状态模式（State Pattern）」。&lt;/p&gt;
+&lt;h2 id=&quot;状态模式：蝙蝠侠-布鲁斯·韦恩&quot;&gt;&lt;a href=&quot;#状态模式：蝙蝠侠-布鲁斯·韦恩&quot; class=&quot;headerlink&quot; title=&quot;状态模式：蝙蝠侠/布鲁斯·韦恩&quot;&gt;&lt;/a&gt;状态模式：蝙蝠侠/布鲁斯·韦恩&lt;/h2&gt;&lt;p&gt;蝙蝠侠（英语：Batman）是一名出现于DC漫画的虚构超级英雄角色，由鲍勃·凯恩和比尔·芬格创作。他的名字叫 Bruce，是一位美国亿万富翁，这是他的正常身份，用于正常生活，例如进行参加宴会之类的活动。他的另一个身份是 Batman，是打击犯罪的黑暗骑士。&lt;/p&gt;
+&lt;p&gt;这是一个状态模式的好示例，我用 Java 和 JavaScript 各写了一个示例，体会体会「极其繁琐」与「非常简单」。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="JavaScript" scheme="http://tianfangye.com/tags/JavaScript/"/>
+    
+      <category term="Java" scheme="http://tianfangye.com/tags/Java/"/>
+    
+      <category term="设计模式" scheme="http://tianfangye.com/tags/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F/"/>
+    
+      <category term="动态语言" scheme="http://tianfangye.com/tags/%E5%8A%A8%E6%80%81%E8%AF%AD%E8%A8%80/"/>
+    
+      <category term="静态语言" scheme="http://tianfangye.com/tags/%E9%9D%99%E6%80%81%E8%AF%AD%E8%A8%80/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>宅男视角看朱鹮</title>
+    <link href="http://tianfangye.com/2016/10/23/to-see-the-nipponia-nippon-from-a-nerdy-perspective/"/>
+    <id>http://tianfangye.com/2016/10/23/to-see-the-nipponia-nippon-from-a-nerdy-perspective/</id>
+    <published>2016-10-23T07:27:07.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>阿部和重的《朱鹮》大概是目前最严肃的有关御宅族的小说了。书中的宅男鸨谷春生将现今社会的运转规则理解为“人类书写的剧本”。那么，如果这个剧本不够好，有办法改进它吗？</p>
+<p>“正常的人”在自己的社会生活中相互约束，形成一种互相制衡的稳态。它的形成需要很长时间，可以称作“中年人的稳态”——年轻人是不适应它的。互联网的普及给了年轻人一种新的选择——成为御宅族——用宅着这种活动了解世界。<br><a id="more"></a><br>主要依赖网络了解世界的宅男宅女，无法全面认识和理解社会生活的真实现状。可是生活在“人类书写的剧本”中的“正常的人”扮演着各自的社会角色，从他们按部就班的生活来看，“剧本”显然没有给他们太多思考和行为的配额。反倒是宅男宅女更有时间思考自己和他人的命运——“正常的人”和御宅族，到底哪种人更固化和封闭呢？</p>
+<p>剧本肯定是不完美的，甚至是不够好的——谁来修改呢？最有条件做出行动的竟然是御宅族吗？至少在鸨谷春生看来自己应该出发了……</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;阿部和重的《朱鹮》大概是目前最严肃的有关御宅族的小说了。书中的宅男鸨谷春生将现今社会的运转规则理解为“人类书写的剧本”。那么，如果这个剧本不够好，有办法改进它吗？&lt;/p&gt;
+&lt;p&gt;“正常的人”在自己的社会生活中相互约束，形成一种互相制衡的稳态。它的形成需要很长时间，可以称作“中年人的稳态”——年轻人是不适应它的。互联网的普及给了年轻人一种新的选择——成为御宅族——用宅着这种活动了解世界。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="杂文" scheme="http://tianfangye.com/categories/%E6%9D%82%E6%96%87/"/>
+    
+    
+      <category term="日本" scheme="http://tianfangye.com/tags/%E6%97%A5%E6%9C%AC/"/>
+    
+      <category term="小说" scheme="http://tianfangye.com/tags/%E5%B0%8F%E8%AF%B4/"/>
+    
+      <category term="阿部和重" scheme="http://tianfangye.com/tags/%E9%98%BF%E9%83%A8%E5%92%8C%E9%87%8D/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript 中的异步：Event Loop 及其他</title>
+    <link href="http://tianfangye.com/2016/09/30/javascript-asynchrony-eventloopqueue-and-jobqueue/"/>
+    <id>http://tianfangye.com/2016/09/30/javascript-asynchrony-eventloopqueue-and-jobqueue/</id>
+    <published>2016-09-30T01:11:31.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>简单地说，JavaScript 是单线程执行的语言，但在使用中有很多异步执行的情况。异步的本质是用其他方式（相对同步）控制程序的执行顺序，这与其他语言中的多线程模型不同，所以常常有人对<strong>非顺序</strong> JavaScript 代码的运行结果感到困惑不解。</p>
+<h3 id="一段简单的小程序"><a href="#一段简单的小程序" class="headerlink" title="一段简单的小程序"></a>一段简单的小程序</h3><p>任何使用过 JavaScript 的程序员都能说出下面这段代码的输出：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="string">"A"</span>);</div><div class="line"></div><div class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"B"</span>);</div><div class="line">&#125;, <span class="number">100</span>);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"C"</span>);</div></pre></td></tr></table></figure>
+<p>先后顺序是 <code>A、C、B</code>，因为第二个参数的作用是指定延迟的毫秒数，这段代码只有一个 setTimeout，所以不会让人迷惑。</p>
+<p>对类似程序的解释通常是由 setTimeout 设置一个定时器，在指定毫秒数后调用回调函数。然而，它的执行机制并不是这么简单。<strong>实际上，setTimeout 的作用是在指定的毫秒数之后，在得到机会时，将 callback 放入 Event Loop Queue</strong>。</p>
+<h3 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h3><a id="more"></a>
+<p>首先要抛出一些概念，通常所说的 JavaScript Engine 是指负责执行一个一个 chunk 的程序，它依赖宿主环境的调度，也需要通过宿主环境与操作系统产生关联并得到支持。JavaScript Engine 是 JavaScript Runtime(Hosting Environment) 的一部分。</p>
+<p>每个 chunk 通常是以 function 为单位，一个 chunk 执行完成后，才会执行下一个 chunk。下一个 chunk 是什么呢？取决于当前 Event Loop Queue 中的队首。Event Loop Queue 中存放的都是消息，每个消息关联着一个函数，JavaScript Engine 就按照队列中的消息顺序执行它们，也就是执行 chunk。</p>
+<p>所以上面的 setTimeout 实际执行起来更接近这样：</p>
+<ul>
+<li><p>chunk1执行：由 setTimeout 启动定时器（100毫秒）</p>
+</li>
+<li><p>chunk2执行：得到机会，将 callback 放入 Event Loop Queue</p>
+</li>
+<li><p>chunk3执行：此 callback 执行</p>
+</li>
+</ul>
+<p>不难发现，<strong>得到机会</strong>很重要！这也就可以解释用 setTimeout 延迟 1000 不一定是准确的，而是会至少延迟一秒。因为如果还有其他的任务在前面，它要等待那些任务对应的消息都出队，也就是程序都执行完成，它才能将 callback 放入队列。也就是实际延迟会大于或等于一秒。</p>
+<p>通常所说的触发了一个事件，就是指这个 event listener 得到了执行。与 setTimeout 这个例子中的概念一样，这也是一次 chunk 的执行。像这样一个一个执行 chunk 的过程就叫 <strong>Event Loop</strong>。</p>
+<p>还有一个经常提到的概念叫「无阻塞」，JavaScript 中的无阻塞就是指这种 Event Loop 模型。除去 alert 或同步 Ajax 请求等历史原因造成的问题，程序总是不会出现阻塞；也就是说 JavaScript Engine 总是可以处理下一个任务，如处理用户对浏览器的操作。</p>
+<h3 id="一些简单的小例子"><a href="#一些简单的小例子" class="headerlink" title="一些简单的小例子"></a>一些简单的小例子</h3><p>将 setTimeout 加入 try 语句之中，结果会如何？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">try</span> &#123;</div><div class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Error - from try statement"</span>);</div><div class="line">  &#125;, <span class="number">0</span>);</div><div class="line">&#125; <span class="keyword">catch</span> (e) &#123;</div><div class="line">  <span class="built_in">console</span>.error(e);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>try catch 与 setTimeout 不在同一个 chunk，所以……你懂的。</p>
+<p>再看下一个。</p>
+<p>下面的堆栈信息会输出 C - B - A 吗？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>) </span>&#123;</div><div class="line">    setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">C</span>(<span class="params"></span>) </span>&#123;</div><div class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Error - from function C"</span>);</div><div class="line">    &#125;, <span class="number">0</span>);</div><div class="line">  &#125;, <span class="number">0</span>);</div><div class="line">&#125;, <span class="number">0</span>);</div></pre></td></tr></table></figure>
+<p>它们并不对应同一条 Event Loop Queue 中的消息，分别有各自的调用栈，所以错误栈里面只有 C。</p>
+<h3 id="Job-Queue"><a href="#Job-Queue" class="headerlink" title="Job Queue"></a>Job Queue</h3><p>Job 是 ES6 中新增的概念，它与 Promise 的执行有关，可以理解为等待执行的任务；Job Queue 就是这种类型的任务的队列。JavaScript Runtime 对于 Job Queue 与 Event Loop Queue 的处理有所不同。</p>
+<p>相同点：</p>
+<ul>
+<li>都用作先进先出队列</li>
+</ul>
+<p>相异点：</p>
+<ul>
+<li><p>每个 JavaScript Runtime 可以有多个 Job Queue，但只有一个 Event Loop Queue</p>
+</li>
+<li><p>当 JavaScript Engine 处理完当前 chunk 后，优先执行所有的 Job Queue，然后再处理 Event Loop Queue</p>
+</li>
+</ul>
+<p>ES6 中，一个 Promise 就是一个 PromiseJob，一种 Job。</p>
+<p>再来观察一段小程序：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">console</span>.log(<span class="string">"A"</span>);</div><div class="line"></div><div class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="built_in">console</span>.log(<span class="string">"A - setTimeout"</span>);</div><div class="line">&#125;, <span class="number">0</span>);</div><div class="line"></div><div class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</div><div class="line">  resolve();</div><div class="line">&#125;)</div><div class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"A - Promise 1"</span>);</div><div class="line">&#125;)</div><div class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"B - Promise 1"</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</div><div class="line">  resolve();</div><div class="line">&#125;)</div><div class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"A - Promise 2"</span>);</div><div class="line">&#125;)</div><div class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"B - Promise 2"</span>);</div><div class="line">&#125;)</div><div class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</div><div class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"C - Promise 2"</span>);</div><div class="line">&#125;);</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(<span class="string">"AA"</span>);</div></pre></td></tr></table></figure>
+<p>在原生支持 Promise 的环境，输出是这样：</p>
+<p><code>A</code><br><code>AA</code><br><code>A - Promise 1</code><br><code>A - Promise 2</code><br><code>B - Promise 1</code><br><code>B - Promise 2</code><br><code>C - Promise 2</code><br><code>A - setTimeout</code></p>
+<p>理解这个输出：</p>
+<ul>
+<li><p>A 与 AA 最先输出，因为它们不是异步任务，属于第一个 chunk。</p>
+</li>
+<li><p>Promise 1 与 Promise 2 先于 setTimeout 执行，因为 Job Queue 的执行优先于 Event Loop Queue。</p>
+</li>
+<li><p>Promise 1 与 Promise 2 各自的输出都是顺序的，因为 Job Queue 是先进先出队列，同一 Job Queue 中的任务顺序执行。</p>
+</li>
+<li><p>Promise 1 与 Promise 2 的后续任务是交错的，因为 Promise 1 与 Promise 2 都是独立的 PromiseJob（job 的其中一种），属于不同的 Job Queue，它们之间的顺序规范中没有规定。</p>
+</li>
+</ul>
+<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2><p>文章开头，我说「简单地说，JavaScript 是单线程执行的语言」，现在可以说得稍微复杂一点了：JavaScript Engine 对 JavaScript 程序的执行是单线程的，但是 JavaScript Runtime（整个宿主环境）并不是单线程的；而且，几乎所有的异步任务都是并发的，例如多个 Job Queue、Ajax、Timer、I/O(Node)等等。</p>
+<p>上面说的是 JavaScript Runtime 层面，JavaScript 执行本身，也有一些特殊情况，例如：一个 Web Worker 或者一个<strong>跨域的</strong> iframe，也是独立的线程，有各自的内存空间（栈、堆）以及 Event Loop Queue。要与这些不同的线程通信，只能通过 postMessage。一次 postMessage 就是在另一个线程的 Event Loop Queue 中加入一条消息。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop" target="_blank" rel="external">Concurrency model and Event Loop</a><br><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-jobs-and-job-queues" target="_blank" rel="external">ECMAScript® 2015 Language Specification</a><br><a href="https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch1.md" target="_blank" rel="external">You Don’t Know JS: Async &amp; Performance</a><br><a href="http://www.ituring.com.cn/book/1132" target="_blank" rel="external">JavaScript异步编程：设计快速响应的网络应用</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;异步&quot;&gt;&lt;a href=&quot;#异步&quot; class=&quot;headerlink&quot; title=&quot;异步&quot;&gt;&lt;/a&gt;异步&lt;/h2&gt;&lt;p&gt;简单地说，JavaScript 是单线程执行的语言，但在使用中有很多异步执行的情况。异步的本质是用其他方式（相对同步）控制程序的执行顺序，这与其他语言中的多线程模型不同，所以常常有人对&lt;strong&gt;非顺序&lt;/strong&gt; JavaScript 代码的运行结果感到困惑不解。&lt;/p&gt;
+&lt;h3 id=&quot;一段简单的小程序&quot;&gt;&lt;a href=&quot;#一段简单的小程序&quot; class=&quot;headerlink&quot; title=&quot;一段简单的小程序&quot;&gt;&lt;/a&gt;一段简单的小程序&lt;/h3&gt;&lt;p&gt;任何使用过 JavaScript 的程序员都能说出下面这段代码的输出：&lt;/p&gt;
+&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(&lt;span class=&quot;string&quot;&gt;&quot;A&quot;&lt;/span&gt;);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;setTimeout(&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; =&amp;gt;&lt;/span&gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(&lt;span class=&quot;string&quot;&gt;&quot;B&quot;&lt;/span&gt;);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;, &lt;span class=&quot;number&quot;&gt;100&lt;/span&gt;);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;console&lt;/span&gt;.log(&lt;span class=&quot;string&quot;&gt;&quot;C&quot;&lt;/span&gt;);&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;先后顺序是 &lt;code&gt;A、C、B&lt;/code&gt;，因为第二个参数的作用是指定延迟的毫秒数，这段代码只有一个 setTimeout，所以不会让人迷惑。&lt;/p&gt;
+&lt;p&gt;对类似程序的解释通常是由 setTimeout 设置一个定时器，在指定毫秒数后调用回调函数。然而，它的执行机制并不是这么简单。&lt;strong&gt;实际上，setTimeout 的作用是在指定的毫秒数之后，在得到机会时，将 callback 放入 Event Loop Queue&lt;/strong&gt;。&lt;/p&gt;
+&lt;h3 id=&quot;Event-Loop&quot;&gt;&lt;a href=&quot;#Event-Loop&quot; class=&quot;headerlink&quot; title=&quot;Event Loop&quot;&gt;&lt;/a&gt;Event Loop&lt;/h3&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="JavaScript" scheme="http://tianfangye.com/tags/JavaScript/"/>
+    
+      <category term="异步" scheme="http://tianfangye.com/tags/%E5%BC%82%E6%AD%A5/"/>
+    
+      <category term="Event Loop" scheme="http://tianfangye.com/tags/Event-Loop/"/>
+    
+      <category term="Job Queue" scheme="http://tianfangye.com/tags/Job-Queue/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用 Karma、Mocha、Chai 搭建支持 ES6 的测试环境</title>
+    <link href="http://tianfangye.com/2016/09/02/karma-mocha-chai-webpack-es6/"/>
+    <id>http://tianfangye.com/2016/09/02/karma-mocha-chai-webpack-es6/</id>
+    <published>2016-09-02T03:17:55.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。</p>
+<h3 id="安装-Karma"><a href="#安装-Karma" class="headerlink" title="安装 Karma"></a>安装 Karma</h3><p>使用 <code>Karma</code> <code>Mocha</code> <code>Chai</code>（启动器、测试框架、断言库）组合。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install karma karma-mocha karma-chai --save-dev</div></pre></td></tr></table></figure>
+<p>如果 npm 版本 &gt;=3.0，会看到如下提示：</p>
+<blockquote>
+<p>UNMET PEER DEPENDENCY chai@<em><br>karma@1.2.0<br>karma-chai@0.1.0<br>karma-mocha@1.1.1<br>UNMET PEER DEPENDENCY mocha@</em></p>
+</blockquote>
+<p>这是因为 npm 已经不再自动安装 peerDependencies：<br><a href="http://blog.npmjs.org/post/110924823920/npm-weekly-5" target="_blank" rel="external">We will also be changing the behavior of peerDependencies in npm@3. We won’t be automatically downloading the peer dependency anymore. Instead, we’ll warn you if the peer dependency isn’t already installed. This requires you to resolve peerDependency conflicts yourself, manually, but in the long run this should make it less likely that you’ll end up in a tricky spot with your packages’ dependencies.</a></p>
+<a id="more"></a>
+<p>于是继续安装 <code>mocha</code> <code>chai</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install mocha chai --save-dev</div></pre></td></tr></table></figure>
+<h3 id="初始化-Karma"><a href="#初始化-Karma" class="headerlink" title="初始化 Karma"></a>初始化 Karma</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">karma init</div></pre></td></tr></table></figure>
+<p>然后要回答一系列问题。</p>
+<blockquote>
+<p>Which testing framework do you want to use ?<br>Press tab to list possible options. Enter to move to the next question.<br>> mocha</p>
+<p>Do you want to use Require.js ?<br>This will add Require.js plugin.<br>Press tab to list possible options. Enter to move to the next question.<br>> no</p>
+<p>Do you want to capture any browsers automatically ?<br>Press tab to list possible options. Enter empty string to move to the next question.<br>> Chrome</p>
+<p>What is the location of your source and test files ?<br>You can use glob patterns, eg. “js/<em>.js” or “test/**/</em>Spec.js”.<br>Enter empty string to move to the next question.<br>> “test/<em>*/</em>.spec.js”<br>01 09 2016 16:43:20.743:WARN [init]: There is no file matching this pattern.</p>
+<p>> </p>
+<p>Should any of the files included by the previous patterns be excluded ?<br>You can use glob patterns, eg. “<em>*/</em>.swp”.<br>Enter empty string to move to the next question.<br>> </p>
+<p>Do you want Karma to watch all the files and run the tests on change ?<br>Press tab to list possible options.<br>> yes</p>
+</blockquote>
+<p>然后就可以看到 <code>Karma</code> 已经创建的配置文件 <code>karma.conf.js</code>。如果选择使用 <code>PhantomJS</code>，需要单独安装。</p>
+<h3 id="添加-ES6-支持"><a href="#添加-ES6-支持" class="headerlink" title="添加 ES6 支持"></a>添加 ES6 支持</h3><p>现在前端开发的源码一般使用了 ES6 甚至 ES7，将这个处理工作用 webpack 搞定。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install karma-webpack --save-dev</div></pre></td></tr></table></figure>
+<p>既然将 ES6 的处理交给 webpack，如果之前没有安装过 babel 环境，还需要安装 <code>babel-core</code> <code>babel-preset-es2015</code> 以及 <code>babel-loader</code>。 </p>
+<p>如果出现下面的 <code>TypeError</code> 错误，只要在 exclude 中加入 /node_modules/ 就好了。</p>
+<blockquote>
+<p>TypeError: ‘caller’, ‘callee’, and ‘arguments’ properties may not be accessed on strict mode functions or the arguments objects for calls to them</p>
+</blockquote>
+<p>配置文件 <code>karma.conf.js</code> 中，需要注意的还有 <code>files</code> <code>preprocessors</code> 以及 <code>webpack</code> 部分。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// Karma configuration</span></div><div class="line"><span class="built_in">module</span>.exports = <span class="function"><span class="keyword">function</span>(<span class="params">config</span>) </span>&#123;</div><div class="line">  config.set(&#123;</div><div class="line">    <span class="comment">// ......</span></div><div class="line"></div><div class="line">    files: [</div><div class="line">      <span class="string">'test/**/*.spec.js'</span></div><div class="line">    ],</div><div class="line"></div><div class="line">    <span class="attr">preprocessors</span>: &#123;</div><div class="line">      <span class="string">'test/**/*.spec.js'</span>: [<span class="string">'webpack'</span>]</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="attr">webpack</span>: &#123;</div><div class="line">      <span class="attr">resolve</span>: &#123;</div><div class="line">        <span class="attr">root</span>: __dirname + <span class="string">"/src"</span></div><div class="line">      &#125;,</div><div class="line">      <span class="attr">module</span>: &#123;</div><div class="line">        <span class="attr">loaders</span>: [&#123;</div><div class="line">          <span class="attr">test</span>: <span class="regexp">/\.js$/</span>,</div><div class="line">          <span class="attr">exclude</span>: [<span class="regexp">/node_modules/</span>, __dirname + <span class="string">"xxx/xxx/lib"</span>],</div><div class="line">          <span class="attr">loader</span>: <span class="string">"babel-loader"</span>,</div><div class="line">          <span class="attr">query</span>: &#123;</div><div class="line">            <span class="attr">compact</span>: <span class="literal">false</span>,</div><div class="line">            <span class="attr">presets</span>: [<span class="string">"es2015"</span>],</div><div class="line">            <span class="attr">plugins</span>: [<span class="string">"es6-promise"</span>]</div><div class="line">          &#125;</div><div class="line">        &#125;]</div><div class="line">      &#125;</div><div class="line">    &#125;,</div><div class="line"></div><div class="line">    <span class="comment">// ......</span></div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="启动-Karma"><a href="#启动-Karma" class="headerlink" title="启动 Karma"></a>启动 Karma</h3><p>编写测试用例，这里是一个使用断言库 <code>Chai</code>，并使用它的 <code>expect</code> 断言风格的例子。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;getMoneyText&#125; <span class="keyword">from</span> <span class="string">"xxx/xxx.js"</span>;</div><div class="line"><span class="keyword">import</span> &#123;expect&#125; <span class="keyword">from</span> <span class="string">"chai"</span>;</div><div class="line"></div><div class="line">describe(<span class="string">"生成价格文案"</span>, () =&gt; &#123;</div><div class="line">  it(<span class="string">"价格文案：积分"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">1</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"100积分"</span>);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  it(<span class="string">"价格文案：人民币"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">2</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"￥100.00"</span>);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  it(<span class="string">"价格文案：人民币+积分"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">3</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"￥100.00+100积分"</span>);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  it(<span class="string">"价格文案：人民币+积分（多份数量）"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">3</span>,</div><div class="line">      <span class="attr">number</span>: <span class="number">5</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"￥500.00+500积分"</span>);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>启动 <code>Karma</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">karma start</div></pre></td></tr></table></figure>
+<p>关于 Mocha （Chai, expect）的入门教程可以参考：<a href="http://www.ruanyifeng.com/blog/2015/12/a-mocha-tutorial-of-examples.html" target="_blank" rel="external">测试框架 Mocha 实例教程</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。&lt;/p&gt;
+&lt;h3 id=&quot;安装-Karma&quot;&gt;&lt;a href=&quot;#安装-Karma&quot; class=&quot;headerlink&quot; title=&quot;安装 Karma&quot;&gt;&lt;/a&gt;安装 Karma&lt;/h3&gt;&lt;p&gt;使用 &lt;code&gt;Karma&lt;/code&gt; &lt;code&gt;Mocha&lt;/code&gt; &lt;code&gt;Chai&lt;/code&gt;（启动器、测试框架、断言库）组合。&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;npm install karma karma-mocha karma-chai --save-dev&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;如果 npm 版本 &amp;gt;=3.0，会看到如下提示：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;UNMET PEER DEPENDENCY chai@&lt;em&gt;&lt;br&gt;karma@1.2.0&lt;br&gt;karma-chai@0.1.0&lt;br&gt;karma-mocha@1.1.1&lt;br&gt;UNMET PEER DEPENDENCY mocha@&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这是因为 npm 已经不再自动安装 peerDependencies：&lt;br&gt;&lt;a href=&quot;http://blog.npmjs.org/post/110924823920/npm-weekly-5&quot;&gt;We will also be changing the behavior of peerDependencies in npm@3. We won’t be automatically downloading the peer dependency anymore. Instead, we’ll warn you if the peer dependency isn’t already installed. This requires you to resolve peerDependency conflicts yourself, manually, but in the long run this should make it less likely that you’ll end up in a tricky spot with your packages’ dependencies.&lt;/a&gt;&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="ES6" scheme="http://tianfangye.com/tags/ES6/"/>
+    
+      <category term="Karma" scheme="http://tianfangye.com/tags/Karma/"/>
+    
+      <category term="Mocha" scheme="http://tianfangye.com/tags/Mocha/"/>
+    
+      <category term="Webpack" scheme="http://tianfangye.com/tags/Webpack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CSS：min-height百分比问题</title>
+    <link href="http://tianfangye.com/2015/11/04/css-min-height/"/>
+    <id>http://tianfangye.com/2015/11/04/css-min-height/</id>
+    <published>2015-11-04T10:10:58.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>对于高度不确定的页面，想实现总是撑满一屏的效果，可以结合 height 与 min-height 来设置，但是有一些瑕疵。</p>
+<h3 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span> &#123;</div><div class="line">  <span class="attribute">min-height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">  <span class="attribute">min-height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>html 与 body 都设置为 <code>min-height: 100%</code>，意图是想页面高度不足一屏时 body 高度为一屏的高度，高度超过一屏则 body 的高度为页面的高度。但这样设置后会发现， html 的高度变成了 100%（一屏的高度），而 body 的高度却是 0。那么将 body 的子元素设为 <code>min-height: 100%</code> 时，这个元素的高度自然也是 0（除非靠内容撑开）。</p>
+<p>试验发现，如果将 min-height 的值设置为百分比，那么上一级元素必须有一个明确的高度（不能是 min-height: 100%），否则高度是 0。<br><a id="more"></a></p>
+<h3 id="示例-2："><a href="#示例-2：" class="headerlink" title="示例 2："></a>示例 2：</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">  <span class="attribute">min-height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果 html 设置为 <code>height: 100%</code>，而 body 设置为 <code>min-height: 100%</code>，则 html 与 body 的高度都变成了 100%（一屏的高度）。但是对照上一条结论，min-height 的上一级元素必须有一个明确的高度，body 的子元素设为 <code>min-height: 100%</code> 时，这个元素的高度却依然是 0（除非靠内容撑开）。</p>
+<h3 id="示例-3："><a href="#示例-3：" class="headerlink" title="示例 3："></a>示例 3：</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">  <span class="attribute">height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>html 与 body 都设置为 <code>height: 100%</code>，则 html 与 body 的高度都变成了 100%（一屏的高度）。body 的子元素设为 <code>min-height: 100%</code> 时，这个元素的高度也是一屏高度。这种方式的问题在于，body 中内容变多后，高度超过一个屏幕时，body 的高度仍然是 100%（一屏的高度），不影响滚动，但看起来不自然。</p>
+<p><em>Chrome: Version 46.0.2490.80 (64-bit)</em></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;对于高度不确定的页面，想实现总是撑满一屏的效果，可以结合 height 与 min-height 来设置，但是有一些瑕疵。&lt;/p&gt;
+&lt;h3 id=&quot;示例-1：&quot;&gt;&lt;a href=&quot;#示例-1：&quot; class=&quot;headerlink&quot; title=&quot;示例 1：&quot;&gt;&lt;/a&gt;示例 1：&lt;/h3&gt;&lt;figure class=&quot;highlight css&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;html&lt;/span&gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;min-height&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;100%&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;body&lt;/span&gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;min-height&lt;/span&gt;: &lt;span class=&quot;number&quot;&gt;100%&lt;/span&gt;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;html 与 body 都设置为 &lt;code&gt;min-height: 100%&lt;/code&gt;，意图是想页面高度不足一屏时 body 高度为一屏的高度，高度超过一屏则 body 的高度为页面的高度。但这样设置后会发现， html 的高度变成了 100%（一屏的高度），而 body 的高度却是 0。那么将 body 的子元素设为 &lt;code&gt;min-height: 100%&lt;/code&gt; 时，这个元素的高度自然也是 0（除非靠内容撑开）。&lt;/p&gt;
+&lt;p&gt;试验发现，如果将 min-height 的值设置为百分比，那么上一级元素必须有一个明确的高度（不能是 min-height: 100%），否则高度是 0。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="CSS" scheme="http://tianfangye.com/tags/CSS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>PPK《移动Web手册》读书笔记</title>
+    <link href="http://tianfangye.com/2015/10/01/the-mobile-web-handbook-reading-notes/"/>
+    <id>http://tianfangye.com/2015/10/01/the-mobile-web-handbook-reading-notes/</id>
+    <published>2015-10-01T04:16:06.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><p>大多数内置浏览器都被紧密集成到底层的操作系统中，无法单独升级。设备供应商经常拒绝给他们的内置浏览器命名，iOS 的内置浏览器叫作 Safari，而 Android、黑莓、塞班的内置浏览器没有名字，作者把它们叫作「安卓WebKit」「黑莓WebKit」「塞班WebKit」。</p>
+<h3 id="安卓"><a href="#安卓" class="headerlink" title="安卓"></a>安卓</h3><p>一个智能系统需要一个浏览器，安卓系统提供了基于 WebKit 的浏览器；它没有名字，英文网站上一般称之为「Android Browser」，作者称之为「安卓WebKit」。</p>
+<p>安卓WebKit 并不是 Chrome：它有完全分离的代码库，里面有完全分离的漏洞。查看 userAgent 是否含有 Chrome 这个单词，可以区分 安卓WebKit 与 Chrome。安卓WebKit 包含大量开关，用来打开或关闭特定功能，设备厂商可以随心所欲地设置这些开关。所以 三星安卓WebKit 与 索尼安卓WebKit 并不相同。<br><a id="more"></a></p>
+<p>谷歌想利用 Chrome 代替 安卓WebKit，这有利于谷歌收集用户数据并提供更强大的广告；设备厂商系统自己获取用户数据，并且希望继续使自己的设备与众不同。</p>
+<p>谷歌强制所有使用谷歌服务的设备使用 Google Chrome，但设备厂商能改变手机的内置浏览器。 HTC M8 的内置浏览器是 安卓WebKit，但它也安装了 Google Chrome；三星 S4 安装了两款基于 Chromium（人人都可以下载和修改的谷歌开源浏览器）的浏览器：三星Chrome 和 Google Chrome。</p>
+<p>亚马逊拒绝了谷歌服务，因此 Amazon Kindle Fire 中内置的是 Silk（基于 Chromium）。</p>
+<p>绝大多数国内厂商，比如小米、魅族的情况类似亚马逊，它们自己定制了安卓系统，也就定制了自己的浏览器（它们都不需要带 Google Chrome）。</p>
+<h3 id="WebView"><a href="#WebView" class="headerlink" title="WebView"></a>WebView</h3><p>WebView 是留给原生应用的一个操作系统浏览接口。大体上，WebView 是独立的程序，用了内置浏览器很多底层的组件（比如渲染引擎），但是在其他方面可能会有所不同。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;浏览器&quot;&gt;&lt;a href=&quot;#浏览器&quot; class=&quot;headerlink&quot; title=&quot;浏览器&quot;&gt;&lt;/a&gt;浏览器&lt;/h2&gt;&lt;p&gt;大多数内置浏览器都被紧密集成到底层的操作系统中，无法单独升级。设备供应商经常拒绝给他们的内置浏览器命名，iOS 的内置浏览器叫作 Safari，而 Android、黑莓、塞班的内置浏览器没有名字，作者把它们叫作「安卓WebKit」「黑莓WebKit」「塞班WebKit」。&lt;/p&gt;
+&lt;h3 id=&quot;安卓&quot;&gt;&lt;a href=&quot;#安卓&quot; class=&quot;headerlink&quot; title=&quot;安卓&quot;&gt;&lt;/a&gt;安卓&lt;/h3&gt;&lt;p&gt;一个智能系统需要一个浏览器，安卓系统提供了基于 WebKit 的浏览器；它没有名字，英文网站上一般称之为「Android Browser」，作者称之为「安卓WebKit」。&lt;/p&gt;
+&lt;p&gt;安卓WebKit 并不是 Chrome：它有完全分离的代码库，里面有完全分离的漏洞。查看 userAgent 是否含有 Chrome 这个单词，可以区分 安卓WebKit 与 Chrome。安卓WebKit 包含大量开关，用来打开或关闭特定功能，设备厂商可以随心所欲地设置这些开关。所以 三星安卓WebKit 与 索尼安卓WebKit 并不相同。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="Web" scheme="http://tianfangye.com/tags/Web/"/>
+    
+      <category term="Mobile" scheme="http://tianfangye.com/tags/Mobile/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>URL字符集的编码与解码：escape unescape encodeURI decodeURI encodeURIComponent decodeURIComponent</title>
+    <link href="http://tianfangye.com/2015/09/06/escape-unescape-encodeURI-decodeURI-encodeURIComponent-decodeURIComponent/"/>
+    <id>http://tianfangye.com/2015/09/06/escape-unescape-encodeURI-decodeURI-encodeURIComponent-decodeURIComponent/</id>
+    <published>2015-09-06T08:20:59.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote>
+<ul>
+<li><p>escape<br>unescape</p>
+</li>
+<li><p>encodeURI<br>decodeURI</p>
+</li>
+<li><p>encodeURIComponent<br>decodeURIComponent</p>
+</li>
+</ul>
+</blockquote>
+<p>这六个方法功能有关联，如果不清楚每一个的作用，很容易混淆。问题的本质，是如何在 URL 中正确处理各种令人头疼的字符。<a id="more"></a></p>
+<p>首先，<code>escape unescape</code> 已经废弃，应当避免使用。</p>
+<blockquote>
+<ul>
+<li><p>The deprecated escape() method computes a new string in which certain characters have been replaced by a hexadecimal escape sequence. Use encodeURI or encodeURIComponent instead.</p>
+</li>
+<li><p>The deprecated unescape() method computes a new string in which hexadecimal escape sequences are replaced with the character that it represents. The escape sequences might be introduced by a function like escape. Because unescape is deprecated, use decodeURI or decodeURIComponent instead.</p>
+</li>
+</ul>
+</blockquote>
+<p>根据 MDN 的说明，escape 应当换用为 encodeURI 或 encodeURIComponent；unescape 应当换用为 decodeURI 或 decodeURIComponent。</p>
+<p>那么，问题就简化为 <code>encodeURI decodeURI</code> 与 <code>encodeURIComponent decodeURIComponent</code> 的区分。encodeURI 应当用于整个 URI 的编码，encodeURIComponent 应当用于 URI 中某个部分的编码。</p>
+<p> 如果用 URL 举例，如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">encodeURI</span>(<span class="string">'https://www.baidu.com/ a b c'</span>)</div><div class="line"><span class="comment">// "https://www.baidu.com/%20a%20b%20c"</span></div><div class="line"><span class="built_in">encodeURIComponent</span>(<span class="string">'https://www.baidu.com/ a b c'</span>)</div><div class="line"><span class="comment">// "https%3A%2F%2Fwww.baidu.com%2F%20a%20b%20c"</span></div></pre></td></tr></table></figure>
+<p>而 escape 会编码成下面这样，不伦不类，所以废弃。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">escape</span>(<span class="string">'https://www.baidu.com/ a b c'</span>)</div><div class="line"><span class="comment">// "https%3A//www.baidu.com/%20a%20b%20c"</span></div></pre></td></tr></table></figure>
+<p>由此可知，前端开发中用到最多的应该是 encodeURIComponent/decodeURIComponent。例如下面这个将 URL Search 中的参数转化为对象的方法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> parseUrlSearch = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> query = <span class="built_in">window</span>.location.search.slice(<span class="number">1</span>);</div><div class="line">  <span class="keyword">var</span> result = &#123;&#125;;</div><div class="line">  query.split(<span class="string">"&amp;"</span>).forEach(<span class="function"><span class="keyword">function</span>(<span class="params">part</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> item = part.split(<span class="string">"="</span>);</div><div class="line">    result[item[<span class="number">0</span>]] = <span class="built_in">decodeURIComponent</span>(item[<span class="number">1</span>]);</div><div class="line">  &#125;);</div><div class="line">  <span class="keyword">return</span> result;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;escape&lt;br&gt;unescape&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;encodeURI&lt;br&gt;decodeURI&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;encodeURIComponent&lt;br&gt;decodeURIComponent&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这六个方法功能有关联，如果不清楚每一个的作用，很容易混淆。问题的本质，是如何在 URL 中正确处理各种令人头疼的字符。
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="JavaScript" scheme="http://tianfangye.com/tags/JavaScript/"/>
+    
+      <category term="URL" scheme="http://tianfangye.com/tags/URL/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Base64：window.atob 的兼容性问题</title>
+    <link href="http://tianfangye.com/2015/09/06/base64-decoding-problem/"/>
+    <id>http://tianfangye.com/2015/09/06/base64-decoding-problem/</id>
+    <published>2015-09-06T07:29:13.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>对于 Base64 编码，浏览器提供的原生方法是 <code>window.btoa</code> 和 <code>window.atob</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> encodedData = <span class="built_in">window</span>.btoa(<span class="string">"Hello, world"</span>); <span class="comment">// encode a string</span></div><div class="line"><span class="keyword">var</span> decodedData = <span class="built_in">window</span>.atob(encodedData); <span class="comment">// decode the string</span></div></pre></td></tr></table></figure>
+<p>从 <a href="http://caniuse.com/#search=Base64" target="_blank" rel="external">caniuse.com</a> 的数据来看，IE10 才开始支持这两个方法；而 iOS 和 Android 都很早就支持了，似乎可以用在移动端。但是在使用 <code>atob</code> 的过程中，还是遇到了兼容性问题。在 Chrome for Android 中可以正常解码，但是在 iOS Safari 中出现了下面这个错误：</p>
+<blockquote>
+<p>DOM Exception 5: An invalid or illegal character was specified, such as in an XML name</p>
+</blockquote>
+<p>无奈之下，还是找了个第三方库 <a href="https://github.com/dankogai/js-base64" target="_blank" rel="external">https://github.com/dankogai/js-base64</a>，用了之后 Android、iOS 都可以正常解码了。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;对于 Base64 编码，浏览器提供的原生方法是 &lt;code&gt;window.btoa&lt;/code&gt; 和 &lt;code&gt;window.atob&lt;/code&gt;。&lt;/p&gt;
+&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td cla
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="JavaScript" scheme="http://tianfangye.com/tags/JavaScript/"/>
+    
+      <category term="Base64" scheme="http://tianfangye.com/tags/Base64/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>JavaScript 分号问题</title>
+    <link href="http://tianfangye.com/2015/06/06/semicolons-in-javascript/"/>
+    <id>http://tianfangye.com/2015/06/06/semicolons-in-javascript/</id>
+    <published>2015-06-06T12:43:52.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><p>JavaScript 分号之争由来已久，目前最被认可的结论是：<strong>JavaScript 语句末尾是否加分号是一个编程风格问题，可以加，也可以不加。</strong></p>
+<h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><blockquote>
+<p>事情总要有个决定的！<br>——卫斯理《只限老友》（卫斯理系列最后一句话）</p>
+</blockquote>
+<p>那么，到底加不加分号呢？</p>
+<p>既然是一个风格问题，我们要明白的是如何选择。选择之前，我们来看看做出选择的前提是什么：</p>
+<ul>
+<li><p><code>加分号</code>：前提是你了解如何以加分号的方式写 JavaScript。</p>
+</li>
+<li><p><code>不加分号</code>：前提是你了解如何以不加分号的方式写 JavaScript。</p>
+</li>
+</ul>
+<a id="more"></a>
+<p>初期，了解哪种，选择哪种。如果都不了解，其实你只是胡乱写 JavaScript。若都有了解，自然可以根据喜好，任性！不过我们往往需要考虑更多，如今这个<strong>你也造轮子，我也改框架</strong>的时代，其实我们需要同时了解这两种规则，这是语言设计带来的问题（JavaScript 有自动插入分号的机制，然而并不可靠），避无可避。</p>
+<h2 id="不加分号"><a href="#不加分号" class="headerlink" title="不加分号"></a>不加分号</h2><p>选择不加分号的风格，就要了解哪些情况下不加分号会产生歧义，然后避免。</p>
+<p>最著名的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span></div><div class="line">&#123;</div><div class="line">  <span class="attr">index</span>: <span class="number">0</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>return 后面会自动加入上分号，这并不是期望的结果。所以，要写成：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> &#123;</div><div class="line">  <span class="attr">index</span>: <span class="number">0</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面是一个<strong>不想加而被加</strong>的例子，下面看一个<strong>想被加而没有加</strong>的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</div><div class="line"></div><div class="line">[].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(elem.innerText)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>这段代码会报错，因为它被解释为这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)[].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(elem.innerText)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>“[“, “(“, “+”, “-“, “/“ 这些符号也有同样的问题。所以，不加分号的风格，要避免这些情况。于是，可以这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</div><div class="line"></div><div class="line">;[].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(elem.innerText)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>也就是在 “[“, “(“, “+”, “-“, “/“ 这些前面加分号，如果感觉分号不好看，还可以这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</div><div class="line"></div><div class="line"><span class="keyword">void</span> [].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(elem.innerText)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>最好的方式也许是这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</div><div class="line"></div><div class="line"><span class="built_in">Array</span>.prototype.forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(elem.innerText)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>然而，还没有结束，<code>Zepto, Sea.js, Vue.js</code> 都是不加分号阵营，观察它们的源代码，你会发现一个问题。这些代码中极少用 var 定义函数。这是因为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> a + b</div><div class="line">&#125;</div><div class="line"></div><div class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(add)</div></pre></td></tr></table></figure>
+<p>会被解释为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> a + b</div><div class="line">&#125;[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(add)</div></pre></td></tr></table></figure>
+<p>如果代码是这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mark = [[], [], [<span class="number">1</span>, <span class="number">2</span>]]</div><div class="line"></div><div class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(<span class="function"><span class="keyword">function</span>(<span class="params">pre, cur</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> pre + cur</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>还会不报错，对排错很不友好。</p>
+<h2 id="加分号"><a href="#加分号" class="headerlink" title="加分号"></a>加分号</h2><p>以加分号的方式写代码，不需要特别的规则，只需要熟练掌握 JavaScript 语法。加分号的风格，只有在<strong>漏加分号</strong>的情况下才会出问题：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> a + b</div><div class="line">&#125;</div><div class="line"></div><div class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(add)</div></pre></td></tr></table></figure>
+<p>这是前面用到过的例子，代码会解释为 }[] 的结构。加分号阵营有：jQuery, Underscore.js, Backbone.js…</p>
+<h2 id="推荐"><a href="#推荐" class="headerlink" title="推荐"></a>推荐</h2><p>我推荐的是加分号风格，因为加分号不需要多余的附加规则。当然，你也可以选择不加分号风格，只要你清楚由此带来的附加限制。</p>
+<h2 id="争议"><a href="#争议" class="headerlink" title="争议"></a>争议</h2><p><a href="http://www.zhihu.com/people/he-shi-jun" target="_blank" rel="external">贺师俊</a>写过一篇<a href="http://hax.iteye.com/blog/1563585" target="_blank" rel="external">《JavaScript语句后应该加分号么？》</a>。他推荐不加分号的风格，文章中谈了团队习惯、编程语言的风格、代码构建等更深入的问题，但是他的每个推论我都无法赞同。</p>
+<blockquote>
+<p>行首加分号的规则比函数表达式后面加分号的规则其实要简单！</p>
+</blockquote>
+<p>这是他推荐不加分号风格的依据，可是这个结论太过武断。他的推理过程是这样的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  </div><div class="line">  ...  </div><div class="line">&#125;</div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].forEach(...)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>var a = function () {} 后面要加分号，坑爹！</p>
+</blockquote>
+<p>var 声明的变量后面本来就要加分号，这里只不过是定义了一个 function 类型的变量而已，当然要加。</p>
+<blockquote>
+<p>function if for 结构的 {} 后面不加分号，var a = function() {} 后面就要加分号，这样不一致。</p>
+</blockquote>
+<p>本来就是不同类型的语句，只要了解 JavaScript 语法，这不是什么问题。</p>
+<blockquote>
+<p>行首是否要加分号，我只要看本行的第一个字符就可以了……然而，你如果要判断“}”后面是否要加“;”，你得向上回溯，看清楚整段代码是一个结构呢？还是一个函数？如果是函数的话，是函数声明呢？还是函数表达式！许多时候，你可能向上翻几页还没找到对应的“{”！或者已经忘记了是几层缩进了！</p>
+</blockquote>
+<p>这是编写可维护代码的问题。首先，你不应该写超长的 function。其次，缩进很多也是要尽量避免的。如果你写了超长的函数或者超多的缩进，有没有分号都一样难以阅读。其实超长 function 只应该出现在封装模块的时候：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root, factory</span>) </span>&#123;</div><div class="line">  <span class="comment">//</span></div><div class="line">&#125;(<span class="keyword">this</span>, <span class="function"><span class="keyword">function</span>(<span class="params">root</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// 超长函数</span></div><div class="line"></div><div class="line">&#125;));</div></pre></td></tr></table></figure>
+<p>这种超长函数不会带来困扰：</p>
+<ol>
+<li>这种情况下超长函数不会有那么多缩进。</li>
+<li>包装的头尾可以通过构建工具来加。</li>
+<li>IDE 可以展开/收缩大括号。</li>
+</ol>
+<blockquote>
+<p>漏加分号时 jslint 提示不智能。</p>
+</blockquote>
+<p>这虽然会带来一定困扰，但是实际操作中几乎不会带来问题，jslint 报错时我们首先检查是不是漏了分号就可以了。他的文章还列举了一些奇葩换行导致的问题，但那同样是代码可维护性差的问题，不是加不加分号的问题。那种奇葩代码，不加分号一样难读。</p>
+<blockquote>
+<p>编译器（代码分析器）完全可以知道哪里应该有EOS (End of Statement)。既然所有的分号其实可以由机器自行加上（无论是加在行首还是行尾），那么我们自己还要手写所有分号的意义到底在哪里？</p>
+</blockquote>
+<p>这是他的文章最后写到的，也很奇葩。要不要加分号之所以有争议，就是因为 JavaScript 的自动插入分号机制并不健全。如果要依赖这个机制，就像前面说的，要加入额外的限定规则。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><ol>
+<li>如果涉及到改框架、造轮子等事情，需要同时了解<strong>加分号风格</strong>与<strong>不加分号风格</strong>。</li>
+<li>我们总要有个选择，我推荐<strong>加分号风格</strong>。</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;现状&quot;&gt;&lt;a href=&quot;#现状&quot; class=&quot;headerlink&quot; title=&quot;现状&quot;&gt;&lt;/a&gt;现状&lt;/h2&gt;&lt;p&gt;JavaScript 分号之争由来已久，目前最被认可的结论是：&lt;strong&gt;JavaScript 语句末尾是否加分号是一个编程风格问题，可以加，也可以不加。&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;选择&quot;&gt;&lt;a href=&quot;#选择&quot; class=&quot;headerlink&quot; title=&quot;选择&quot;&gt;&lt;/a&gt;选择&lt;/h2&gt;&lt;blockquote&gt;
+&lt;p&gt;事情总要有个决定的！&lt;br&gt;——卫斯理《只限老友》（卫斯理系列最后一句话）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;那么，到底加不加分号呢？&lt;/p&gt;
+&lt;p&gt;既然是一个风格问题，我们要明白的是如何选择。选择之前，我们来看看做出选择的前提是什么：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;加分号&lt;/code&gt;：前提是你了解如何以加分号的方式写 JavaScript。&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;code&gt;不加分号&lt;/code&gt;：前提是你了解如何以不加分号的方式写 JavaScript。&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="JavaScript" scheme="http://tianfangye.com/tags/JavaScript/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>木心《文学回忆录·先秦诸子·老子》阅读笔记</title>
+    <link href="http://tianfangye.com/2015/03/07/the-memoir-of-literature-laozi-note/"/>
+    <id>http://tianfangye.com/2015/03/07/the-memoir-of-literature-laozi-note/</id>
+    <published>2015-03-07T10:09:56.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>　　写这篇笔记，当然是因为喜欢这本书的文字，但书中很多观点我都不赞同，尤其关于老子的。本文中我对《老子》的认识很多来自李航的<a href="http://yuedu.baidu.com/ebook/a97ae58576a20029bc642d56" target="_blank" rel="external">《道纪》</a>一书。</p>
+<h3 id="穷·白·空"><a href="#穷·白·空" class="headerlink" title="穷·白·空"></a>穷·白·空</h3><blockquote>
+<p>一穷，穷在经济上；二白，白在文化上；三空，空在思想上。</p>
+</blockquote>
+<p>　　现在经济腾飞了，但是雾霾来了，两难。文化和思想，能说的太多，不说了。文中这句话是在说哪个年代？应该看它的下一句：</p>
+<blockquote>
+<p>所以，唯物论之类进来，没有抵挡。</p>
+</blockquote>
+<p>　　现在为何没人讨论唯物唯心了？因为现代物理学已经把宇宙模型研究的比较完整，整个宇宙的生死都快要研究清楚了，只是大爆炸那个奇点和爆炸后一秒钟这两个状态的物理规律还没弄清。哲学思想早已跟不上物理学的进展，这就是霍金在《大设计》中所讲的“哲学死了”。唯物、唯心都是静态、割裂的看待问题，正确的方式应该是彼得·圣吉在《第五项修炼》中所说的“系统思考”。<a id="more"></a></p>
+<h3 id="天·人"><a href="#天·人" class="headerlink" title="天·人"></a>天·人</h3><blockquote>
+<p>他看破两大神秘：一是天，就是宇宙；二是人，就是生命。天，宇宙，是不仁。人，生命，是刍狗。</p>
+</blockquote>
+<p>　　这里的“他”是指老子，作者说老子看破了天和人，这个赞同。</p>
+<p>　　天，宇宙，不仁；这个也赞同，宇宙遵循一组物理规律，没有仁不仁的问题。</p>
+<p>　　人，生命，是刍狗；这个有问题。刍狗就是稻草狗，就是不重要的东西。如果老子认为人是刍狗，为什么要说“故道大、天大、地大、人亦大。域中有四大，而人居其一焉。（《老子·第二十五章》）”？</p>
+<h3 id="宇宙观"><a href="#宇宙观" class="headerlink" title="宇宙观"></a>宇宙观</h3><blockquote>
+<p>但我问，你周围，你过去的朋友，几个人具备人生观？</p>
+</blockquote>
+<p>　　你以为你有人生观？会不会太天真了？看下文分解：</p>
+<blockquote>
+<p>不从宇宙观而来的世界观，你的世界在哪里？不从世界观而来的人生观，你不活在世界上吗？所以，你认为你有人生观，没有、也不需要世界观，更没有、也更不需要宇宙观——你就什么也没有。</p>
+</blockquote>
+<p>　　人生观、世界观、宇宙观为什么有关系而且很重要，这是最精简的答案了。其实每个人都有这三观，只是你未必想过人生观归根结底是宇宙观，什么也不想，就人云亦云，这样没什么思想的人，确实可以说“你就什么也没有”。</p>
+<h3 id="悲观"><a href="#悲观" class="headerlink" title="悲观"></a>悲观</h3><p>　　接下来的文章还有很长，是作者对《老子》中内容的解读，比如“无为，有为”。作者相信老子对天和人都看得很透，相信老子有自己的宇宙观，应该说作者的直觉很准。但由于作者认为老子是“悲观、绝望”的，所以后文的内容也是根据这两点展开，这自然南辕北辙。</p>
+<p>　　为什么说南辕北辙？如果老子是悲观消极的，为什么要说“上士闻道，勤而行之；中士闻道，若存若亡；下士闻道，大笑之，不笑不足以为道。（《老子·第四十一章》）”？这里明确说上士勤而行之，完全不悲观不消极。倒是下士耐人寻味，为什么大笑之？为什么“不笑不足以为道”？一个自成逻辑，思想完全无法进步的人，他的认知必有许多错误，当他听闻正确的东西，他会感觉荒谬、可笑。如果你看了本文之后感觉荒谬、可笑，是不是明白原因了？ ┑(￣。￣)┍</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;　　写这篇笔记，当然是因为喜欢这本书的文字，但书中很多观点我都不赞同，尤其关于老子的。本文中我对《老子》的认识很多来自李航的&lt;a href=&quot;http://yuedu.baidu.com/ebook/a97ae58576a20029bc642d56&quot;&gt;《道纪》&lt;/a&gt;一书。&lt;/p&gt;
+&lt;h3 id=&quot;穷·白·空&quot;&gt;&lt;a href=&quot;#穷·白·空&quot; class=&quot;headerlink&quot; title=&quot;穷·白·空&quot;&gt;&lt;/a&gt;穷·白·空&lt;/h3&gt;&lt;blockquote&gt;
+&lt;p&gt;一穷，穷在经济上；二白，白在文化上；三空，空在思想上。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;　　现在经济腾飞了，但是雾霾来了，两难。文化和思想，能说的太多，不说了。文中这句话是在说哪个年代？应该看它的下一句：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;所以，唯物论之类进来，没有抵挡。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;　　现在为何没人讨论唯物唯心了？因为现代物理学已经把宇宙模型研究的比较完整，整个宇宙的生死都快要研究清楚了，只是大爆炸那个奇点和爆炸后一秒钟这两个状态的物理规律还没弄清。哲学思想早已跟不上物理学的进展，这就是霍金在《大设计》中所讲的“哲学死了”。唯物、唯心都是静态、割裂的看待问题，正确的方式应该是彼得·圣吉在《第五项修炼》中所说的“系统思考”。
+    
+    </summary>
+    
+      <category term="杂文" scheme="http://tianfangye.com/categories/%E6%9D%82%E6%96%87/"/>
+    
+    
+      <category term="木心" scheme="http://tianfangye.com/tags/%E6%9C%A8%E5%BF%83/"/>
+    
+      <category term="老子" scheme="http://tianfangye.com/tags/%E8%80%81%E5%AD%90/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>思考2014</title>
+    <link href="http://tianfangye.com/2015/01/01/think-about-the-2014/"/>
+    <id>http://tianfangye.com/2015/01/01/think-about-the-2014/</id>
+    <published>2015-01-01T15:13:35.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="文学"><a href="#文学" class="headerlink" title="文学"></a>文学</h2><p>　　前两年开始，感觉到纯文学能给人通俗文学无法替代的东西，应该是或多或少体会到了一些纯文学之美。</p>
+<p>　　有所突破是从《白象似的群山》开始，人物的对话不断给真正的情节增加可能性，这个小说的悬念与阅读进度不是简单的正相关。只有简单的对话，感觉是个很简单的故事，但令人琢磨不透。我相信每个人都是独立的，没有人可以完全理解另一个人的想法，《白象似的群山》正是写出了这种感觉。我们看别人的事情，永远只是套用自己理解的生活。</p>
+<a id="more"></a>
+<h2 id="历史"><a href="#历史" class="headerlink" title="历史"></a>历史</h2><p>　　曹操说自己当初不过是想讨贼立功，当个征西将军，志向不过如此；后来侥幸战胜袁绍，位极人臣，已经超过原来的设想。</p>
+<p>　　最初读到《让县自明本志令》，认为曹操这些话虚伪。汉末天下大乱，群雄并起，曹操获得的胜利果实最大，几乎代汉自立，怎么会“此其本志有限也”？后又多读了几本三国的书，人生体验也在增加，就开始感觉到《让县自明本志令》不全是实话，但这一部分应该是实话。因为夺天下实在不是能够刻意为之的事情，只能靠时势造英雄，正所谓“将欲取天下而为之，吾见其不得已。天下神器，不可为也。为者败之，执者失之”。</p>
+<p>　　曹操绝非从一开始就设计好了称王称霸甚至篡汉之路，而是时局所推。所以曹操志得意满时候的诗，也是感慨：“譬如朝露，去日苦多”。</p>
+<h2 id="健康"><a href="#健康" class="headerlink" title="健康"></a>健康</h2><p>　　对于健康，好习惯不能抵消坏习惯。</p>
+<p>　　习惯的三要素：暗示信号；惯例行为；奖赏。</p>
+<p>　　改变坏习惯不能完全靠意志力，任何人的意志力都是有限的，每天有一定的配额，强行靠意志力改变习惯是在“自我耗竭”，难以持续。改变坏习惯需要好方法。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;文学&quot;&gt;&lt;a href=&quot;#文学&quot; class=&quot;headerlink&quot; title=&quot;文学&quot;&gt;&lt;/a&gt;文学&lt;/h2&gt;&lt;p&gt;　　前两年开始，感觉到纯文学能给人通俗文学无法替代的东西，应该是或多或少体会到了一些纯文学之美。&lt;/p&gt;
+&lt;p&gt;　　有所突破是从《白象似的群山》开始，人物的对话不断给真正的情节增加可能性，这个小说的悬念与阅读进度不是简单的正相关。只有简单的对话，感觉是个很简单的故事，但令人琢磨不透。我相信每个人都是独立的，没有人可以完全理解另一个人的想法，《白象似的群山》正是写出了这种感觉。我们看别人的事情，永远只是套用自己理解的生活。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="杂文" scheme="http://tianfangye.com/categories/%E6%9D%82%E6%96%87/"/>
+    
+    
+      <category term="杂文" scheme="http://tianfangye.com/tags/%E6%9D%82%E6%96%87/"/>
+    
+      <category term="文学" scheme="http://tianfangye.com/tags/%E6%96%87%E5%AD%A6/"/>
+    
+      <category term="曹操" scheme="http://tianfangye.com/tags/%E6%9B%B9%E6%93%8D/"/>
+    
+      <category term="健康" scheme="http://tianfangye.com/tags/%E5%81%A5%E5%BA%B7/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用 localStorage</title>
+    <link href="http://tianfangye.com/2014/10/18/using-local-storage/"/>
+    <id>http://tianfangye.com/2014/10/18/using-local-storage/</id>
+    <published>2014-10-18T07:59:54.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>localStorage 属于 Web 存储的一个 API（另一个是 sessionStorage），以 Key-Value 的形式保存数据，key 和 value 都是字符串。</p>
+<h3 id="容量"><a href="#容量" class="headerlink" title="容量"></a>容量</h3><p>每个浏览器的容量限制不同，现代浏览器一般是 5M。检测容量：<a href="http://dev-test.nemikor.com/web-storage/support-test/" target="_blank" rel="external">Web Storage Support Test</a></p>
+<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>以未加密的形式保存在用户的计算机上。<br><a id="more"></a></p>
+<h3 id="有效期"><a href="#有效期" class="headerlink" title="有效期"></a>有效期</h3><p>永不过期。可以在程序中删除，也可以在浏览器配置项中删除。</p>
+<h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><p>同源的文档间共享同样的 localStorage 数据（使用同一个浏览器的情况下）。</p>
+<h3 id="枚举所有数据"><a href="#枚举所有数据" class="headerlink" title="枚举所有数据"></a>枚举所有数据</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; localStorage.length; i += <span class="number">1</span>) &#123;</div><div class="line">  <span class="keyword">var</span> key = localStorage.key(i);</div><div class="line">  <span class="keyword">var</span> value = localStorage.getItem(key);</div><div class="line"></div><div class="line">  <span class="built_in">console</span>.log(key + <span class="string">': '</span> + value);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="存储事件（storage）"><a href="#存储事件（storage）" class="headerlink" title="存储事件（storage）"></a>存储事件（storage）</h3><p>打开两个标签页，其中一个页面上 localStorage 中的数据发生改变，同源的另一个标签页接收一个存储事件。</p>
+<p>*在 Chrome 37 上试验无效，也许是我打开的方式不对。</p>
+<h3 id="数据的实时性问题"><a href="#数据的实时性问题" class="headerlink" title="数据的实时性问题"></a>数据的实时性问题</h3><p>在 iOS 7 上，两个 WebView 间传数据：第一次 A 页面 set ，然后马上跳到 B 页面 get —— 正常；之后 A 页面再 set 新的值，B 页面 get 返回的却是上一次的值（旧的值）。</p>
+<p>在 Stack Overflow 上看到 IE9 出现的这种问题是用 setTimeout 解决的。但在 iOS 7 的 WebView 中，这种方法并不可靠。</p>
+<p>尝试：<br>A 页面 set，B 页面 setTimeout(…, 300)，有时候正确。值得注意的是 setTimeout(…, 0) 总是返回旧的值。更诡异的地方是，A 页面 set，然后 A 页面 get 总是返回新的值（正确的值），但到 B 页面 get 就返回旧的值。</p>
+<p>以上都是 iOS 7 的 WebView 中遇到的问题，Android 4.4 的 WebView 并没有这种问题。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;localStorage 属于 Web 存储的一个 API（另一个是 sessionStorage），以 Key-Value 的形式保存数据，key 和 value 都是字符串。&lt;/p&gt;
+&lt;h3 id=&quot;容量&quot;&gt;&lt;a href=&quot;#容量&quot; class=&quot;headerlink&quot; title=&quot;容量&quot;&gt;&lt;/a&gt;容量&lt;/h3&gt;&lt;p&gt;每个浏览器的容量限制不同，现代浏览器一般是 5M。检测容量：&lt;a href=&quot;http://dev-test.nemikor.com/web-storage/support-test/&quot;&gt;Web Storage Support Test&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;安全性&quot;&gt;&lt;a href=&quot;#安全性&quot; class=&quot;headerlink&quot; title=&quot;安全性&quot;&gt;&lt;/a&gt;安全性&lt;/h3&gt;&lt;p&gt;以未加密的形式保存在用户的计算机上。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="JavaScript" scheme="http://tianfangye.com/tags/JavaScript/"/>
+    
+      <category term="HTML5" scheme="http://tianfangye.com/tags/HTML5/"/>
+    
+      <category term="localStorage" scheme="http://tianfangye.com/tags/localStorage/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Attribute 与 Property</title>
+    <link href="http://tianfangye.com/2014/09/02/attributes-and-properties/"/>
+    <id>http://tianfangye.com/2014/09/02/attributes-and-properties/</id>
+    <published>2014-09-02T09:44:41.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>DOM 元素中的 attribute 与 property 并不相同。attribute 通常翻译为“特性”，property 通常翻译为“属性”。其实它们是近义词，并不能根据特性、属性这两个词汇来区分 attribute 与 property。</p>
+<blockquote>
+<ul>
+<li>特性：某事物所特有的性质；特殊的品性、品质。</li>
+<li>属性：事物所具有的不可缺少的性质。</li>
+</ul>
+</blockquote>
+<p>所以，attribute 与 property 都可以叫“特性”，也都可以叫“属性”。</p>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><p>从 HTML 到 DOM 元素，一种是声明式的语言，一种是命令式语言。attribute 是直接收集 HTML 中的属性转为 js 对象，对象的 value 最接近原生态，也就是 HTML 标记里面的样子；property 也是转为 js 对象，但是转化的过程中会对 value 做一些处理，将 value 转为对 js 来说更有意义的值。</p>
+<p>比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input type=&quot;checkbox&quot; checked=&quot;checked&quot; /&gt;</div></pre></td></tr></table></figure></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">elem.getAttribute("checked”) // “checked”，原生态的值</div><div class="line">elem.checked // true，对 js 来说更有意义的值</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="HTML-标准属性"><a href="#HTML-标准属性" class="headerlink" title="HTML 标准属性"></a>HTML 标准属性</h3><p>对于标准属性，无论是改变 attribute 还是改变 property，对应的另一个值也会改变。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input id=&quot;ak47&quot; type=&quot;checkbox&quot; checked=&quot;checked&quot; /&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">elem.getAttribute("id”) // "ak47"</div><div class="line">elem.id // "ak47"</div><div class="line">elem.id = "m16"</div><div class="line">elem.getAttribute("id”) // "m16"</div><div class="line">elem.setAttribute("id”, "mac10")</div><div class="line">elem.id = "m16" // "mac10"</div></pre></td></tr></table></figure>
+<h3 id="自定义属性"><a href="#自定义属性" class="headerlink" title="自定义属性"></a>自定义属性</h3><p>对于自定义属性，改变 attribute 或是 property，对应的另一个值不受影响（IE6、7 不区分 attribute 和 property，改变一个，对应的另一个值也会改变）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input test=&quot;abcde&quot; type=&quot;checkbox&quot; checked=&quot;checked&quot; /&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">elem.attributes <span class="comment">// 类数组 test: "abcde", type: "checkbox", checked: "checked"</span></div><div class="line">elem.test <span class="comment">// undefined 不包含自定义的 attribute</span></div><div class="line">elem.testName = <span class="string">"tianfangye"</span> <span class="comment">// 自定义的 property</span></div><div class="line">elem.testName <span class="comment">// "tianfangye"</span></div><div class="line">elem.getAttribute(<span class="string">"testName"</span>) <span class="comment">// null 不包含自定义的 property</span></div></pre></td></tr></table></figure>
+<h3 id="boolean-attribute"><a href="#boolean-attribute" class="headerlink" title="boolean attribute"></a>boolean attribute</h3><p><em>boolean attribute</em> 不同于上面两种，这种属性有特殊的处理方式。例如 checked，只要存在 attribute，不论值是什么（checked=””, checked, checked=”false”），对应的 property 都是 true。</p>
+<p>checked attribute 并不对应 checked property，而是对应 defaultChecked property。这是一个初始值，checked property 变化后它并不会改变（所以 checked attribute 也不变）。根据 jQuery 的文档，selected 与 value 也是如此。</p>
+<p>jQuery 中检测是否选中可以用如下三种方式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ( elem.checked )</div><div class="line"><span class="keyword">if</span> ( $( elem ).prop( <span class="string">"checked"</span> ) )</div><div class="line"><span class="keyword">if</span> ( $( elem ).is( <span class="string">":checked"</span> ) )</div></pre></td></tr></table></figure>
+<h3 id="jQuery-中的-attr-与-prop"><a href="#jQuery-中的-attr-与-prop" class="headerlink" title="jQuery 中的 .attr() 与 .prop()"></a><a href="http://jquery.com/upgrade-guide/1.9/#attr-versus-prop" target="_blank" rel="external">jQuery 中的 .attr() 与 .prop()</a></h3><p>jQuery 中的 .attr() 方法稍有混乱，有些应当使用 attribute 的地方使用了 property。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">elem.checked <span class="comment">// true (Boolean) Will change with checkbox state</span></div><div class="line">$( elem ).prop( <span class="string">"checked"</span> ) <span class="comment">// true (Boolean) Will change with checkbox state</span></div><div class="line">elem.getAttribute( <span class="string">"checked"</span> ) <span class="comment">// "checked" (String) Initial state of the checkbox; does not change</span></div><div class="line">$( elem ).attr( <span class="string">"checked"</span> ) <span class="comment">// (1.6) "checked" (String) Initial state of the checkbox; does not change</span></div><div class="line">$( elem ).attr( <span class="string">"checked"</span> ) <span class="comment">// (1.6.1+)    "checked" (String) Will change with checkbox state</span></div><div class="line">$( elem ).attr( <span class="string">"checked"</span> ) <span class="comment">// (pre-1.6)   true (Boolean) Changed with checkbox state</span></div></pre></td></tr></table></figure>
+<p>下面两种选择器在 1.9 之前的版本中可能会不准确：</p>
+<ol>
+<li><p>“input[checked]”<br>选择所有存在 checked attribute 的元素。</p>
+</li>
+<li><p>“input:checked”<br>选择所有选中的元素。</p>
+</li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;DOM 元素中的 attribute 与 property 并不相同。attribute 通常翻译为“特性”，property 通常翻译为“属性”。其实它们是近义词，并不能根据特性、属性这两个词汇来区分 attribute 与 property。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;特性：某事物所特有的性质；特殊的品性、品质。&lt;/li&gt;
+&lt;li&gt;属性：事物所具有的不可缺少的性质。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;所以，attribute 与 property 都可以叫“特性”，也都可以叫“属性”。&lt;/p&gt;
+&lt;h3 id=&quot;区别&quot;&gt;&lt;a href=&quot;#区别&quot; class=&quot;headerlink&quot; title=&quot;区别&quot;&gt;&lt;/a&gt;区别&lt;/h3&gt;&lt;p&gt;从 HTML 到 DOM 元素，一种是声明式的语言，一种是命令式语言。attribute 是直接收集 HTML 中的属性转为 js 对象，对象的 value 最接近原生态，也就是 HTML 标记里面的样子；property 也是转为 js 对象，但是转化的过程中会对 value 做一些处理，将 value 转为对 js 来说更有意义的值。&lt;/p&gt;
+&lt;p&gt;比如：&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&amp;lt;input type=&amp;quot;checkbox&amp;quot; checked=&amp;quot;checked&amp;quot; /&amp;gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;elem.getAttribute(&quot;checked”) // “checked”，原生态的值&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;elem.checked // true，对 js 来说更有意义的值&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="JavaScript" scheme="http://tianfangye.com/tags/JavaScript/"/>
+    
+      <category term="DOM" scheme="http://tianfangye.com/tags/DOM/"/>
+    
+      <category term="jQuery" scheme="http://tianfangye.com/tags/jQuery/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何访问 Google</title>
+    <link href="http://tianfangye.com/2014/07/09/how-to-access-google/"/>
+    <id>http://tianfangye.com/2014/07/09/how-to-access-google/</id>
+    <published>2014-07-09T03:51:37.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-添加正确的-host"><a href="#1-添加正确的-host" class="headerlink" title="1. 添加正确的 host"></a>1. 添加正确的 host</h3><p>想方设法找到正确的 host：<br><a href="https://git.oschina.net/kawaiiushio/misc/raw/master/hosts/pc/hosts" target="_blank" rel="external">https://git.oschina.net/kawaiiushio/misc/raw/master/hosts/pc/hosts</a></p>
+<h3 id="2-Chrome-中设置搜索引擎为使用-ncr"><a href="#2-Chrome-中设置搜索引擎为使用-ncr" class="headerlink" title="2. Chrome 中设置搜索引擎为使用 ncr"></a>2. Chrome 中设置搜索引擎为使用 ncr</h3><p>填入如下参数，并设为默认引擎：<br><a href="https://www.google.com/#lr=lang_zh-CN&amp;newwindow=1&amp;q=%s" target="_blank" rel="external">https://www.google.com/#lr=lang_zh-CN&amp;newwindow=1&amp;q=%s</a><br><a id="more"></a><br><img src="http://ww1.sinaimg.cn/mw690/6b024305gw1ei6eouyiurj20nr0j440l.jpg" alt=""></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h3 id=&quot;1-添加正确的-host&quot;&gt;&lt;a href=&quot;#1-添加正确的-host&quot; class=&quot;headerlink&quot; title=&quot;1. 添加正确的 host&quot;&gt;&lt;/a&gt;1. 添加正确的 host&lt;/h3&gt;&lt;p&gt;想方设法找到正确的 host：&lt;br&gt;&lt;a href=&quot;https://git.oschina.net/kawaiiushio/misc/raw/master/hosts/pc/hosts&quot;&gt;https://git.oschina.net/kawaiiushio/misc/raw/master/hosts/pc/hosts&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;2-Chrome-中设置搜索引擎为使用-ncr&quot;&gt;&lt;a href=&quot;#2-Chrome-中设置搜索引擎为使用-ncr&quot; class=&quot;headerlink&quot; title=&quot;2. Chrome 中设置搜索引擎为使用 ncr&quot;&gt;&lt;/a&gt;2. Chrome 中设置搜索引擎为使用 ncr&lt;/h3&gt;&lt;p&gt;填入如下参数，并设为默认引擎：&lt;br&gt;&lt;a href=&quot;https://www.google.com/#lr=lang_zh-CN&amp;amp;newwindow=1&amp;amp;q=%s&quot;&gt;https://www.google.com/#lr=lang_zh-CN&amp;amp;newwindow=1&amp;amp;q=%s&lt;/a&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="Google" scheme="http://tianfangye.com/tags/Google/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>想象力的边界：倪匡与古龙</title>
+    <link href="http://tianfangye.com/2014/05/28/the-edge-of-imagination/"/>
+    <id>http://tianfangye.com/2014/05/28/the-edge-of-imagination/</id>
+    <published>2014-05-27T16:19:53.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>前几天的一集《锵锵三人行》，谈马尔克斯，王蒙在谈写作时说「想象是非常困难的」。刚刚回想，我似乎明白了这句话的意思。</p>
+<p>我看过的小说，以倪匡与古龙的居多，提到想象力，最容易联想到倪匡的卫斯理系列。但刚才想到的是，所谓马尔克斯的想象力，是指你想都不敢想的事情。换句话说，如果不看其作品，你永远想象不到类似的事情。<br><a id="more"></a></p>
+<p>对我来说，古龙比倪匡更符合这个特征。卫斯理系列里面有很多离奇的故事，是我最喜欢的幻想类系列小说，不过读卫斯理体会到的常常是「跟我想的一样」这种志同道合之感。古龙的作品则不然，里面的大小人物，全部都是我「想都没想过」的。</p>
+<p>特别是其中的女人，如风四娘，《萧十一郎》里面是这样描述她的：她喜欢骑最快的马，爬最高的山，吃最辣的菜，喝最烈的酒，玩最利的刀，杀最狠的人！</p>
+<p>看古龙的武侠之前，我从未想到过女人可以那么销魂荡魄，那么豪气干云；恶毒起来那么可怕，无助之时那么可怜——如果不看古龙的武侠小说，永远都想不到。这些书，触及到了我想象力的边界。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;前几天的一集《锵锵三人行》，谈马尔克斯，王蒙在谈写作时说「想象是非常困难的」。刚刚回想，我似乎明白了这句话的意思。&lt;/p&gt;
+&lt;p&gt;我看过的小说，以倪匡与古龙的居多，提到想象力，最容易联想到倪匡的卫斯理系列。但刚才想到的是，所谓马尔克斯的想象力，是指你想都不敢想的事情。换句话说，如果不看其作品，你永远想象不到类似的事情。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="杂文" scheme="http://tianfangye.com/categories/%E6%9D%82%E6%96%87/"/>
+    
+    
+      <category term="想象力" scheme="http://tianfangye.com/tags/%E6%83%B3%E8%B1%A1%E5%8A%9B/"/>
+    
+      <category term="古龙" scheme="http://tianfangye.com/tags/%E5%8F%A4%E9%BE%99/"/>
+    
+      <category term="倪匡" scheme="http://tianfangye.com/tags/%E5%80%AA%E5%8C%A1/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何减肥</title>
+    <link href="http://tianfangye.com/2014/05/24/how-to-lose-weight/"/>
+    <id>http://tianfangye.com/2014/05/24/how-to-lose-weight/</id>
+    <published>2014-05-24T14:38:53.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>关于减肥的理论各式各样，具体方法更是花样繁多。</p>
+<p>关于肥胖，卫斯理小说里面有句话很是切中要害——「我认为变胖的唯一原因就是吃的太多」。变肥的原因找到了，减肥的方法也就不难推导——少吃！</p>
+<p>减肥的人都能想到少吃，但是减肥成功者寥寥无几。由此又可推导出——做到少吃并不容易。一般人到此为止了，那么你永远无法减肥。应该再思考一下，为什么会这样？<br><a id="more"></a></p>
+<p>白天，你克制自己，控制食物摄入量，时刻与饥饿作斗争，同时还要完成这一天的事情；晚上，你身心俱疲，看到好吃的东西……呵呵，你再也控制不住自己了。很多人都是这样悲剧的，《不诚实的诚实真相》把这叫做「自我耗竭」。人的意志力是有限度的，你在白天已经耗尽了自己的意志力；到了晚上，你的意志力已经非常薄弱，于是你控制不住自己了。</p>
+<p>由此观之，减肥定要选个顺心的时期，压力大的人是无法减肥的。如果你减肥失败，要做的不是换一种方法，而是搞清楚是什么消耗了你的意志力。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;关于减肥的理论各式各样，具体方法更是花样繁多。&lt;/p&gt;
+&lt;p&gt;关于肥胖，卫斯理小说里面有句话很是切中要害——「我认为变胖的唯一原因就是吃的太多」。变肥的原因找到了，减肥的方法也就不难推导——少吃！&lt;/p&gt;
+&lt;p&gt;减肥的人都能想到少吃，但是减肥成功者寥寥无几。由此又可推导出——做到少吃并不容易。一般人到此为止了，那么你永远无法减肥。应该再思考一下，为什么会这样？&lt;br&gt;
+    
+    </summary>
+    
+      <category term="杂文" scheme="http://tianfangye.com/categories/%E6%9D%82%E6%96%87/"/>
+    
+    
+      <category term="减肥" scheme="http://tianfangye.com/tags/%E5%87%8F%E8%82%A5/"/>
+    
+      <category term="自我耗竭" scheme="http://tianfangye.com/tags/%E8%87%AA%E6%88%91%E8%80%97%E7%AB%AD/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>浮动元素与 BFC</title>
+    <link href="http://tianfangye.com/2014/02/24/floated-elements-and-bfc/"/>
+    <id>http://tianfangye.com/2014/02/24/floated-elements-and-bfc/</id>
+    <published>2014-02-24T14:43:36.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>CSS 的默认以 document flow 方式渲染元素，而 float 与 postion 属性可以改变这种状况。</p>
+<p>CSS 中 float 属性的本意是实现文本绕排图片，不过实际使用中 float 常常用来创建多栏布局。float 最常出现的问题是父元素不再包含它（float 之后不再属于 document flow）。</p>
+<h3 id="解决方法-1："><a href="#解决方法-1：" class="headerlink" title="解决方法 1："></a>解决方法 1：</h3><p>为父元素添加 overflow: hidden，它能可靠地迫使父元素包含其浮动的子元素。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">section</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"images/tianfangye.png"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"clear_me"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">section</span> &#123;</div><div class="line">  <span class="attribute">border</span>:<span class="number">1px</span> solid blue;</div><div class="line">  <span class="attribute">overflow</span>: hidden;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">  <span class="attribute">float</span>: left;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="解决方法-2："><a href="#解决方法-2：" class="headerlink" title="解决方法 2："></a>解决方法 2：</h3><p>同时浮动父元素。浮动父元素后，不论子元素是否浮动都会被包含。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">section</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"images/tianfangye.png"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"clear_me"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">section</span> &#123;</div><div class="line">  <span class="attribute">border</span>:<span class="number">1px</span> solid blue;</div><div class="line">  <span class="attribute">float</span>: left;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">  <span class="attribute">float</span>: left;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="解决方法-3："><a href="#解决方法-3：" class="headerlink" title="解决方法 3："></a>解决方法 3：</h3><p>添加非浮动的清除元素。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">section</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"images/tianfangye.png"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"clear_me"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">section</span> &#123;</div><div class="line">  <span class="attribute">border</span>:<span class="number">1px</span> solid blue;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">  <span class="attribute">float</span>:left;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.clear_me</span> &#123;</div><div class="line">  <span class="attribute">clear</span>:left;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的方法添加了一个纯表现性元素，这种方法的一个变种是使用伪元素，即著名的 clearfix 方案。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">section</span> <span class="attr">class</span>=<span class="string">"clearfix"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"images/tianfangye.png"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"clear_me"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">  <span class="attribute">content</span>: <span class="string">"."</span>;</div><div class="line">  <span class="attribute">display</span>: block;</div><div class="line">  <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">visibility</span>: hidden;</div><div class="line">  <span class="attribute">clear</span>: both;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">section</span> &#123;</div><div class="line">  <span class="attribute">border</span>:<span class="number">1px</span> solid blue;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">  <span class="attribute">float</span>:left;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.clear_me</span> &#123;</div><div class="line">  <span class="attribute">clear</span>:left;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="BFC-与浮动"><a href="#BFC-与浮动" class="headerlink" title="BFC 与浮动"></a>BFC 与浮动</h3><p>解决方法 1 和 2 实际上是创建了BFC（Block formatting context，块级格式化的上下文），BFC 是指一个区域——一个元素符合一定条件，那么这个元素的区域就是块级格式化的上下文，这个区域有自己独特的布局方式。</p>
+<h3 id="创建-BFC-的条件："><a href="#创建-BFC-的条件：" class="headerlink" title="创建 BFC 的条件："></a>创建 BFC 的条件：</h3><ol>
+<li>根元素或其它包含它的元素</li>
+<li>浮动 (float 不为 none)</li>
+<li>绝对定位元素 (position 为 absolute 或 fixed)</li>
+<li>内联块 inline-blocks (display: inline-block)</li>
+<li>表格单元格 (display: table-cell，表格单元格默认属性)</li>
+<li>表格标题 (display: table-caption, 表格标题默认属性)</li>
+<li>overflow 不为 visible</li>
+<li>flex boxes (display: flex 或 inline-flex)</li>
+</ol>
+<p>可见，浮动元素就是一种 BFC。</p>
+<h3 id="BFC-的特性"><a href="#BFC-的特性" class="headerlink" title="BFC 的特性"></a>BFC 的特性</h3><ol>
+<li>阻止外边距折叠</li>
+<li>包含浮动的元素</li>
+<li>不会绕排兄弟浮动元素</li>
+</ol>
+<h3 id="IE6、IE7-的私有属性：hasLayout"><a href="#IE6、IE7-的私有属性：hasLayout" class="headerlink" title="IE6、IE7 的私有属性：hasLayout"></a>IE6、IE7 的私有属性：hasLayout</h3><p>IE6、IE7 不支持 BFC，与之相对应的概念是 hasLayout，效果上类似 BFC，但并不相同，而那些不相同的部分基本就是现在所说的 IE6、IE7 在 CSS 方面的 bug。</p>
+<p>hasLayout 是一个比较独立的内容，可以参考<a href="http://www.qianduan.net/comprehensive-haslayout.html" target="_blank" rel="external">hasLayout综合</a>。</p>
+<h3 id="本文参考资料"><a href="#本文参考资料" class="headerlink" title="本文参考资料"></a>本文参考资料</h3><ol>
+<li><a href="http://www.ituring.com.cn/book/1111" target="_blank" rel="external">CSS设计指南（第3版）</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/Guide/CSS/Block_formatting_context" target="_blank" rel="external">MDN-Block formatting context</a></li>
+<li><a href="http://kayosite.com/block-formatting-contexts-in-detail.html" target="_blank" rel="external">详说 Block Formatting Contexts (块级格式化上下文)</a></li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;CSS 的默认以 document flow 方式渲染元素，而 float 与 postion 属性可以改变这种状况。&lt;/p&gt;
+&lt;p&gt;CSS 中 float 属性的本意是实现文本绕排图片，不过实际使用中 float 常常用来创建多栏布局。float 最常出现的问题是父元素不再包含它（float 之后不再属于 document flow）。&lt;/p&gt;
+&lt;h3 id=&quot;解决方法-1：&quot;&gt;&lt;a href=&quot;#解决方法-1：&quot; class=&quot;headerlink&quot; title=&quot;解决方法 1：&quot;&gt;&lt;/a&gt;解决方法 1：&lt;/h3&gt;&lt;p&gt;为父元素添加 overflow: hidden，它能可靠地迫使父元素包含其浮动的子元素。&lt;/p&gt;
+&lt;figure class=&quot;highlight html&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;section&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;img&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;src&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;images/tianfangye.png&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;tag&quot;&gt;&amp;lt;&lt;span class=&quot;name&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;attr&quot;&gt;class&lt;/span&gt;=&lt;span class=&quot;string&quot;&gt;&quot;clear_me&quot;&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;div&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;tag&quot;&gt;&amp;lt;/&lt;span class=&quot;name&quot;&gt;section&lt;/span&gt;&amp;gt;&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight css&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;section&lt;/span&gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;border&lt;/span&gt;:&lt;span class=&quot;number&quot;&gt;1px&lt;/span&gt; solid blue;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;overflow&lt;/span&gt;: hidden;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;selector-tag&quot;&gt;img&lt;/span&gt; &amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  &lt;span class=&quot;attribute&quot;&gt;float&lt;/span&gt;: left;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="CSS" scheme="http://tianfangye.com/tags/CSS/"/>
+    
+      <category term="BFC" scheme="http://tianfangye.com/tags/BFC/"/>
+    
+      <category term="hasLayout" scheme="http://tianfangye.com/tags/hasLayout/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>addEventListener 多重监听问题</title>
+    <link href="http://tianfangye.com/2014/02/17/multiple-event-listeners/"/>
+    <id>http://tianfangye.com/2014/02/17/multiple-event-listeners/</id>
+    <published>2014-02-17T14:17:55.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="不会导致多重监听的情况"><a href="#不会导致多重监听的情况" class="headerlink" title="不会导致多重监听的情况"></a>不会导致多重监听的情况</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> listener = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">  alert(<span class="string">"JS"</span>);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, listener);</div><div class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, listener);</div><div class="line"></div><div class="line"><span class="comment">// 每次点击只弹出一次</span></div></pre></td></tr></table></figure>
+<p>多次 add 同一个 function 是不会重复监听的。只要 listener 没有变，add 多少次也只相当于 add 一次。</p>
+<h3 id="删除-listener"><a href="#删除-listener" class="headerlink" title="删除 listener"></a>删除 listener</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.body.removeEventListener(<span class="string">'click'</span>, listener);</div></pre></td></tr></table></figure>
+<p>由于只有一个 listener，只要这样调用一次 removeEventListener 即可删除。</p>
+<a id="more"></a>
+<h1 id="会导致多重监听的情况"><a href="#会导致多重监听的情况" class="headerlink" title="会导致多重监听的情况"></a>会导致多重监听的情况</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> listener = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">  alert(<span class="string">"JS"</span>);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, listener);</div><div class="line"></div><div class="line"><span class="keyword">var</span> listener = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">  alert(<span class="string">"JS"</span>);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, listener);</div><div class="line"></div><div class="line"><span class="comment">// 每次点击会弹出两次</span></div></pre></td></tr></table></figure>
+<p>虽然还是同一个 listener，但第二次 var listener 的时候其实创建了一个新的 function（JavaScript 中 function 也是对象）。所以这相当于 add 两个不同的 listener 一样。</p>
+<p>另外，由于第二次 var listener 时候已经丢失了第一次 var listener 的引用，所以这种情况下已经无法删除第一次添加的 listener。</p>
+<h1 id="另一种“多重”监听"><a href="#另一种“多重”监听" class="headerlink" title="另一种“多重”监听"></a>另一种“多重”监听</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> listener = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">  alert(<span class="string">"JS"</span>);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, listener, <span class="literal">true</span>);</div><div class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, listener);</div><div class="line"></div><div class="line"><span class="comment">// 每次点击会弹出两次</span></div></pre></td></tr></table></figure>
+<p>这种情况下也会有两个 listener，第一个在捕获阶段执行，第二个在冒泡阶段执行。</p>
+<h3 id="删除-listener-1"><a href="#删除-listener-1" class="headerlink" title="删除 listener"></a>删除 listener</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.body.removeEventListener(<span class="string">'click'</span>, listener, <span class="literal">true</span>);</div><div class="line"><span class="built_in">document</span>.body.removeEventListener(<span class="string">'click'</span>, listener);</div></pre></td></tr></table></figure>
+<p>如上所示，这时需要 removeEventListener 两次，第一次是删除捕获阶段的 listener，第二次是删除冒泡阶段的 listener。</p>
+<h3 id="捕获与冒泡"><a href="#捕获与冒泡" class="headerlink" title="捕获与冒泡"></a>捕获与冒泡</h3><p>由上面的现象可知，addEventListener 与 removeEventListener 是严格区分捕获阶段与冒泡阶段的。同一个 listener，可以分别在捕获阶段和冒泡阶段监听；相对的，删除时也要区分要删除的是捕获阶段的 listener 还是冒泡阶段的 listener。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h1 id=&quot;不会导致多重监听的情况&quot;&gt;&lt;a href=&quot;#不会导致多重监听的情况&quot; class=&quot;headerlink&quot; title=&quot;不会导致多重监听的情况&quot;&gt;&lt;/a&gt;不会导致多重监听的情况&lt;/h1&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; listener = &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;event&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  alert(&lt;span class=&quot;string&quot;&gt;&quot;JS&quot;&lt;/span&gt;);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;document&lt;/span&gt;.body.addEventListener(&lt;span class=&quot;string&quot;&gt;&#39;click&#39;&lt;/span&gt;, listener);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;document&lt;/span&gt;.body.addEventListener(&lt;span class=&quot;string&quot;&gt;&#39;click&#39;&lt;/span&gt;, listener);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 每次点击只弹出一次&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;多次 add 同一个 function 是不会重复监听的。只要 listener 没有变，add 多少次也只相当于 add 一次。&lt;/p&gt;
+&lt;h3 id=&quot;删除-listener&quot;&gt;&lt;a href=&quot;#删除-listener&quot; class=&quot;headerlink&quot; title=&quot;删除 listener&quot;&gt;&lt;/a&gt;删除 listener&lt;/h3&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;document&lt;/span&gt;.body.removeEventListener(&lt;span class=&quot;string&quot;&gt;&#39;click&#39;&lt;/span&gt;, listener);&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;由于只有一个 listener，只要这样调用一次 removeEventListener 即可删除。&lt;/p&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="JavaScript" scheme="http://tianfangye.com/tags/JavaScript/"/>
+    
+      <category term="event" scheme="http://tianfangye.com/tags/event/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>理解 HTML5 语义化标签：div, section &amp; article</title>
+    <link href="http://tianfangye.com/2014/01/26/html5-tags-div-section-article/"/>
+    <id>http://tianfangye.com/2014/01/26/html5-tags-div-section-article/</id>
+    <published>2014-01-26T03:19:52.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="语义化标签·非语义化标签"><a href="#语义化标签·非语义化标签" class="headerlink" title="语义化标签·非语义化标签"></a>语义化标签·非语义化标签</h2><p>标签名描述了标签内容，就是语义化标签（semantic elements）；标签名对标签内容毫无描述，则是非语义化标签（non-semantic elements）。img、form 和 table 是语义化标签，div、span 则是非语义化标签。</p>
+<h2 id="使用语义化标签的好处"><a href="#使用语义化标签的好处" class="headerlink" title="使用语义化标签的好处"></a>使用语义化标签的好处</h2><p>HTML5 中增加了一批语义化标签，说明开发者应当尽量写语义化的 HTML。另外，HTML 是声明式语言，语义化的标签名称，既是给人看的，也是给浏览器看的。</p>
+<p>语义化标签，就像写明了“产品部”、“设计部”、“研发部”的门牌——不用打开门，只需要看看门牌，就能知道这个房间的作用。</p>
+<p>非语义化标签，就像只写了号码的门牌——光看门牌，只能看到与房间作用无关的门牌号；必须开门看看，才能知道这个房间是干什么的。<br><a id="more"></a></p>
+<h2 id="div-section-amp-article"><a href="#div-section-amp-article" class="headerlink" title="div, section &amp; article"></a>div, section &amp; article</h2><p>div、section、article 都可以作为容器标签，但在语义上是递增的，使用方面有所不同。</p>
+<h3 id="div"><a href="#div" class="headerlink" title="div"></a>div</h3><p>语义：无语义<br>说明：它是通用的容器标签，本身不包含语义。通常为了非语义的功能而使用，比如样式控制、脚本化 HTML。</p>
+<h3 id="section"><a href="#section" class="headerlink" title="section"></a>section</h3><p>语义：部分<br>说明：一组逻辑上相关的内容，可以放在一个 section 里面。section 是独立的一段内容，但 section 往往是整体的一部分。</p>
+<h3 id="article"><a href="#article" class="headerlink" title="article"></a>article</h3><p>语义：物件<br>说明：页面中独立的、自包含的内容适合放到 article 里面。</p>
+<p>div、section、article 是由一般到特殊的过程。div 是为方便编程而使用。section 与 article 的区别在于，article 表示的是完整的内容——脱离了页面的其他标签，一个 article 依然是一个整体。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="http://www.w3schools.com/html/html5_semantic_elements.asp" target="_blank" rel="external">HTML5 Semantic Elements</a></p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;语义化标签·非语义化标签&quot;&gt;&lt;a href=&quot;#语义化标签·非语义化标签&quot; class=&quot;headerlink&quot; title=&quot;语义化标签·非语义化标签&quot;&gt;&lt;/a&gt;语义化标签·非语义化标签&lt;/h2&gt;&lt;p&gt;标签名描述了标签内容，就是语义化标签（semantic elements）；标签名对标签内容毫无描述，则是非语义化标签（non-semantic elements）。img、form 和 table 是语义化标签，div、span 则是非语义化标签。&lt;/p&gt;
+&lt;h2 id=&quot;使用语义化标签的好处&quot;&gt;&lt;a href=&quot;#使用语义化标签的好处&quot; class=&quot;headerlink&quot; title=&quot;使用语义化标签的好处&quot;&gt;&lt;/a&gt;使用语义化标签的好处&lt;/h2&gt;&lt;p&gt;HTML5 中增加了一批语义化标签，说明开发者应当尽量写语义化的 HTML。另外，HTML 是声明式语言，语义化的标签名称，既是给人看的，也是给浏览器看的。&lt;/p&gt;
+&lt;p&gt;语义化标签，就像写明了“产品部”、“设计部”、“研发部”的门牌——不用打开门，只需要看看门牌，就能知道这个房间的作用。&lt;/p&gt;
+&lt;p&gt;非语义化标签，就像只写了号码的门牌——光看门牌，只能看到与房间作用无关的门牌号；必须开门看看，才能知道这个房间是干什么的。&lt;br&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="HTML5" scheme="http://tianfangye.com/tags/HTML5/"/>
+    
+      <category term="语义化标签" scheme="http://tianfangye.com/tags/%E8%AF%AD%E4%B9%89%E5%8C%96%E6%A0%87%E7%AD%BE/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CodeTank Pistachio</title>
+    <link href="http://tianfangye.com/2014/01/05/codetank-pistachio/"/>
+    <id>http://tianfangye.com/2014/01/05/codetank-pistachio/</id>
+    <published>2014-01-05T11:30:37.000Z</published>
+    <updated>2016-11-02T09:55:21.000Z</updated>
+    
+    <content type="html"><![CDATA[<p><iframe width="750" height="600" src="http://codetank.alloyteam.com/?cmd=battle&param=alloyteam.fire,Tianfangye.Pistachio&mode=battle&theme=transparent"></iframe><br><a id="more"></a></p>
+<p>CodeTank（代码坦克）是由 腾讯 <a href="http://codetank.alloyteam.com/" target="_blank" rel="external">AlloyTeam</a> 和 HTML5 梦工场联合出品的在线坦克仿真游戏平台，构建了一个基于互联网的在线智能坦克机器人战斗仿真引擎。算是 Javascript程序员 的编程游戏，可以用 Javascript 代码控制坦克进行战斗。</p>
+<p>我已经创建了第一个坦克，它叫——Pistachio（开心果）。Pistachio 只考虑了一对一的情况，下文也全是针对一对一而言。</p>
+<p>玩游戏通常赢了才开心，Pistachio 战胜官方示例坦克的概率已经很高（其他的坦克也没发现什么强大的）。</p>
+<p>##关于 Pistachio 的代码：</p>
+<p>fire() ：<br>火炮力度、瞄准范围 —- alloyTeam.trackfire。</p>
+<p>onScannedRobot() ：<br>发现敌方坦克 —- alloyTeam.fire。</p>
+<p>onHitRobot() ：<br>与敌方坦克相撞 —- alloyTeam.tracker。</p>
+<p>上面三部分官方示例中都有比较好的处理，后面标注的是现在 Pistachio 参考的官方示例。</p>
+<p>这个游戏最重要也是最大的挑战在于如何移动，你的坦克移动越智能，就越强大！这方面官方示例没什么帮助，胡乱走的话很容易撞墙（减血）。</p>
+<p>###对于智能移动，目标是：</p>
+<p>1.灵活（能各个方向的走直线或弧线）<br>2.不撞墙<br>3.容易发现地方坦克（意味着雷达应该有适当的旋转角度与速率）</p>
+<p>###Pistachio 的智能移动：</p>
+<p>1.检查是否刚刚开火，如果是，先小角度转动雷达（此时敌方坦克还没跑远，小角度扫描发现的概率很大）。<br>2.下次移动方向、距离随机产生。<br>3.检查下次到达位置的坐标。<br>4.如果坐标超出战场范围，重新生成。<br>5.如果坐标靠近战场边缘，炮筒与雷达跟随坦克旋转，坦克先旋转、再走直线（避免撞墙）。<br>6.如果坐标安全（当前坐标与预定位置坐标都不靠近战场边缘），炮筒与雷达独立于坦克旋转，坦克走弧线。</p>
+<p>###Pistachio 被子弹击中后的处理（onHitByBullet）：</p>
+<p>1.检查是否刚刚开火，如果是，立即雷达扫描（敌方坦克应该还没跑远）。<br>2.检查是否刚刚开火，如果不是，智能移动。</p>
+<p>###Pistachio 撞墙后的处理（onHitWall）：<br>智能移动。<br>其实智能移动就是为了避免撞墙，现在撞墙的概率已经很小。</p>
+<p><a href="https://github.com/AlphaBao/codetank" target="_blank" rel="external">完整代码</a></p>
+<p>##关于其他：<br>CodeTank 的 API 文档太过简略，好多功能与效果缺少必要说明。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;&lt;iframe width=&quot;750&quot; height=&quot;600&quot; src=&quot;http://codetank.alloyteam.com/?cmd=battle&amp;param=alloyteam.fire,Tianfangye.Pistachio&amp;mode=battle&amp;theme=transparent&quot;&gt;&lt;/iframe&gt;&lt;br&gt;
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="JavaScript" scheme="http://tianfangye.com/tags/JavaScript/"/>
+    
+      <category term="游戏" scheme="http://tianfangye.com/tags/%E6%B8%B8%E6%88%8F/"/>
+    
+  </entry>
+  
+</feed>
