@@ -86,22 +86,17 @@
 
 
 
-<meta name="description" content="CSS 的默认以 document flow 方式渲染元素，而 float 与 postion 属性可以改变这种状况。
-CSS 中 float 属性的本意是实现文本绕排图片，不过实际使用中 float 常常用来创建多栏布局。float 最常出现的问题是父元素不再包含它（float 之后不再属于 document flow）。
-解决方法 1：为父元素添加 overflow: hidden，它能可靠地">
+<meta name="description" content="CSS 的默认以 document flow 方式渲染元素，而 float 与 postion 属性可以改变这种状况。 CSS 中 float 属性的本意是实现文本绕排图片，不过实际使用中 float 常常用来创建多栏布局。float 最常出现的问题是父元素不再包含它（float 之后不再属于 document flow）。 解决方法 1：为父元素添加 overflow: hidden，它能可靠地">
+<meta name="keywords" content="CSS,BFC,hasLayout">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浮动元素与 BFC">
 <meta property="og:url" content="http://tianfangye.com/2014/02/24/floated-elements-and-bfc/index.html">
 <meta property="og:site_name" content="天方夜">
-<meta property="og:description" content="CSS 的默认以 document flow 方式渲染元素，而 float 与 postion 属性可以改变这种状况。
-CSS 中 float 属性的本意是实现文本绕排图片，不过实际使用中 float 常常用来创建多栏布局。float 最常出现的问题是父元素不再包含它（float 之后不再属于 document flow）。
-解决方法 1：为父元素添加 overflow: hidden，它能可靠地">
-<meta property="og:updated_time" content="2016-11-02T09:55:21.000Z">
+<meta property="og:description" content="CSS 的默认以 document flow 方式渲染元素，而 float 与 postion 属性可以改变这种状况。 CSS 中 float 属性的本意是实现文本绕排图片，不过实际使用中 float 常常用来创建多栏布局。float 最常出现的问题是父元素不再包含它（float 之后不再属于 document flow）。 解决方法 1：为父元素添加 overflow: hidden，它能可靠地">
+<meta property="og:updated_time" content="2017-06-15T07:35:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="浮动元素与 BFC">
-<meta name="twitter:description" content="CSS 的默认以 document flow 方式渲染元素，而 float 与 postion 属性可以改变这种状况。
-CSS 中 float 属性的本意是实现文本绕排图片，不过实际使用中 float 常常用来创建多栏布局。float 最常出现的问题是父元素不再包含它（float 之后不再属于 document flow）。
-解决方法 1：为父元素添加 overflow: hidden，它能可靠地">
+<meta name="twitter:description" content="CSS 的默认以 document flow 方式渲染元素，而 float 与 postion 属性可以改变这种状况。 CSS 中 float 属性的本意是实现文本绕排图片，不过实际使用中 float 常常用来创建多栏布局。float 最常出现的问题是父元素不再包含它（float 之后不再属于 document flow）。 解决方法 1：为父元素添加 overflow: hidden，它能可靠地">
 
 
 
@@ -342,7 +337,7 @@ CSS 中 float 属性的本意是实现文本绕排图片，不过实际使用中
 <p>上面的方法添加了一个纯表现性元素，这种方法的一个变种是使用伪元素，即著名的 clearfix 方案。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">section</span> <span class="attr">class</span>=<span class="string">"clearfix"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"images/tianfangye.png"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"clear_me"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></div></pre></td></tr></table></figure>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">  <span class="attribute">content</span>: <span class="string">"."</span>;</div><div class="line">  <span class="attribute">display</span>: block;</div><div class="line">  <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">visibility</span>: hidden;</div><div class="line">  <span class="attribute">clear</span>: both;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">section</span> &#123;</div><div class="line">  <span class="attribute">border</span>:<span class="number">1px</span> solid blue;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">  <span class="attribute">float</span>:left;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.clear_me</span> &#123;</div><div class="line">  <span class="attribute">clear</span>:left;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="BFC-与浮动"><a href="#BFC-与浮动" class="headerlink" title="BFC 与浮动"></a>BFC 与浮动</h3><p>解决方法 1 和 2 实际上是创建了BFC（Block formatting context，块级格式化的上下文），BFC 是指一个区域——一个元素符合一定条件，那么这个元素的区域就是块级格式化的上下文，这个区域有自己独特的布局方式。</p>
+<h3 id="BFC-与浮动"><a href="#BFC-与浮动" class="headerlink" title="BFC 与浮动"></a>BFC 与浮动</h3><p>解决方法 1 和 2 实际上是创建了 BFC（指 Block Formatting Contexts，作为块级元素格式化的上下文。相关概念还有 IFC，即 Inline Formatting Contexts，作为行内元素格式化的上下文），BFC 是一个隔离的渲染区域，这个区域有自己独特的布局方式，容器里面的子元素不会在布局上影响到外面的元素。一个元素符合一定条件，那么这个元素的区域就是 BFC（作为块级元素格式化的上下文）。</p>
 <h3 id="创建-BFC-的条件："><a href="#创建-BFC-的条件：" class="headerlink" title="创建 BFC 的条件："></a>创建 BFC 的条件：</h3><ol>
 <li>根元素或其它包含它的元素</li>
 <li>浮动 (float 不为 none)</li>
@@ -519,7 +514,7 @@ CSS 中 float 属性的本意是实现文本绕排图片，不过实际使用中
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">54</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -575,7 +570,7 @@ CSS 中 float 属性的本意是实现文本绕排图片，不过实际使用中
   <div class="copyright" >
     
     &copy; 
-    <span itemprop="copyrightYear">2016</span>
+    <span itemprop="copyrightYear">2017</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>

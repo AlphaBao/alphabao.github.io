@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="ES6,Karma,Mocha,Webpack," />
+  <meta name="keywords" content="Karma,Mocha,Webpack,ES6," />
 
 
 
@@ -86,25 +86,17 @@
 
 
 
-<meta name="description" content="前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。
-安装 Karma使用 Karma Mocha Chai（启动器、测试框架、断言库）组合。
-1npm install karma karma-mocha karma-chai --save-dev
-如果 npm 版本 &amp;gt;=3.0，会看到">
+<meta name="description" content="前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。 安装 Karma使用 Karma Mocha Chai（启动器、测试框架、断言库）组合。 1npm install karma karma-mocha karma-chai --save-dev 如果 npm 版本 &amp;gt;=3.0，会看到">
+<meta name="keywords" content="Karma,Mocha,Webpack,ES6">
 <meta property="og:type" content="article">
 <meta property="og:title" content="使用 Karma、Mocha、Chai 搭建支持 ES6 的测试环境">
 <meta property="og:url" content="http://tianfangye.com/2016/09/02/karma-mocha-chai-webpack-es6/index.html">
 <meta property="og:site_name" content="天方夜">
-<meta property="og:description" content="前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。
-安装 Karma使用 Karma Mocha Chai（启动器、测试框架、断言库）组合。
-1npm install karma karma-mocha karma-chai --save-dev
-如果 npm 版本 &amp;gt;=3.0，会看到">
+<meta property="og:description" content="前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。 安装 Karma使用 Karma Mocha Chai（启动器、测试框架、断言库）组合。 1npm install karma karma-mocha karma-chai --save-dev 如果 npm 版本 &amp;gt;=3.0，会看到">
 <meta property="og:updated_time" content="2016-11-02T09:55:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 Karma、Mocha、Chai 搭建支持 ES6 的测试环境">
-<meta name="twitter:description" content="前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。
-安装 Karma使用 Karma Mocha Chai（启动器、测试框架、断言库）组合。
-1npm install karma karma-mocha karma-chai --save-dev
-如果 npm 版本 &amp;gt;=3.0，会看到">
+<meta name="twitter:description" content="前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。 安装 Karma使用 Karma Mocha Chai（启动器、测试框架、断言库）组合。 1npm install karma karma-mocha karma-chai --save-dev 如果 npm 版本 &amp;gt;=3.0，会看到">
 
 
 
@@ -332,7 +324,7 @@
       
         <p>前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。</p>
 <h3 id="安装-Karma"><a href="#安装-Karma" class="headerlink" title="安装 Karma"></a>安装 Karma</h3><p>使用 <code>Karma</code> <code>Mocha</code> <code>Chai</code>（启动器、测试框架、断言库）组合。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install karma karma-mocha karma-chai --save-dev</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install karma karma-mocha karma-chai --save-dev</div></pre></td></tr></table></figure>
 <p>如果 npm 版本 &gt;=3.0，会看到如下提示：</p>
 <blockquote>
 <p>UNMET PEER DEPENDENCY chai@<em><br>karma@1.2.0<br>karma-chai@0.1.0<br>karma-mocha@1.1.1<br>UNMET PEER DEPENDENCY mocha@</em></p>
@@ -340,8 +332,8 @@
 <p>这是因为 npm 已经不再自动安装 peerDependencies：<br><a href="http://blog.npmjs.org/post/110924823920/npm-weekly-5" target="_blank" rel="external">We will also be changing the behavior of peerDependencies in npm@3. We won’t be automatically downloading the peer dependency anymore. Instead, we’ll warn you if the peer dependency isn’t already installed. This requires you to resolve peerDependency conflicts yourself, manually, but in the long run this should make it less likely that you’ll end up in a tricky spot with your packages’ dependencies.</a></p>
 <a id="more"></a>
 <p>于是继续安装 <code>mocha</code> <code>chai</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install mocha chai --save-dev</div></pre></td></tr></table></figure>
-<h3 id="初始化-Karma"><a href="#初始化-Karma" class="headerlink" title="初始化 Karma"></a>初始化 Karma</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">karma init</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install mocha chai --save-dev</div></pre></td></tr></table></figure>
+<h3 id="初始化-Karma"><a href="#初始化-Karma" class="headerlink" title="初始化 Karma"></a>初始化 Karma</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">karma init</div></pre></td></tr></table></figure>
 <p>然后要回答一系列问题。</p>
 <blockquote>
 <p>Which testing framework do you want to use ?<br>Press tab to list possible options. Enter to move to the next question.<br>> mocha</p>
@@ -354,7 +346,7 @@
 </blockquote>
 <p>然后就可以看到 <code>Karma</code> 已经创建的配置文件 <code>karma.conf.js</code>。如果选择使用 <code>PhantomJS</code>，需要单独安装。</p>
 <h3 id="添加-ES6-支持"><a href="#添加-ES6-支持" class="headerlink" title="添加 ES6 支持"></a>添加 ES6 支持</h3><p>现在前端开发的源码一般使用了 ES6 甚至 ES7，将这个处理工作用 webpack 搞定。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install karma-webpack --save-dev</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install karma-webpack --save-dev</div></pre></td></tr></table></figure>
 <p>既然将 ES6 的处理交给 webpack，如果之前没有安装过 babel 环境，还需要安装 <code>babel-core</code> <code>babel-preset-es2015</code> 以及 <code>babel-loader</code>。 </p>
 <p>如果出现下面的 <code>TypeError</code> 错误，只要在 exclude 中加入 /node_modules/ 就好了。</p>
 <blockquote>
@@ -365,7 +357,7 @@
 <h3 id="启动-Karma"><a href="#启动-Karma" class="headerlink" title="启动 Karma"></a>启动 Karma</h3><p>编写测试用例，这里是一个使用断言库 <code>Chai</code>，并使用它的 <code>expect</code> 断言风格的例子。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;getMoneyText&#125; <span class="keyword">from</span> <span class="string">"xxx/xxx.js"</span>;</div><div class="line"><span class="keyword">import</span> &#123;expect&#125; <span class="keyword">from</span> <span class="string">"chai"</span>;</div><div class="line"></div><div class="line">describe(<span class="string">"生成价格文案"</span>, () =&gt; &#123;</div><div class="line">  it(<span class="string">"价格文案：积分"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">1</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"100积分"</span>);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  it(<span class="string">"价格文案：人民币"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">2</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"￥100.00"</span>);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  it(<span class="string">"价格文案：人民币+积分"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">3</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"￥100.00+100积分"</span>);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  it(<span class="string">"价格文案：人民币+积分（多份数量）"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">3</span>,</div><div class="line">      <span class="attr">number</span>: <span class="number">5</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"￥500.00+500积分"</span>);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>启动 <code>Karma</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">karma start</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">karma start</div></pre></td></tr></table></figure>
 <p>关于 Mocha （Chai, expect）的入门教程可以参考：<a href="http://www.ruanyifeng.com/blog/2015/12/a-mocha-tutorial-of-examples.html" target="_blank" rel="external">测试框架 Mocha 实例教程</a></p>
 
       
@@ -389,13 +381,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ES6/" rel="tag">#ES6</a>
-          
             <a href="/tags/Karma/" rel="tag">#Karma</a>
           
             <a href="/tags/Mocha/" rel="tag">#Mocha</a>
           
             <a href="/tags/Webpack/" rel="tag">#Webpack</a>
+          
+            <a href="/tags/ES6/" rel="tag">#ES6</a>
           
         </div>
       
@@ -522,7 +514,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">54</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
@@ -578,7 +570,7 @@
   <div class="copyright" >
     
     &copy; 
-    <span itemprop="copyrightYear">2016</span>
+    <span itemprop="copyrightYear">2017</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>

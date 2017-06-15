@@ -75,7 +75,7 @@
     <summary type="html">
     
       &lt;p&gt;这篇文章缘起于前几天微博上有关动态语言与静态语言的讨论，因为有几个编程高手参加，所以能看到一些特别有启发性的发言。本文主要是下面这一条微博的读后感，也是我的练习与思考。&lt;/p&gt;
-&lt;p&gt;&lt;a href=&quot;http://weibo.com/1655747731/EebsQBk82&quot;&gt;@有个梨UGlee：如果你去看四人帮的Design Pattern里，就有State Pattern；State Pattern用类型编码State，就是我们说的问题；但是动态语言里写出来非常简单，类型语言里写得极其繁琐。&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;http://weibo.com/1655747731/EebsQBk82&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;@有个梨UGlee：如果你去看四人帮的Design Pattern里，就有State Pattern；State Pattern用类型编码State，就是我们说的问题；但是动态语言里写出来非常简单，类型语言里写得极其繁琐。&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;关于动态语言与静态语言，有很多比较和讨论它们的文章，但大部分都没有抓住重点。而上面一条微博，提到了一个很好的切入点，那就是「状态模式（State Pattern）」。&lt;/p&gt;
 &lt;h2 id=&quot;状态模式：蝙蝠侠-布鲁斯·韦恩&quot;&gt;&lt;a href=&quot;#状态模式：蝙蝠侠-布鲁斯·韦恩&quot; class=&quot;headerlink&quot; title=&quot;状态模式：蝙蝠侠/布鲁斯·韦恩&quot;&gt;&lt;/a&gt;状态模式：蝙蝠侠/布鲁斯·韦恩&lt;/h2&gt;&lt;p&gt;蝙蝠侠（英语：Batman）是一名出现于DC漫画的虚构超级英雄角色，由鲍勃·凯恩和比尔·芬格创作。他的名字叫 Bruce，是一位美国亿万富翁，这是他的正常身份，用于正常生活，例如进行参加宴会之类的活动。他的另一个身份是 Batman，是打击犯罪的黑暗骑士。&lt;/p&gt;
 &lt;p&gt;这是一个状态模式的好示例，我用 Java 和 JavaScript 各写了一个示例，体会体会「极其繁琐」与「非常简单」。&lt;/p&gt;
@@ -227,7 +227,7 @@
     
     <content type="html"><![CDATA[<p>前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。</p>
 <h3 id="安装-Karma"><a href="#安装-Karma" class="headerlink" title="安装 Karma"></a>安装 Karma</h3><p>使用 <code>Karma</code> <code>Mocha</code> <code>Chai</code>（启动器、测试框架、断言库）组合。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install karma karma-mocha karma-chai --save-dev</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install karma karma-mocha karma-chai --save-dev</div></pre></td></tr></table></figure>
 <p>如果 npm 版本 &gt;=3.0，会看到如下提示：</p>
 <blockquote>
 <p>UNMET PEER DEPENDENCY chai@<em><br>karma@1.2.0<br>karma-chai@0.1.0<br>karma-mocha@1.1.1<br>UNMET PEER DEPENDENCY mocha@</em></p>
@@ -235,8 +235,8 @@
 <p>这是因为 npm 已经不再自动安装 peerDependencies：<br><a href="http://blog.npmjs.org/post/110924823920/npm-weekly-5" target="_blank" rel="external">We will also be changing the behavior of peerDependencies in npm@3. We won’t be automatically downloading the peer dependency anymore. Instead, we’ll warn you if the peer dependency isn’t already installed. This requires you to resolve peerDependency conflicts yourself, manually, but in the long run this should make it less likely that you’ll end up in a tricky spot with your packages’ dependencies.</a></p>
 <a id="more"></a>
 <p>于是继续安装 <code>mocha</code> <code>chai</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install mocha chai --save-dev</div></pre></td></tr></table></figure>
-<h3 id="初始化-Karma"><a href="#初始化-Karma" class="headerlink" title="初始化 Karma"></a>初始化 Karma</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">karma init</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install mocha chai --save-dev</div></pre></td></tr></table></figure>
+<h3 id="初始化-Karma"><a href="#初始化-Karma" class="headerlink" title="初始化 Karma"></a>初始化 Karma</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">karma init</div></pre></td></tr></table></figure>
 <p>然后要回答一系列问题。</p>
 <blockquote>
 <p>Which testing framework do you want to use ?<br>Press tab to list possible options. Enter to move to the next question.<br>> mocha</p>
@@ -249,7 +249,7 @@
 </blockquote>
 <p>然后就可以看到 <code>Karma</code> 已经创建的配置文件 <code>karma.conf.js</code>。如果选择使用 <code>PhantomJS</code>，需要单独安装。</p>
 <h3 id="添加-ES6-支持"><a href="#添加-ES6-支持" class="headerlink" title="添加 ES6 支持"></a>添加 ES6 支持</h3><p>现在前端开发的源码一般使用了 ES6 甚至 ES7，将这个处理工作用 webpack 搞定。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install karma-webpack --save-dev</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install karma-webpack --save-dev</div></pre></td></tr></table></figure>
 <p>既然将 ES6 的处理交给 webpack，如果之前没有安装过 babel 环境，还需要安装 <code>babel-core</code> <code>babel-preset-es2015</code> 以及 <code>babel-loader</code>。 </p>
 <p>如果出现下面的 <code>TypeError</code> 错误，只要在 exclude 中加入 /node_modules/ 就好了。</p>
 <blockquote>
@@ -260,7 +260,7 @@
 <h3 id="启动-Karma"><a href="#启动-Karma" class="headerlink" title="启动 Karma"></a>启动 Karma</h3><p>编写测试用例，这里是一个使用断言库 <code>Chai</code>，并使用它的 <code>expect</code> 断言风格的例子。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> &#123;getMoneyText&#125; <span class="keyword">from</span> <span class="string">"xxx/xxx.js"</span>;</div><div class="line"><span class="keyword">import</span> &#123;expect&#125; <span class="keyword">from</span> <span class="string">"chai"</span>;</div><div class="line"></div><div class="line">describe(<span class="string">"生成价格文案"</span>, () =&gt; &#123;</div><div class="line">  it(<span class="string">"价格文案：积分"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">1</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"100积分"</span>);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  it(<span class="string">"价格文案：人民币"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">2</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"￥100.00"</span>);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  it(<span class="string">"价格文案：人民币+积分"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">3</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"￥100.00+100积分"</span>);</div><div class="line">  &#125;);</div><div class="line"></div><div class="line">  it(<span class="string">"价格文案：人民币+积分（多份数量）"</span>, () =&gt; &#123;</div><div class="line">    expect(getMoneyText(&#123;</div><div class="line">      <span class="attr">payType</span>: <span class="number">3</span>,</div><div class="line">      <span class="attr">number</span>: <span class="number">5</span>,</div><div class="line">      <span class="attr">price</span>: <span class="number">100</span>,</div><div class="line">      <span class="attr">points</span>: <span class="number">100</span>,</div><div class="line">    &#125;)).to.be.equal(<span class="string">"￥500.00+500积分"</span>);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>启动 <code>Karma</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">karma start</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">karma start</div></pre></td></tr></table></figure>
 <p>关于 Mocha （Chai, expect）的入门教程可以参考：<a href="http://www.ruanyifeng.com/blog/2015/12/a-mocha-tutorial-of-examples.html" target="_blank" rel="external">测试框架 Mocha 实例教程</a></p>
 ]]></content>
     
@@ -268,25 +268,25 @@
     
       &lt;p&gt;前端开发很多是界面开发，但我们可以将相对独立的逻辑和功能从整体业务逻辑中独立出来，这样就可以对它们做单元测试。使用 Karma 可以比较方便地搭建出测试环境。&lt;/p&gt;
 &lt;h3 id=&quot;安装-Karma&quot;&gt;&lt;a href=&quot;#安装-Karma&quot; class=&quot;headerlink&quot; title=&quot;安装 Karma&quot;&gt;&lt;/a&gt;安装 Karma&lt;/h3&gt;&lt;p&gt;使用 &lt;code&gt;Karma&lt;/code&gt; &lt;code&gt;Mocha&lt;/code&gt; &lt;code&gt;Chai&lt;/code&gt;（启动器、测试框架、断言库）组合。&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;npm install karma karma-mocha karma-chai --save-dev&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight shell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;npm install karma karma-mocha karma-chai --save-dev&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;p&gt;如果 npm 版本 &amp;gt;=3.0，会看到如下提示：&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;UNMET PEER DEPENDENCY chai@&lt;em&gt;&lt;br&gt;karma@1.2.0&lt;br&gt;karma-chai@0.1.0&lt;br&gt;karma-mocha@1.1.1&lt;br&gt;UNMET PEER DEPENDENCY mocha@&lt;/em&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;这是因为 npm 已经不再自动安装 peerDependencies：&lt;br&gt;&lt;a href=&quot;http://blog.npmjs.org/post/110924823920/npm-weekly-5&quot;&gt;We will also be changing the behavior of peerDependencies in npm@3. We won’t be automatically downloading the peer dependency anymore. Instead, we’ll warn you if the peer dependency isn’t already installed. This requires you to resolve peerDependency conflicts yourself, manually, but in the long run this should make it less likely that you’ll end up in a tricky spot with your packages’ dependencies.&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;这是因为 npm 已经不再自动安装 peerDependencies：&lt;br&gt;&lt;a href=&quot;http://blog.npmjs.org/post/110924823920/npm-weekly-5&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;We will also be changing the behavior of peerDependencies in npm@3. We won’t be automatically downloading the peer dependency anymore. Instead, we’ll warn you if the peer dependency isn’t already installed. This requires you to resolve peerDependency conflicts yourself, manually, but in the long run this should make it less likely that you’ll end up in a tricky spot with your packages’ dependencies.&lt;/a&gt;&lt;/p&gt;
     
     </summary>
     
       <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
     
     
-      <category term="ES6" scheme="http://tianfangye.com/tags/ES6/"/>
-    
       <category term="Karma" scheme="http://tianfangye.com/tags/Karma/"/>
     
       <category term="Mocha" scheme="http://tianfangye.com/tags/Mocha/"/>
     
       <category term="Webpack" scheme="http://tianfangye.com/tags/Webpack/"/>
+    
+      <category term="ES6" scheme="http://tianfangye.com/tags/ES6/"/>
     
   </entry>
   
@@ -598,7 +598,7 @@
     
     <summary type="html">
     
-      &lt;p&gt;　　写这篇笔记，当然是因为喜欢这本书的文字，但书中很多观点我都不赞同，尤其关于老子的。本文中我对《老子》的认识很多来自李航的&lt;a href=&quot;http://yuedu.baidu.com/ebook/a97ae58576a20029bc642d56&quot;&gt;《道纪》&lt;/a&gt;一书。&lt;/p&gt;
+      &lt;p&gt;　　写这篇笔记，当然是因为喜欢这本书的文字，但书中很多观点我都不赞同，尤其关于老子的。本文中我对《老子》的认识很多来自李航的&lt;a href=&quot;http://yuedu.baidu.com/ebook/a97ae58576a20029bc642d56&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;《道纪》&lt;/a&gt;一书。&lt;/p&gt;
 &lt;h3 id=&quot;穷·白·空&quot;&gt;&lt;a href=&quot;#穷·白·空&quot; class=&quot;headerlink&quot; title=&quot;穷·白·空&quot;&gt;&lt;/a&gt;穷·白·空&lt;/h3&gt;&lt;blockquote&gt;
 &lt;p&gt;一穷，穷在经济上；二白，白在文化上；三空，空在思想上。&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -681,7 +681,7 @@
     <summary type="html">
     
       &lt;p&gt;localStorage 属于 Web 存储的一个 API（另一个是 sessionStorage），以 Key-Value 的形式保存数据，key 和 value 都是字符串。&lt;/p&gt;
-&lt;h3 id=&quot;容量&quot;&gt;&lt;a href=&quot;#容量&quot; class=&quot;headerlink&quot; title=&quot;容量&quot;&gt;&lt;/a&gt;容量&lt;/h3&gt;&lt;p&gt;每个浏览器的容量限制不同，现代浏览器一般是 5M。检测容量：&lt;a href=&quot;http://dev-test.nemikor.com/web-storage/support-test/&quot;&gt;Web Storage Support Test&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;容量&quot;&gt;&lt;a href=&quot;#容量&quot; class=&quot;headerlink&quot; title=&quot;容量&quot;&gt;&lt;/a&gt;容量&lt;/h3&gt;&lt;p&gt;每个浏览器的容量限制不同，现代浏览器一般是 5M。检测容量：&lt;a href=&quot;http://dev-test.nemikor.com/web-storage/support-test/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;Web Storage Support Test&lt;/a&gt;&lt;/p&gt;
 &lt;h3 id=&quot;安全性&quot;&gt;&lt;a href=&quot;#安全性&quot; class=&quot;headerlink&quot; title=&quot;安全性&quot;&gt;&lt;/a&gt;安全性&lt;/h3&gt;&lt;p&gt;以未加密的形式保存在用户的计算机上。&lt;br&gt;
     
     </summary>
@@ -777,8 +777,8 @@
     
     <summary type="html">
     
-      &lt;h3 id=&quot;1-添加正确的-host&quot;&gt;&lt;a href=&quot;#1-添加正确的-host&quot; class=&quot;headerlink&quot; title=&quot;1. 添加正确的 host&quot;&gt;&lt;/a&gt;1. 添加正确的 host&lt;/h3&gt;&lt;p&gt;想方设法找到正确的 host：&lt;br&gt;&lt;a href=&quot;https://git.oschina.net/kawaiiushio/misc/raw/master/hosts/pc/hosts&quot;&gt;https://git.oschina.net/kawaiiushio/misc/raw/master/hosts/pc/hosts&lt;/a&gt;&lt;/p&gt;
-&lt;h3 id=&quot;2-Chrome-中设置搜索引擎为使用-ncr&quot;&gt;&lt;a href=&quot;#2-Chrome-中设置搜索引擎为使用-ncr&quot; class=&quot;headerlink&quot; title=&quot;2. Chrome 中设置搜索引擎为使用 ncr&quot;&gt;&lt;/a&gt;2. Chrome 中设置搜索引擎为使用 ncr&lt;/h3&gt;&lt;p&gt;填入如下参数，并设为默认引擎：&lt;br&gt;&lt;a href=&quot;https://www.google.com/#lr=lang_zh-CN&amp;amp;newwindow=1&amp;amp;q=%s&quot;&gt;https://www.google.com/#lr=lang_zh-CN&amp;amp;newwindow=1&amp;amp;q=%s&lt;/a&gt;&lt;br&gt;
+      &lt;h3 id=&quot;1-添加正确的-host&quot;&gt;&lt;a href=&quot;#1-添加正确的-host&quot; class=&quot;headerlink&quot; title=&quot;1. 添加正确的 host&quot;&gt;&lt;/a&gt;1. 添加正确的 host&lt;/h3&gt;&lt;p&gt;想方设法找到正确的 host：&lt;br&gt;&lt;a href=&quot;https://git.oschina.net/kawaiiushio/misc/raw/master/hosts/pc/hosts&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://git.oschina.net/kawaiiushio/misc/raw/master/hosts/pc/hosts&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;2-Chrome-中设置搜索引擎为使用-ncr&quot;&gt;&lt;a href=&quot;#2-Chrome-中设置搜索引擎为使用-ncr&quot; class=&quot;headerlink&quot; title=&quot;2. Chrome 中设置搜索引擎为使用 ncr&quot;&gt;&lt;/a&gt;2. Chrome 中设置搜索引擎为使用 ncr&lt;/h3&gt;&lt;p&gt;填入如下参数，并设为默认引擎：&lt;br&gt;&lt;a href=&quot;https://www.google.com/#lr=lang_zh-CN&amp;amp;newwindow=1&amp;amp;q=%s&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;https://www.google.com/#lr=lang_zh-CN&amp;amp;newwindow=1&amp;amp;q=%s&lt;/a&gt;&lt;br&gt;
     
     </summary>
     
@@ -857,7 +857,7 @@
     <link href="http://tianfangye.com/2014/02/24/floated-elements-and-bfc/"/>
     <id>http://tianfangye.com/2014/02/24/floated-elements-and-bfc/</id>
     <published>2014-02-24T14:43:36.000Z</published>
-    <updated>2016-11-02T09:55:21.000Z</updated>
+    <updated>2017-06-15T07:35:01.000Z</updated>
     
     <content type="html"><![CDATA[<p>CSS 的默认以 document flow 方式渲染元素，而 float 与 postion 属性可以改变这种状况。</p>
 <p>CSS 中 float 属性的本意是实现文本绕排图片，不过实际使用中 float 常常用来创建多栏布局。float 最常出现的问题是父元素不再包含它（float 之后不再属于 document flow）。</p>
@@ -874,7 +874,7 @@
 <p>上面的方法添加了一个纯表现性元素，这种方法的一个变种是使用伪元素，即著名的 clearfix 方案。</p>
 <figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">section</span> <span class="attr">class</span>=<span class="string">"clearfix"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"images/tianfangye.png"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"clear_me"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">section</span>&gt;</span></div></pre></td></tr></table></figure>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.clearfix</span><span class="selector-pseudo">:after</span> &#123;</div><div class="line">  <span class="attribute">content</span>: <span class="string">"."</span>;</div><div class="line">  <span class="attribute">display</span>: block;</div><div class="line">  <span class="attribute">height</span>: <span class="number">0</span>;</div><div class="line">  <span class="attribute">visibility</span>: hidden;</div><div class="line">  <span class="attribute">clear</span>: both;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">section</span> &#123;</div><div class="line">  <span class="attribute">border</span>:<span class="number">1px</span> solid blue;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">  <span class="attribute">float</span>:left;</div><div class="line">&#125;</div><div class="line"><span class="selector-class">.clear_me</span> &#123;</div><div class="line">  <span class="attribute">clear</span>:left;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="BFC-与浮动"><a href="#BFC-与浮动" class="headerlink" title="BFC 与浮动"></a>BFC 与浮动</h3><p>解决方法 1 和 2 实际上是创建了BFC（Block formatting context，块级格式化的上下文），BFC 是指一个区域——一个元素符合一定条件，那么这个元素的区域就是块级格式化的上下文，这个区域有自己独特的布局方式。</p>
+<h3 id="BFC-与浮动"><a href="#BFC-与浮动" class="headerlink" title="BFC 与浮动"></a>BFC 与浮动</h3><p>解决方法 1 和 2 实际上是创建了 BFC（指 Block Formatting Contexts，作为块级元素格式化的上下文。相关概念还有 IFC，即 Inline Formatting Contexts，作为行内元素格式化的上下文），BFC 是一个隔离的渲染区域，这个区域有自己独特的布局方式，容器里面的子元素不会在布局上影响到外面的元素。一个元素符合一定条件，那么这个元素的区域就是 BFC（作为块级元素格式化的上下文）。</p>
 <h3 id="创建-BFC-的条件："><a href="#创建-BFC-的条件：" class="headerlink" title="创建 BFC 的条件："></a>创建 BFC 的条件：</h3><ol>
 <li>根元素或其它包含它的元素</li>
 <li>浮动 (float 不为 none)</li>
