@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://tianfangye.com/2013/06/16/how-to-explain-closure/</loc>
+    <loc>http://tianfangye.com/2017/10/14/context-and-scope-bonus-scene-closure/</loc>
     
-    <lastmod>2017-10-14T12:12:43.000Z</lastmod>
+    <lastmod>2017-10-14T12:27:37.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2017/10/14/context-and-scope-bonus-scene-closure/</loc>
+    <loc>http://tianfangye.com/2013/06/16/how-to-explain-closure/</loc>
     
-    <lastmod>2017-10-14T12:12:29.000Z</lastmod>
+    <lastmod>2017-10-14T12:12:43.000Z</lastmod>
     
   </url>
   
@@ -51,21 +51,14 @@
   </url>
   
   <url>
+    <loc>http://tianfangye.com/2015/11/04/css-min-height/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://tianfangye.com/2015/09/06/escape-unescape-encodeURI-decodeURI-encodeURIComponent-decodeURIComponent/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2014/07/09/how-to-access-google/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2015/09/06/base64-decoding-problem/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -79,7 +72,14 @@
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2015/11/04/css-min-height/</loc>
+    <loc>http://tianfangye.com/2015/09/06/base64-decoding-problem/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2014/07/09/how-to-access-google/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
