@@ -86,17 +86,17 @@
 
 
 
-<meta name="description" content="关于什么是闭包，很多“高手”会给出一段“特权函数”访问外部作用域变量的 JavaScript 代码，并且告诉你，闭包就是局部变量在函数返回之后继续存在。 那么，你如何理解“闭包是穷人的对象”、“对象是穷人的闭包”？ 往下看，你会明白，用代码解释闭包的“高手”与“砖家”没有什么不同。">
+<meta name="description" content="新读（2017年10月19日）本文写于 2013年06月16日，今天做了一点修改，所谓修改，其实只是删去了几句不影响技术内容的话。关于闭包，我最近写了一篇新的文章，提到了静态作用域，相比本文，是对闭包的更深一层的解释，可以作为本文的后续阅读。至于本文，也不是已经没有阅读的价值，因为它说明了以下两点：  闭包是一个概念，JavaScript 编程中常常用到闭包，但仅仅学会使用闭包，并不等于知道闭包本">
 <meta name="keywords" content="JavaScript,closure,对象">
 <meta property="og:type" content="article">
-<meta property="og:title" content="解释“闭包”需要几行代码？">
+<meta property="og:title" content="【旧文新读】解释“闭包”需要几行代码？">
 <meta property="og:url" content="http://tianfangye.com/2013/06/16/how-to-explain-closure/index.html">
 <meta property="og:site_name" content="天方夜">
-<meta property="og:description" content="关于什么是闭包，很多“高手”会给出一段“特权函数”访问外部作用域变量的 JavaScript 代码，并且告诉你，闭包就是局部变量在函数返回之后继续存在。 那么，你如何理解“闭包是穷人的对象”、“对象是穷人的闭包”？ 往下看，你会明白，用代码解释闭包的“高手”与“砖家”没有什么不同。">
-<meta property="og:updated_time" content="2017-10-14T12:12:43.000Z">
+<meta property="og:description" content="新读（2017年10月19日）本文写于 2013年06月16日，今天做了一点修改，所谓修改，其实只是删去了几句不影响技术内容的话。关于闭包，我最近写了一篇新的文章，提到了静态作用域，相比本文，是对闭包的更深一层的解释，可以作为本文的后续阅读。至于本文，也不是已经没有阅读的价值，因为它说明了以下两点：  闭包是一个概念，JavaScript 编程中常常用到闭包，但仅仅学会使用闭包，并不等于知道闭包本">
+<meta property="og:updated_time" content="2017-10-19T11:59:16.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="解释“闭包”需要几行代码？">
-<meta name="twitter:description" content="关于什么是闭包，很多“高手”会给出一段“特权函数”访问外部作用域变量的 JavaScript 代码，并且告诉你，闭包就是局部变量在函数返回之后继续存在。 那么，你如何理解“闭包是穷人的对象”、“对象是穷人的闭包”？ 往下看，你会明白，用代码解释闭包的“高手”与“砖家”没有什么不同。">
+<meta name="twitter:title" content="【旧文新读】解释“闭包”需要几行代码？">
+<meta name="twitter:description" content="新读（2017年10月19日）本文写于 2013年06月16日，今天做了一点修改，所谓修改，其实只是删去了几句不影响技术内容的话。关于闭包，我最近写了一篇新的文章，提到了静态作用域，相比本文，是对闭包的更深一层的解释，可以作为本文的后续阅读。至于本文，也不是已经没有阅读的价值，因为它说明了以下两点：  闭包是一个概念，JavaScript 编程中常常用到闭包，但仅仅学会使用闭包，并不等于知道闭包本">
 
 
 
@@ -120,7 +120,7 @@
   <link rel="canonical" href="http://tianfangye.com/2013/06/16/how-to-explain-closure/"/>
 
 
-  <title> 解释“闭包”需要几行代码？ | 天方夜 </title>
+  <title> 【旧文新读】解释“闭包”需要几行代码？ | 天方夜 </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="en">
@@ -256,7 +256,7 @@
             
             
               
-                解释“闭包”需要几行代码？
+                【旧文新读】解释“闭包”需要几行代码？
               
             
           </h1>
@@ -322,11 +322,16 @@
       
 
       
-        <p>关于什么是闭包，很多“高手”会给出一段“特权函数”访问外部作用域变量的 JavaScript 代码，并且告诉你，闭包就是局部变量在函数返回之后继续存在。</p>
-<p>那么，你如何理解“闭包是穷人的对象”、“对象是穷人的闭包”？</p>
-<p>往下看，你会明白，用代码解释闭包的“高手”与“砖家”没有什么不同。<br><a id="more"></a></p>
+        <h3 id="新读（2017年10月19日）"><a href="#新读（2017年10月19日）" class="headerlink" title="新读（2017年10月19日）"></a>新读（2017年10月19日）</h3><p>本文写于 <code>2013年06月16日</code>，今天做了一点修改，所谓修改，其实只是删去了几句不影响技术内容的话。<a href="http://tianfangye.com/2017/10/14/context-and-scope-bonus-scene-closure/">关于闭包，我最近写了一篇新的文章，提到了静态作用域，相比本文，是对闭包的更深一层的解释，可以作为本文的后续阅读。</a>至于本文，也不是已经没有阅读的价值，因为它说明了以下两点：</p>
+<ol>
+<li>闭包是一个概念，JavaScript 编程中常常用到闭包，但仅仅学会使用闭包，并不等于知道闭包本身是什么；而本文，正是从概念本身解释闭包。</li>
+<li>理解闭包与对象的关系，对于理解闭包非常有帮助，因为二者的功能有很大的重叠。</li>
+</ol>
+<h3 id="以下是旧文"><a href="#以下是旧文" class="headerlink" title="以下是旧文"></a>以下是旧文</h3><p>关于什么是闭包，很多“高手”会给出一段“特权函数”访问外部作用域变量的 JavaScript 代码，并且告诉你，闭包就是局部变量在函数返回之后继续存在。那么，你如何理解“闭包是穷人的对象”、“对象是穷人的闭包”？<br><a id="more"></a></p>
 <p>===========================================================</p>
-<p>*以下内容根据《代码的未来》、“犀牛书”、以及《Thinking in Java》整理</p>
+<ul>
+<li>以下内容根据《代码的未来》、“犀牛书”、以及《Thinking in Java》整理</li>
+</ul>
 <p>===========================================================</p>
 <h3 id="什么是闭包？"><a href="#什么是闭包？" class="headerlink" title="什么是闭包？"></a>什么是闭包？</h3><p>闭包（Closure）这个词的意思是封闭，将外部作用域中的局部变量封闭起来的函数对象称为闭包。被封闭起来的变量与封闭它的函数对象有相同的生命周期。</p>
 <h3 id="什么是函数对象？"><a href="#什么是函数对象？" class="headerlink" title="什么是函数对象？"></a>什么是函数对象？</h3><p>函数对象是作为对象来使用的函数，这里的对象是指编程语言操作的数据。</p>
@@ -337,7 +342,6 @@
 <h3 id="什么是对象？"><a href="#什么是对象？" class="headerlink" title="什么是对象？"></a>什么是对象？</h3><p>面向对象中的“对象”是指问题空间中的元素（猫、狗）及其在解空间中的表示（new Cat(); new Dog()）。对象是过程（函数）与数据的结合。</p>
 <h3 id="对象与闭包"><a href="#对象与闭包" class="headerlink" title="对象与闭包"></a>对象与闭包</h3><p>对象是在数据中以方法的形式内含了过程，闭包是在过程中以环境的形式内含了数据。所谓“闭包是穷人的对象”、“对象是穷人的闭包”，就是说使用其中的一种方式，就能实现另一种方式能够实现的功能。</p>
 <h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>保护函数内的变量安全：如迭代器、生成器。<br>在内存中维持变量：如缓存数据、柯里化。</p>
-<h3 id="砖家的错误"><a href="#砖家的错误" class="headerlink" title="砖家的错误"></a>砖家的错误</h3><p>看到了吧，解释闭包，一行代码都不需要。“闭包”是一个概念，不是编程技巧，不应该用代码解释闭包！</p>
 
       
     </div>
@@ -399,7 +403,7 @@
     <div class="post-spread">
       
         <div class="ds-share flat" data-thread-key="2013/06/16/how-to-explain-closure/"
-     data-title="解释“闭包”需要几行代码？"
+     data-title="【旧文新读】解释“闭包”需要几行代码？"
      data-content=""
      data-url="http://tianfangye.com/2013/06/16/how-to-explain-closure/">
   <div class="ds-share-inline">
@@ -429,7 +433,7 @@
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2013/06/16/how-to-explain-closure/"
-           data-title="解释“闭包”需要几行代码？" data-url="http://tianfangye.com/2013/06/16/how-to-explain-closure/">
+           data-title="【旧文新读】解释“闭包”需要几行代码？" data-url="http://tianfangye.com/2013/06/16/how-to-explain-closure/">
       </div>
     
   </div>
@@ -527,7 +531,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是闭包？"><span class="nav-number">1.</span> <span class="nav-text">什么是闭包？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是函数对象？"><span class="nav-number">2.</span> <span class="nav-text">什么是函数对象？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数对象与闭包"><span class="nav-number">3.</span> <span class="nav-text">函数对象与闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是对象？"><span class="nav-number">4.</span> <span class="nav-text">什么是对象？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象与闭包"><span class="nav-number">5.</span> <span class="nav-text">对象与闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用场景"><span class="nav-number">6.</span> <span class="nav-text">应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#砖家的错误"><span class="nav-number">7.</span> <span class="nav-text">砖家的错误</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#新读（2017年10月19日）"><span class="nav-number">1.</span> <span class="nav-text">新读（2017年10月19日）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以下是旧文"><span class="nav-number">2.</span> <span class="nav-text">以下是旧文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是闭包？"><span class="nav-number">3.</span> <span class="nav-text">什么是闭包？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是函数对象？"><span class="nav-number">4.</span> <span class="nav-text">什么是函数对象？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数对象与闭包"><span class="nav-number">5.</span> <span class="nav-text">函数对象与闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是对象？"><span class="nav-number">6.</span> <span class="nav-text">什么是对象？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象与闭包"><span class="nav-number">7.</span> <span class="nav-text">对象与闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用场景"><span class="nav-number">8.</span> <span class="nav-text">应用场景</span></a></li></ol></div>
             
           </div>
         </section>
