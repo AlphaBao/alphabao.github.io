@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://tianfangye.com/2017/11/19/understanding-css-flexbox/</loc>
+    
+    <lastmod>2017-11-19T13:46:22.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2017/10/14/context-and-scope-bonus-scene-closure/</loc>
+    
+    <lastmod>2017-11-19T04:42:55.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://tianfangye.com/2016/09/30/javascript-asynchrony-eventloopqueue-and-jobqueue/</loc>
     
     <lastmod>2017-11-02T09:22:04.000Z</lastmod>
@@ -23,13 +37,6 @@
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2017/10/14/context-and-scope-bonus-scene-closure/</loc>
-    
-    <lastmod>2017-10-14T12:27:37.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://tianfangye.com/2017/09/17/browser-rendering-processes-and-principles/</loc>
     
     <lastmod>2017-09-17T12:25:45.000Z</lastmod>
@@ -40,6 +47,62 @@
     <loc>http://tianfangye.com/2014/02/24/floated-elements-and-bfc/</loc>
     
     <lastmod>2017-06-15T07:35:01.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2015/06/06/semicolons-in-javascript/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2015/09/06/base64-decoding-problem/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2014/07/09/how-to-access-google/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2015/09/06/escape-unescape-encodeURI-decodeURI-encodeURIComponent-decodeURIComponent/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2013/09/30/first-reading-edogawa-ranpo/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2014/05/24/how-to-lose-weight/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2014/01/26/html5-tags-div-section-article/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2013/10/27/javascript-prototype/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
   </url>
   
@@ -58,105 +121,7 @@
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2015/11/04/css-min-height/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2013/09/30/first-reading-edogawa-ranpo/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://tianfangye.com/2013/07/21/a-secret-makes-a-woman-woman/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2015/09/06/escape-unescape-encodeURI-decodeURI-encodeURIComponent-decodeURIComponent/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2014/07/09/how-to-access-google/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2013/09/18/backbone-listento/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2013/10/27/javascript-prototype/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2014/05/24/how-to-lose-weight/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2015/09/06/base64-decoding-problem/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2014/01/26/html5-tags-div-section-article/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2016/10/29/state-pattern-the-difference-between-javascript-and-java/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2013/07/22/test-driven-life/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2013/06/12/see-their-own-lives/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2015/03/07/the-memoir-of-literature-laozi-note/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2015/10/01/the-mobile-web-handbook-reading-notes/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -170,14 +135,21 @@
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2015/01/01/think-about-the-2014/</loc>
+    <loc>http://tianfangye.com/2015/11/04/css-min-height/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2015/06/06/semicolons-in-javascript/</loc>
+    <loc>http://tianfangye.com/2016/10/29/state-pattern-the-difference-between-javascript-and-java/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2013/06/12/see-their-own-lives/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -191,7 +163,35 @@
   </url>
   
   <url>
+    <loc>http://tianfangye.com/2015/03/07/the-memoir-of-literature-laozi-note/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://tianfangye.com/2013/09/15/the-usefulness-of-art/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2013/09/18/backbone-listento/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2013/07/22/test-driven-life/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2015/10/01/the-mobile-web-handbook-reading-notes/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -206,6 +206,13 @@
   
   <url>
     <loc>http://tianfangye.com/2016/10/23/to-see-the-nipponia-nippon-from-a-nerdy-perspective/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2015/01/01/think-about-the-2014/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     

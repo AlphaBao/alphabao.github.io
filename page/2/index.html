@@ -258,6 +258,132 @@
             
               
                 
+                <a class="post-title-link" href="/2015/09/06/base64-decoding-problem/" itemprop="url">
+                  Base64：window.atob 的兼容性问题
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-09-06T15:29:13+08:00" content="2015-09-06">
+              2015-09-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2015/09/06/base64-decoding-problem/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/09/06/base64-decoding-problem/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>对于 Base64 编码，浏览器提供的原生方法是 <code>window.btoa</code> 和 <code>window.atob</code>。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> encodedData = <span class="built_in">window</span>.btoa(<span class="string">"Hello, world"</span>); <span class="comment">// encode a string</span></div><div class="line"><span class="keyword">var</span> decodedData = <span class="built_in">window</span>.atob(encodedData); <span class="comment">// decode the string</span></div></pre></td></tr></table></figure>
+<p>从 <a href="http://caniuse.com/#search=Base64" target="_blank" rel="external">caniuse.com</a> 的数据来看，IE10 才开始支持这两个方法；而 iOS 和 Android 都很早就支持了，似乎可以用在移动端。但是在使用 <code>atob</code> 的过程中，还是遇到了兼容性问题。在 Chrome for Android 中可以正常解码，但是在 iOS Safari 中出现了下面这个错误：</p>
+<blockquote>
+<p>DOM Exception 5: An invalid or illegal character was specified, such as in an XML name</p>
+</blockquote>
+<p>无奈之下，还是找了个第三方库 <a href="https://github.com/dankogai/js-base64" target="_blank" rel="external">https://github.com/dankogai/js-base64</a>，用了之后 Android、iOS 都可以正常解码了。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2015/06/06/semicolons-in-javascript/" itemprop="url">
                   JavaScript 分号问题
                 </a>
@@ -1375,136 +1501,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2014/02/17/multiple-event-listeners/" itemprop="url">
-                  addEventListener 多重监听问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2014-02-17T22:17:55+08:00" content="2014-02-17">
-              2014-02-17
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2014/02/17/multiple-event-listeners/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/02/17/multiple-event-listeners/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h1 id="不会导致多重监听的情况"><a href="#不会导致多重监听的情况" class="headerlink" title="不会导致多重监听的情况"></a>不会导致多重监听的情况</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> listener = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">  alert(<span class="string">"JS"</span>);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, listener);</div><div class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, listener);</div><div class="line"></div><div class="line"><span class="comment">// 每次点击只弹出一次</span></div></pre></td></tr></table></figure>
-<p>多次 add 同一个 function 是不会重复监听的。只要 listener 没有变，add 多少次也只相当于 add 一次。</p>
-<h3 id="删除-listener"><a href="#删除-listener" class="headerlink" title="删除 listener"></a>删除 listener</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.body.removeEventListener(<span class="string">'click'</span>, listener);</div></pre></td></tr></table></figure>
-<p>由于只有一个 listener，只要这样调用一次 removeEventListener 即可删除。</p>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2014/02/17/multiple-event-listeners/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1545,7 +1546,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">30</span>
+              <span class="site-state-item-count">31</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1562,7 +1563,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">58</span>
+                <span class="site-state-item-count">59</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

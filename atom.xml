@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tianfangye.com/"/>
-  <updated>2017-10-14T12:27:37.000Z</updated>
+  <updated>2017-11-19T13:46:22.000Z</updated>
   <id>http://tianfangye.com/</id>
   
   <author>
@@ -16,11 +16,87 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>想象一双结实而富有弹性的大腿：理解 Flexbox 布局</title>
+    <link href="http://tianfangye.com/2017/11/19/understanding-css-flexbox/"/>
+    <id>http://tianfangye.com/2017/11/19/understanding-css-flexbox/</id>
+    <published>2017-11-19T08:07:59.000Z</published>
+    <updated>2017-11-19T13:46:22.000Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Flexbox-让人困惑"><a href="#Flexbox-让人困惑" class="headerlink" title="Flexbox 让人困惑"></a>Flexbox 让人困惑</h2><p>有很多谈及 Flexbox 的文章，但依然有不少前端对此感到困惑。一方面，flex 相关的 CSS 属性繁多，影响到的具体效果也包含多个方面；另一方面，CSS 可以使用 <strong>Shorthand properties</strong> 风格的写法（例如最常见的 <code>background: url(images/bg.gif) no-repeat left top;</code>），很容易让新手弄不清具体含义。</p>
+<p>这篇文章要讲的 Flexbox 当然还是 CSS3 规范中的弹性盒模型，不过写出前面一段，是因为我希望这篇文章可以解决那些问题——简单说，就是 Flexbox 让人困惑这样的问题。解决的方法，就是<strong>理解它</strong>。<a id="more"></a></p>
+<h2 id="什么时候，我们会想到弹性"><a href="#什么时候，我们会想到弹性" class="headerlink" title="什么时候，我们会想到弹性"></a>什么时候，我们会想到弹性</h2><p>为了理解弹性盒模型，先要从古龙的笔法开始。古龙是台湾的武侠小说大师，成就仅次于金庸。古龙描写的一些人物，非常深入人心，其犀利以及令人难忘的程度，甚至超过金庸。比如，有一位中年男性，在整部小说里，他的手非常重要，古龙对此有多次描写——“他的手指修长而有力”。而在不止一本书中，不止一两个情节中，有几位青年女性，她们的腿非常重要，古龙的描述是——“大腿结实而富有弹性”，或者“修长结实而富有弹性”。</p>
+<p>轻呼一口气，思考一下，为什么描写手指的时候要说“修长而有力”，而描写大腿却是“结实而富有弹性”？这真是一个非常值得思考的问题。实际上，人的腿也可以是“修长而有力”的；而且，人的手指也是有弹性的。但古大师的描写绝非随意为之，其中的道理，可以随便找些<strong>包含大腿的</strong>人物画看一看，或者只是想象一下——一幅人物画中，手指的面积有多大？除非为了强调手部而加了特技，否则手指所占的面积是很小的；而大腿，在一幅正常的人物画中，是充满空间的。这里说的充满，当然并不是指完全占满空间，也不是上下左右一定没有空隙。</p>
+<p>记住这种“充满”，现在思考一下 Flexbox。什么时候，我们会想到或者说需要弹性这件事情？答案是当我们需要“充满”一个容器的时候。带着这种思考，再回到人物画。手指只是在画面的特定位置，解决这种问题，我们可以简单地用 <code>position: absolute;</code> 或 <code>float: left;</code> 这些属性搞定。而大腿是“充满”画面的，当我们需要“充满”容器的时候，<strong>弹性</strong>就很重要！要解决这类问题，我们应该思考的就不是某个局部的空间，而是空间的分配。包括如何分配容器内的所有盒子，如果空间过大怎么办，如果空间过小怎么办；而在移动端，设备的屏幕尺寸有很多种，问题就变成了空间有时候大、有时候小怎么办。</p>
+<p>读者应该已经能够想到，弹性盒模型就是为了更方便地解决这些问题而产生的。那么先看一看<strong>非弹性</strong>的盒子遇到这些场景会有哪些不便。</p>
+<h2 id="百分比网格"><a href="#百分比网格" class="headerlink" title="百分比网格"></a>百分比网格</h2><p></p><p data-height="265" data-theme-id="0" data-slug-hash="rYpJMx" data-default-tab="css,result" data-user="AlphaBao" data-embed-version="2" data-pen-title="understanding-css-flexbox: percentage" class="codepen">See the Pen <a href="https://codepen.io/AlphaBao/pen/rYpJMx/" target="_blank" rel="external">understanding-css-flexbox: percentage</a> by Alpha Bao (<a href="https://codepen.io/AlphaBao" target="_blank" rel="external">@AlphaBao</a>) on <a href="https://codepen.io" target="_blank" rel="external">CodePen</a>.</p><p></p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+
+<p>上面是用浮动和百分比的方式写的横向网格，由于直接给其中一个设置了不同的高度，很明显，可以看出，四个格子的高度是不同的。如果格子的高度变化是由其中的内容引起，也会存在同样的问题。</p>
+<p>另外，示例之中是四个格子，所以设置每个格子为 <code>width: 25%;</code> 就可以让它们横向充满父级容器，而且大小变化也没有影响。但如果需要渲染的数据是动态的，写成具体某个百分比显然就不行了。即元素个数变化时每个元素的百分比也需要变化，就需要修改 CSS。</p>
+<p>这些问题都是因为这样的盒模型是没有“弹性”的，如果有弹性，就可以让布局按照我们希望的方式渲染。</p>
+<h2 id="Flex-网格"><a href="#Flex-网格" class="headerlink" title="Flex 网格"></a>Flex 网格</h2><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.container</span> &#123;</div><div class="line">  <span class="attribute">display</span>: flex;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>弹性盒模型带来了 Flexbox 布局，像上面这样，给充当 container 的盒子设置 <code>display: flex;</code> 就可以让它的子元素弹性排列，默认是横向的，因为 <code>flex-direction: row;</code> 是默认值，我们先不关心它。先看一下最常用的属性 <code>flex-grow</code>。</p>
+<h3 id="flex-grow"><a href="#flex-grow" class="headerlink" title="flex-grow"></a>flex-grow</h3><p></p><p data-height="265" data-theme-id="0" data-slug-hash="pdpKOj" data-default-tab="css,result" data-user="AlphaBao" data-embed-version="2" data-pen-title="understanding-css-flexbox 2: flex-grow" class="codepen">See the Pen <a href="https://codepen.io/AlphaBao/pen/pdpKOj/" target="_blank" rel="external">understanding-css-flexbox 2: flex-grow</a> by Alpha Bao (<a href="https://codepen.io/AlphaBao" target="_blank" rel="external">@AlphaBao</a>) on <a href="https://codepen.io" target="_blank" rel="external">CodePen</a>.</p><p></p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+
+<p>可以看到其中一个是 <code>flex-grow: 2;</code>，其他都是 1，意思是这些子元素将充满容器，它们将容器分成了若干份，每个 <code>flex-grow: 1;</code> 元素占据一份，<code>flex-grow: 2;</code> 的占两份，因为它的 <code>flex-grow</code> 值是其他元素的两倍。也就是说，<code>flex-grow</code> 决定子元素如何膨胀。在 Flexbox 的充满／填充策略中，<code>flex-grow</code> 影响的是元素膨胀到多大。注意这其实是如何分配父级容器空间的问题，而且是容器大小会改变的情形下，所以具体子元素的大小是取决于空间剩余情况的，并不是 <code>flex-grow</code> 越大，元素就一定会越大。</p>
+<h3 id="flex-basis"><a href="#flex-basis" class="headerlink" title="flex-basis"></a>flex-basis</h3><p>再看 <code>flex-basis</code> 属性，它是指元素的初始大小，上一个例子中，只设置了 <code>flex-grow</code>，所以初始大小就是元素内容决定的，如果元素没有内容，大小就是零。</p>
+<p></p><p data-height="265" data-theme-id="0" data-slug-hash="ZavjGK" data-default-tab="css,result" data-user="AlphaBao" data-embed-version="2" data-pen-title="understanding-css-flexbox 3: flex-basis" class="codepen">See the Pen <a href="https://codepen.io/AlphaBao/pen/ZavjGK/" target="_blank" rel="external">understanding-css-flexbox 3: flex-basis</a> by Alpha Bao (<a href="https://codepen.io/AlphaBao" target="_blank" rel="external">@AlphaBao</a>) on <a href="https://codepen.io" target="_blank" rel="external">CodePen</a>.</p><p></p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+
+<p><code>flex-basis</code> 的默认值是 <code>auto</code>，是指元素的大小（本文中指的是元素横向的长度，因为 <code>flex-direction</code> 默认值是 <code>row</code>，这决定了 main axis（主轴）是横向的，即容器的子元素横向排列）根据元素的长度属性或者由内容决定。可以是具体长度值也可以是百分比。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.c3</span> &#123;</div><div class="line">  <span class="attribute">width</span>: <span class="number">15em</span>;</div><div class="line">  <span class="attribute">flex-basis</span>: auto;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>此时初始宽度是 <code>15em</code>，也可以写为下面这样：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.c3</span> &#123;</div><div class="line">  <span class="attribute">flex-basis</span>: <span class="number">15em</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>两种写法效果相同。</p>
+<p>计算完初始大小，再根据容器空间剩余情况，继续完成“充满”容器这件事情。如果先只考虑空间还有剩余的情况，前面提到的 <code>flex-grow</code> 属性就开始起作用，使元素膨胀，直到充满容器。</p>
+<h3 id="flex-shrink"><a href="#flex-shrink" class="headerlink" title="flex-shrink"></a>flex-shrink</h3><p>前面考虑的都是空间还有剩余的情况，接下来考虑一下空间不足的情况。首先要弄清楚，具体怎样会导致空间不足。</p>
+<p></p><p data-height="265" data-theme-id="0" data-slug-hash="OOzwQM" data-default-tab="css,result" data-user="AlphaBao" data-embed-version="2" data-pen-title="understanding-css-flexbox 4: flex-shrink" class="codepen">See the Pen <a href="https://codepen.io/AlphaBao/pen/OOzwQM/" target="_blank" rel="external">understanding-css-flexbox 4: flex-shrink</a> by Alpha Bao (<a href="https://codepen.io/AlphaBao" target="_blank" rel="external">@AlphaBao</a>) on <a href="https://codepen.io" target="_blank" rel="external">CodePen</a>.</p><p></p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+
+<p>可以看到，通过设置宽度或者由内容填充，此时可能导致空间不足。此时 <code>flex-shrink</code> 会起作用。首先计算初始大小，再考虑空间不足的情况，这时候根据 <code>flex-shrink</code> 的值决定如何收缩各个元素，数值越大，相对其他元素的收缩倍数就越大。<code>flex-shrink</code> 默认值是 <code>1</code>，即不改变这个属性值的情况下，空间不足时每个元素的收缩程度相同。如果改为 <code>0</code>，则不收缩。</p>
+<h3 id="flex"><a href="#flex" class="headerlink" title="flex"></a>flex</h3><p>flex 是上面三者的简写形式（这类写法的属性就是 Shorthand properties）。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.item</span> &#123;</div><div class="line">  <span class="attribute">flex</span>: none | [ &lt;<span class="string">'flex-grow'</span>&gt; &lt;<span class="string">'flex-shrink'</span>&gt;? || &lt;<span class="string">'flex-basis'</span>&gt; ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p></p><p data-height="265" data-theme-id="0" data-slug-hash="MOrBZV" data-default-tab="css,result" data-user="AlphaBao" data-embed-version="2" data-pen-title="understanding-css-flexbox 5: flex" class="codepen">See the Pen <a href="https://codepen.io/AlphaBao/pen/MOrBZV/" target="_blank" rel="external">understanding-css-flexbox 5: flex</a> by Alpha Bao (<a href="https://codepen.io/AlphaBao" target="_blank" rel="external">@AlphaBao</a>) on <a href="https://codepen.io" target="_blank" rel="external">CodePen</a>.</p><p></p>
+<script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
+
+
+<p>上面的每个子元素都设置了 <code>flex: 1 1 100px;</code>，即初始宽度值是 100px，如果空间剩余，每个元素平均分配，如果空间不足，每个元素同等程度的收缩。<code>flex: 0 1 auto;</code> 是 <code>flex</code> 属性的默认值，表示不膨胀（如果都不膨胀，那么有剩余空间也不会充满），收缩因数是 <code>1</code>，元素在主轴方向上的长度取决于长度值或者元素内容。</p>
+<p>通过上面几个例子，可以看得出在大小会动态变化的父级容器里面，这种分配空间的策略优势很明显，这就是弹性带来的便利。<code>flex</code> 是实际开发中常用的写法，它的内容其实就是如何“充满”容器空间的策略，是 Flexbox 中最重要的部分。</p>
+<h2 id="结束语"><a href="#结束语" class="headerlink" title="结束语"></a>结束语</h2><p>本文只谈及了 <code>flex-grow</code> <code>flex-shrink</code> <code>flex-basis</code>，关于 Flexbox，还有很多内容。比如决定缠绕方式的 <code>flex-wrap</code>，它的效果类似 <code>float</code>，还有 <code>justify-content</code>，它决定元素在 main axis（主轴）方向的对齐方式，<code>align-self</code> 则决定 cross axis（垂直的交叉轴）方向（在例如主轴是水平方向，而各个元素具有不同的高度这类情况下起作用）。属性名有点乱，不过它们都是围绕<strong>充满</strong>和<strong>弹性</strong>扩展开的。只要结合对“充满”空间这件事情的想象，理解了<strong>弹性</strong>的含义，就弄清了目标与方法，应该能比较容易地学会并运用 Flexbox 了。</p>
+<p>如上所见，本文所谈的，并不是大腿这件事情，如果你想看“真正的”大腿，可以读一读古龙的《多情剑客无情剑》、《午夜兰花》、《长生剑》以及《萧十一郎》。</p>
+<h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><ol>
+<li><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/" target="_blank" rel="external">A Complete Guide to Flexbox</a></li>
+<li><a href="https://scotch.io/tutorials/a-visual-guide-to-css3-flexbox-properties" target="_blank" rel="external">A Visual Guide to CSS3 Flexbox Properties</a></li>
+</ol>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;h2 id=&quot;Flexbox-让人困惑&quot;&gt;&lt;a href=&quot;#Flexbox-让人困惑&quot; class=&quot;headerlink&quot; title=&quot;Flexbox 让人困惑&quot;&gt;&lt;/a&gt;Flexbox 让人困惑&lt;/h2&gt;&lt;p&gt;有很多谈及 Flexbox 的文章，但依然有不少前端对此感到困惑。一方面，flex 相关的 CSS 属性繁多，影响到的具体效果也包含多个方面；另一方面，CSS 可以使用 &lt;strong&gt;Shorthand properties&lt;/strong&gt; 风格的写法（例如最常见的 &lt;code&gt;background: url(images/bg.gif) no-repeat left top;&lt;/code&gt;），很容易让新手弄不清具体含义。&lt;/p&gt;
+&lt;p&gt;这篇文章要讲的 Flexbox 当然还是 CSS3 规范中的弹性盒模型，不过写出前面一段，是因为我希望这篇文章可以解决那些问题——简单说，就是 Flexbox 让人困惑这样的问题。解决的方法，就是&lt;strong&gt;理解它&lt;/strong&gt;。
+    
+    </summary>
+    
+      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
+    
+    
+      <category term="CSS" scheme="http://tianfangye.com/tags/CSS/"/>
+    
+      <category term="Flexbox" scheme="http://tianfangye.com/tags/Flexbox/"/>
+    
+  </entry>
+  
+  <entry>
     <title>从上下文，到作用域（彩蛋：理解闭包）</title>
     <link href="http://tianfangye.com/2017/10/14/context-and-scope-bonus-scene-closure/"/>
     <id>http://tianfangye.com/2017/10/14/context-and-scope-bonus-scene-closure/</id>
     <published>2017-10-14T09:51:02.000Z</published>
-    <updated>2017-10-14T12:27:37.000Z</updated>
+    <updated>2017-11-19T04:42:55.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>近几天在编程群中的聊天，让我发现了很多人并不清楚什么是上下文（context）、什么是作用域（scope），而且纠结在其中。我当初对这两个概念也只有粗浅的理解，不过我从一开始就不怎么困惑，因为我清楚自己对这一问题的认识边界。现在，我对它们的认识也只加深了一点点。不过，群聊中小伙伴的热情鼓舞了我——很多最最初学的小伙伴，想到和思考的是很多我从没考虑过的问题，小伙伴们真是达到了“进一寸有一寸的欢喜”这一境界。见贤思齐，我决定把这一点点进步记录下来。</p>
 <h2 id="上下文与作用域的关系"><a href="#上下文与作用域的关系" class="headerlink" title="上下文与作用域的关系"></a>上下文与作用域的关系</h2><p>很多人弄不清除，原因当然是既不了解上下文，也不了解作用域——我是说，几乎没有人明白上下文是什么而不明白作用域是什么，反之亦然。<code>上下文（context）</code>和<code>作用域（scope）</code>都是编译原理的知识，具体编程语言有具体的实现规则，本文关注 JavaScript 语言的实现。首先需要关注的是，这两个概念的关系非常密切，所以先了解它们的关系，有助于理解它们到底是什么。</p>
@@ -119,7 +195,7 @@
 <li>JavaScript 应尽量少影响 DOM 的构建。</li>
 </ol>
 <p>浏览器的发展日益加快（目前的 Chrome 官方稳定版是 61），具体的渲染策略会不断进化，但了解这些原理后，就能想通它进化的逻辑。下面来看看 CSS 与 JavaScript 具体会怎样阻塞资源。</p>
-<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"> p &#123; color: red; &#125;</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"index.css"</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"> <span class="selector-tag">p</span> &#123; <span class="attribute">color</span>: red; &#125;</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"index.css"</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>这样的 link 标签（无论是否 inline）会被视为阻塞渲染的资源，浏览器会优先处理这些 CSS 资源，直至 CSSOM 构建完毕。</p>
 <p>渲染树（Render-Tree）的关键渲染路径中，要求同时具有 DOM 和 CSSOM，之后才会构建渲染树。即，HTML 和 CSS 都是阻塞渲染的资源。HTML 显然是必需的，因为包括我们希望显示的文本在内的内容，都在 DOM 中存放，那么可以从 CSS 上想办法。</p>
 <p>最容易想到的当然是<strong>精简 CSS 并尽快提供它</strong>。除此之外，还可以用媒体类型（media type）和媒体查询（media query）来解除对渲染的阻塞。</p>
@@ -166,13 +242,13 @@
     
       <category term="JavaScript" scheme="http://tianfangye.com/tags/JavaScript/"/>
     
+      <category term="CSS" scheme="http://tianfangye.com/tags/CSS/"/>
+    
       <category term="Web" scheme="http://tianfangye.com/tags/Web/"/>
     
       <category term="Browser" scheme="http://tianfangye.com/tags/Browser/"/>
     
       <category term="HTML" scheme="http://tianfangye.com/tags/HTML/"/>
-    
-      <category term="CSS" scheme="http://tianfangye.com/tags/CSS/"/>
     
   </entry>
   
@@ -1080,46 +1156,6 @@
       <category term="BFC" scheme="http://tianfangye.com/tags/BFC/"/>
     
       <category term="hasLayout" scheme="http://tianfangye.com/tags/hasLayout/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>addEventListener 多重监听问题</title>
-    <link href="http://tianfangye.com/2014/02/17/multiple-event-listeners/"/>
-    <id>http://tianfangye.com/2014/02/17/multiple-event-listeners/</id>
-    <published>2014-02-17T14:17:55.000Z</published>
-    <updated>2016-11-02T09:55:21.000Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="不会导致多重监听的情况"><a href="#不会导致多重监听的情况" class="headerlink" title="不会导致多重监听的情况"></a>不会导致多重监听的情况</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> listener = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">  alert(<span class="string">"JS"</span>);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, listener);</div><div class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, listener);</div><div class="line"></div><div class="line"><span class="comment">// 每次点击只弹出一次</span></div></pre></td></tr></table></figure>
-<p>多次 add 同一个 function 是不会重复监听的。只要 listener 没有变，add 多少次也只相当于 add 一次。</p>
-<h3 id="删除-listener"><a href="#删除-listener" class="headerlink" title="删除 listener"></a>删除 listener</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.body.removeEventListener(<span class="string">'click'</span>, listener);</div></pre></td></tr></table></figure>
-<p>由于只有一个 listener，只要这样调用一次 removeEventListener 即可删除。</p>
-<a id="more"></a>
-<h1 id="会导致多重监听的情况"><a href="#会导致多重监听的情况" class="headerlink" title="会导致多重监听的情况"></a>会导致多重监听的情况</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> listener = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">  alert(<span class="string">"JS"</span>);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, listener);</div><div class="line"></div><div class="line"><span class="keyword">var</span> listener = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">  alert(<span class="string">"JS"</span>);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, listener);</div><div class="line"></div><div class="line"><span class="comment">// 每次点击会弹出两次</span></div></pre></td></tr></table></figure>
-<p>虽然还是同一个 listener，但第二次 var listener 的时候其实创建了一个新的 function（JavaScript 中 function 也是对象）。所以这相当于 add 两个不同的 listener 一样。</p>
-<p>另外，由于第二次 var listener 时候已经丢失了第一次 var listener 的引用，所以这种情况下已经无法删除第一次添加的 listener。</p>
-<h1 id="另一种“多重”监听"><a href="#另一种“多重”监听" class="headerlink" title="另一种“多重”监听"></a>另一种“多重”监听</h1><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> listener = <span class="function"><span class="keyword">function</span>(<span class="params">event</span>) </span>&#123;</div><div class="line">  alert(<span class="string">"JS"</span>);</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, listener, <span class="literal">true</span>);</div><div class="line"><span class="built_in">document</span>.body.addEventListener(<span class="string">'click'</span>, listener);</div><div class="line"></div><div class="line"><span class="comment">// 每次点击会弹出两次</span></div></pre></td></tr></table></figure>
-<p>这种情况下也会有两个 listener，第一个在捕获阶段执行，第二个在冒泡阶段执行。</p>
-<h3 id="删除-listener-1"><a href="#删除-listener-1" class="headerlink" title="删除 listener"></a>删除 listener</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.body.removeEventListener(<span class="string">'click'</span>, listener, <span class="literal">true</span>);</div><div class="line"><span class="built_in">document</span>.body.removeEventListener(<span class="string">'click'</span>, listener);</div></pre></td></tr></table></figure>
-<p>如上所示，这时需要 removeEventListener 两次，第一次是删除捕获阶段的 listener，第二次是删除冒泡阶段的 listener。</p>
-<h3 id="捕获与冒泡"><a href="#捕获与冒泡" class="headerlink" title="捕获与冒泡"></a>捕获与冒泡</h3><p>由上面的现象可知，addEventListener 与 removeEventListener 是严格区分捕获阶段与冒泡阶段的。同一个 listener，可以分别在捕获阶段和冒泡阶段监听；相对的，删除时也要区分要删除的是捕获阶段的 listener 还是冒泡阶段的 listener。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;h1 id=&quot;不会导致多重监听的情况&quot;&gt;&lt;a href=&quot;#不会导致多重监听的情况&quot; class=&quot;headerlink&quot; title=&quot;不会导致多重监听的情况&quot;&gt;&lt;/a&gt;不会导致多重监听的情况&lt;/h1&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;2&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;3&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;4&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;5&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;6&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;7&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;8&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;var&lt;/span&gt; listener = &lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;function&lt;/span&gt;(&lt;span class=&quot;params&quot;&gt;event&lt;/span&gt;) &lt;/span&gt;&amp;#123;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;  alert(&lt;span class=&quot;string&quot;&gt;&quot;JS&quot;&lt;/span&gt;);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&amp;#125;;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;document&lt;/span&gt;.body.addEventListener(&lt;span class=&quot;string&quot;&gt;&#39;click&#39;&lt;/span&gt;, listener);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;document&lt;/span&gt;.body.addEventListener(&lt;span class=&quot;string&quot;&gt;&#39;click&#39;&lt;/span&gt;, listener);&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;/div&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;comment&quot;&gt;// 每次点击只弹出一次&lt;/span&gt;&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;多次 add 同一个 function 是不会重复监听的。只要 listener 没有变，add 多少次也只相当于 add 一次。&lt;/p&gt;
-&lt;h3 id=&quot;删除-listener&quot;&gt;&lt;a href=&quot;#删除-listener&quot; class=&quot;headerlink&quot; title=&quot;删除 listener&quot;&gt;&lt;/a&gt;删除 listener&lt;/h3&gt;&lt;figure class=&quot;highlight javascript&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;1&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;div class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;document&lt;/span&gt;.body.removeEventListener(&lt;span class=&quot;string&quot;&gt;&#39;click&#39;&lt;/span&gt;, listener);&lt;/div&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-&lt;p&gt;由于只有一个 listener，只要这样调用一次 removeEventListener 即可删除。&lt;/p&gt;
-    
-    </summary>
-    
-      <category term="编程" scheme="http://tianfangye.com/categories/%E7%BC%96%E7%A8%8B/"/>
-    
-    
-      <category term="JavaScript" scheme="http://tianfangye.com/tags/JavaScript/"/>
-    
-      <category term="event" scheme="http://tianfangye.com/tags/event/"/>
     
   </entry>
   
