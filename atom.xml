@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tianfangye.com/"/>
-  <updated>2017-11-19T13:46:22.000Z</updated>
+  <updated>2017-11-19T13:57:49.000Z</updated>
   <id>http://tianfangye.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://tianfangye.com/2017/11/19/understanding-css-flexbox/"/>
     <id>http://tianfangye.com/2017/11/19/understanding-css-flexbox/</id>
     <published>2017-11-19T08:07:59.000Z</published>
-    <updated>2017-11-19T13:46:22.000Z</updated>
+    <updated>2017-11-19T13:57:49.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="Flexbox-让人困惑"><a href="#Flexbox-让人困惑" class="headerlink" title="Flexbox 让人困惑"></a>Flexbox 让人困惑</h2><p>有很多谈及 Flexbox 的文章，但依然有不少前端对此感到困惑。一方面，flex 相关的 CSS 属性繁多，影响到的具体效果也包含多个方面；另一方面，CSS 可以使用 <strong>Shorthand properties</strong> 风格的写法（例如最常见的 <code>background: url(images/bg.gif) no-repeat left top;</code>），很容易让新手弄不清具体含义。</p>
 <p>这篇文章要讲的 Flexbox 当然还是 CSS3 规范中的弹性盒模型，不过写出前面一段，是因为我希望这篇文章可以解决那些问题——简单说，就是 Flexbox 让人困惑这样的问题。解决的方法，就是<strong>理解它</strong>。<a id="more"></a></p>
@@ -28,7 +28,7 @@
 <p>轻呼一口气，思考一下，为什么描写手指的时候要说“修长而有力”，而描写大腿却是“结实而富有弹性”？这真是一个非常值得思考的问题。实际上，人的腿也可以是“修长而有力”的；而且，人的手指也是有弹性的。但古大师的描写绝非随意为之，其中的道理，可以随便找些<strong>包含大腿的</strong>人物画看一看，或者只是想象一下——一幅人物画中，手指的面积有多大？除非为了强调手部而加了特技，否则手指所占的面积是很小的；而大腿，在一幅正常的人物画中，是充满空间的。这里说的充满，当然并不是指完全占满空间，也不是上下左右一定没有空隙。</p>
 <p>记住这种“充满”，现在思考一下 Flexbox。什么时候，我们会想到或者说需要弹性这件事情？答案是当我们需要“充满”一个容器的时候。带着这种思考，再回到人物画。手指只是在画面的特定位置，解决这种问题，我们可以简单地用 <code>position: absolute;</code> 或 <code>float: left;</code> 这些属性搞定。而大腿是“充满”画面的，当我们需要“充满”容器的时候，<strong>弹性</strong>就很重要！要解决这类问题，我们应该思考的就不是某个局部的空间，而是空间的分配。包括如何分配容器内的所有盒子，如果空间过大怎么办，如果空间过小怎么办；而在移动端，设备的屏幕尺寸有很多种，问题就变成了空间有时候大、有时候小怎么办。</p>
 <p>读者应该已经能够想到，弹性盒模型就是为了更方便地解决这些问题而产生的。那么先看一看<strong>非弹性</strong>的盒子遇到这些场景会有哪些不便。</p>
-<h2 id="百分比网格"><a href="#百分比网格" class="headerlink" title="百分比网格"></a>百分比网格</h2><p></p><p data-height="265" data-theme-id="0" data-slug-hash="rYpJMx" data-default-tab="css,result" data-user="AlphaBao" data-embed-version="2" data-pen-title="understanding-css-flexbox: percentage" class="codepen">See the Pen <a href="https://codepen.io/AlphaBao/pen/rYpJMx/" target="_blank" rel="external">understanding-css-flexbox: percentage</a> by Alpha Bao (<a href="https://codepen.io/AlphaBao" target="_blank" rel="external">@AlphaBao</a>) on <a href="https://codepen.io" target="_blank" rel="external">CodePen</a>.</p><p></p>
+<h2 id="百分比网格"><a href="#百分比网格" class="headerlink" title="百分比网格"></a>百分比网格</h2><p></p><p data-height="265" data-theme-id="0" data-slug-hash="rYpJMx" data-default-tab="css,result" data-user="AlphaBao" data-embed-version="2" data-pen-title="understanding-css-flexbox 1: percentage" class="codepen">See the Pen <a href="https://codepen.io/AlphaBao/pen/rYpJMx/" target="_blank" rel="external">understanding-css-flexbox 1: percentage</a> by Alpha Bao (<a href="https://codepen.io/AlphaBao" target="_blank" rel="external">@AlphaBao</a>) on <a href="https://codepen.io" target="_blank" rel="external">CodePen</a>.</p><p></p>
 <script async src="https://production-assets.codepen.io/assets/embed/ei.js"></script>
 
 
@@ -195,7 +195,7 @@
 <li>JavaScript 应尽量少影响 DOM 的构建。</li>
 </ol>
 <p>浏览器的发展日益加快（目前的 Chrome 官方稳定版是 61），具体的渲染策略会不断进化，但了解这些原理后，就能想通它进化的逻辑。下面来看看 CSS 与 JavaScript 具体会怎样阻塞资源。</p>
-<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"> <span class="selector-tag">p</span> &#123; <span class="attribute">color</span>: red; &#125;</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"index.css"</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"> p &#123; color: red; &#125;</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"index.css"</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>这样的 link 标签（无论是否 inline）会被视为阻塞渲染的资源，浏览器会优先处理这些 CSS 资源，直至 CSSOM 构建完毕。</p>
 <p>渲染树（Render-Tree）的关键渲染路径中，要求同时具有 DOM 和 CSSOM，之后才会构建渲染树。即，HTML 和 CSS 都是阻塞渲染的资源。HTML 显然是必需的，因为包括我们希望显示的文本在内的内容，都在 DOM 中存放，那么可以从 CSS 上想办法。</p>
 <p>最容易想到的当然是<strong>精简 CSS 并尽快提供它</strong>。除此之外，还可以用媒体类型（media type）和媒体查询（media query）来解除对渲染的阻塞。</p>
@@ -242,13 +242,13 @@
     
       <category term="JavaScript" scheme="http://tianfangye.com/tags/JavaScript/"/>
     
-      <category term="CSS" scheme="http://tianfangye.com/tags/CSS/"/>
-    
       <category term="Web" scheme="http://tianfangye.com/tags/Web/"/>
     
       <category term="Browser" scheme="http://tianfangye.com/tags/Browser/"/>
     
       <category term="HTML" scheme="http://tianfangye.com/tags/HTML/"/>
+    
+      <category term="CSS" scheme="http://tianfangye.com/tags/CSS/"/>
     
   </entry>
   
