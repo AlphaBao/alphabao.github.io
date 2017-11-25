@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tianfangye.com/"/>
-  <updated>2017-11-24T14:08:26.000Z</updated>
+  <updated>2017-11-25T13:14:10.000Z</updated>
   <id>http://tianfangye.com/</id>
   
   <author>
@@ -20,9 +20,9 @@
     <link href="http://tianfangye.com/2017/11/24/binary-search-tree-es5-es6-md/"/>
     <id>http://tianfangye.com/2017/11/24/binary-search-tree-es5-es6-md/</id>
     <published>2017-11-24T11:57:48.000Z</published>
-    <updated>2017-11-24T14:08:26.000Z</updated>
+    <updated>2017-11-25T13:14:10.000Z</updated>
     
-    <content type="html"><![CDATA[<h2 id="二叉树-amp-二叉搜索树"><a href="#二叉树-amp-二叉搜索树" class="headerlink" title="二叉树 &amp; 二叉搜索树"></a>二叉树 &amp; 二叉搜索树</h2><p>二叉树（Binary Tree）是 n（n &gt;= 0）是个节点的有限集合，集合为空集时，叫作空二叉树；不为空时，由根节点及左子树、右子树组成，左子树、右子树也都是二叉树。</p>
+    <content type="html"><![CDATA[<h2 id="二叉树-amp-二叉搜索树"><a href="#二叉树-amp-二叉搜索树" class="headerlink" title="二叉树 &amp; 二叉搜索树"></a>二叉树 &amp; 二叉搜索树</h2><p>二叉树（Binary Tree）是 n（n &gt;= 0）个节点的有限集合，集合为空集时，叫作空二叉树；不为空时，由根节点及左子树、右子树组成，左子树、右子树也都是二叉树。</p>
 <p>从这个描述，可以看出树的结构与递归之间存在密切关系，这种密切关系在树的遍历时能够得到充分体现。</p>
 <p>二叉搜索树（Binary Search Tree），又叫二叉查找树；也称为有序二叉树（Ordered Binary Tree），排序二叉树（Sorted Binary Tree）。</p>
 <p>这是维基百科上归纳的一些二叉搜索树的性质：</p>
@@ -43,7 +43,7 @@
     
     <summary type="html">
     
-      &lt;h2 id=&quot;二叉树-amp-二叉搜索树&quot;&gt;&lt;a href=&quot;#二叉树-amp-二叉搜索树&quot; class=&quot;headerlink&quot; title=&quot;二叉树 &amp;amp; 二叉搜索树&quot;&gt;&lt;/a&gt;二叉树 &amp;amp; 二叉搜索树&lt;/h2&gt;&lt;p&gt;二叉树（Binary Tree）是 n（n &amp;gt;= 0）是个节点的有限集合，集合为空集时，叫作空二叉树；不为空时，由根节点及左子树、右子树组成，左子树、右子树也都是二叉树。&lt;/p&gt;
+      &lt;h2 id=&quot;二叉树-amp-二叉搜索树&quot;&gt;&lt;a href=&quot;#二叉树-amp-二叉搜索树&quot; class=&quot;headerlink&quot; title=&quot;二叉树 &amp;amp; 二叉搜索树&quot;&gt;&lt;/a&gt;二叉树 &amp;amp; 二叉搜索树&lt;/h2&gt;&lt;p&gt;二叉树（Binary Tree）是 n（n &amp;gt;= 0）个节点的有限集合，集合为空集时，叫作空二叉树；不为空时，由根节点及左子树、右子树组成，左子树、右子树也都是二叉树。&lt;/p&gt;
 &lt;p&gt;从这个描述，可以看出树的结构与递归之间存在密切关系，这种密切关系在树的遍历时能够得到充分体现。&lt;/p&gt;
 &lt;p&gt;二叉搜索树（Binary Search Tree），又叫二叉查找树；也称为有序二叉树（Ordered Binary Tree），排序二叉树（Sorted Binary Tree）。&lt;/p&gt;
 &lt;p&gt;这是维基百科上归纳的一些二叉搜索树的性质：&lt;/p&gt;
