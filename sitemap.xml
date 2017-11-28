@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://tianfangye.com/2013/06/16/how-to-explain-closure/</loc>
+    <loc>http://tianfangye.com/2017/11/24/binary-search-tree-es5-es6-md/</loc>
     
-    <lastmod>2017-11-27T12:33:25.000Z</lastmod>
+    <lastmod>2017-11-28T13:01:33.000Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2017/11/24/binary-search-tree-es5-es6-md/</loc>
+    <loc>http://tianfangye.com/2013/06/16/how-to-explain-closure/</loc>
     
-    <lastmod>2017-11-25T13:14:10.000Z</lastmod>
+    <lastmod>2017-11-27T12:33:25.000Z</lastmod>
     
   </url>
   
@@ -58,21 +58,7 @@
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2013/10/27/javascript-prototype/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2013/09/30/first-reading-edogawa-ranpo/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2015/09/06/escape-unescape-encodeURI-decodeURI-encodeURIComponent-decodeURIComponent/</loc>
+    <loc>http://tianfangye.com/2014/01/26/html5-tags-div-section-article/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -80,6 +66,13 @@
   
   <url>
     <loc>http://tianfangye.com/2015/09/06/base64-decoding-problem/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2013/09/30/first-reading-edogawa-ranpo/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -100,7 +93,21 @@
   </url>
   
   <url>
+    <loc>http://tianfangye.com/2014/01/05/codetank-pistachio/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://tianfangye.com/2014/05/24/how-to-lose-weight/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2013/10/27/javascript-prototype/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -114,14 +121,7 @@
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2014/01/26/html5-tags-div-section-article/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2014/01/05/codetank-pistachio/</loc>
+    <loc>http://tianfangye.com/2015/11/04/css-min-height/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -135,13 +135,6 @@
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2014/02/17/multiple-event-listeners/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://tianfangye.com/2013/06/12/see-their-own-lives/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
@@ -149,7 +142,7 @@
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2016/10/29/state-pattern-the-difference-between-javascript-and-java/</loc>
+    <loc>http://tianfangye.com/2014/02/17/multiple-event-listeners/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -157,6 +150,13 @@
   
   <url>
     <loc>http://tianfangye.com/2015/06/06/semicolons-in-javascript/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2016/10/29/state-pattern-the-difference-between-javascript-and-java/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -177,7 +177,7 @@
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2015/10/01/the-mobile-web-handbook-reading-notes/</loc>
+    <loc>http://tianfangye.com/2015/03/07/the-memoir-of-literature-laozi-note/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -185,6 +185,13 @@
   
   <url>
     <loc>http://tianfangye.com/2013/09/15/the-usefulness-of-art/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2015/10/01/the-mobile-web-handbook-reading-notes/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -212,14 +219,7 @@
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2015/03/07/the-memoir-of-literature-laozi-note/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2015/11/04/css-min-height/</loc>
+    <loc>http://tianfangye.com/2015/09/06/escape-unescape-encodeURI-decodeURI-encodeURIComponent-decodeURIComponent/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
