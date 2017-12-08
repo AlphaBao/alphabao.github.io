@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://tianfangye.com/"/>
-  <updated>2017-12-07T16:17:23.000Z</updated>
+  <updated>2017-12-08T06:26:33.000Z</updated>
   <id>http://tianfangye.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://tianfangye.com/2017/12/07/merge-sort-and-quick-sort/"/>
     <id>http://tianfangye.com/2017/12/07/merge-sort-and-quick-sort/</id>
     <published>2017-12-07T12:33:54.000Z</published>
-    <updated>2017-12-07T16:17:23.000Z</updated>
+    <updated>2017-12-08T06:26:33.000Z</updated>
     
     <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>归并排序与快速排序是两种有实际应用的排序算法，它们有一些共同的特点，整体思路上也比较相近。本文会从更简单的一些排序算法开始，过渡到归并排序和快速排序的实现，并对它们做一些简单的对比思考和总结。在这之前，先简单介绍一下排序算法的意义。</p>
 <p>排序算法就是将一串数据依照特定排序方式进行排列，它们在计算机科学中有大量研究以及应用。</p>
@@ -60,7 +60,7 @@
 <ol>
 <li>将数组从中间切分为两个数组</li>
 <li>切分到最小之后，开始归并操作，即合并两个已排序的数组</li>
-<li>递归合并的过程，由于是从小到大合并，所以待合并的两者数组总是已排序的，一直做同样的归并操作就可以</li>
+<li>递归合并的过程，由于是从小到大合并，所以待合并的两个数组总是已排序的，一直做同样的归并操作就可以</li>
 </ol>
 <h2 id="快速排序（递归实现）"><a href="#快速排序（递归实现）" class="headerlink" title="快速排序（递归实现）"></a>快速排序（递归实现）</h2><p>快速排序是实际应用非常多的排序算法，它通常比其他 O(nlog(n)) 时间复杂度的算法更快。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">unsorted</span>) </span>&#123;</div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">partition</span>(<span class="params">array, left, right</span>) </span>&#123;</div><div class="line">    <span class="keyword">const</span> pivot = array[ <span class="built_in">Math</span>.floor((left + right) / <span class="number">2</span>) ];</div><div class="line"></div><div class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</div><div class="line">      <span class="keyword">while</span> (array[left] &lt; pivot) &#123;</div><div class="line">        left++;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="keyword">while</span> (array[right] &gt; pivot) &#123;</div><div class="line">        right--;</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="keyword">if</span> (left &lt;= right) &#123;</div><div class="line">        [array[left], array[right]] = [array[right], array[left]];</div><div class="line">        left++;</div><div class="line">        right--;</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> left;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="function"><span class="keyword">function</span> <span class="title">quick</span>(<span class="params">array, left, right</span>) </span>&#123;</div><div class="line">    <span class="keyword">let</span> index = <span class="number">0</span>;</div><div class="line"></div><div class="line">    <span class="keyword">if</span> (array.length &gt; <span class="number">1</span>) &#123;</div><div class="line">      index = partition(array, left, right);</div><div class="line"></div><div class="line">      <span class="keyword">if</span> (left &lt; index - <span class="number">1</span>) &#123;</div><div class="line">        quick(array, left, index - <span class="number">1</span>);</div><div class="line">      &#125;</div><div class="line"></div><div class="line">      <span class="keyword">if</span> (right &gt; index) &#123;</div><div class="line">        quick(array, index, right);</div><div class="line">      &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="keyword">return</span> array;</div><div class="line">  &#125;</div><div class="line"></div><div class="line">  <span class="keyword">return</span> quick(unsorted, <span class="number">0</span>, unsorted.length - <span class="number">1</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line">show(quickSort);</div><div class="line"></div><div class="line"><span class="comment">// ------------------------------------------</span></div><div class="line"><span class="comment">// Method: quickSort</span></div><div class="line"><span class="comment">// ------------------------------------------</span></div><div class="line"><span class="comment">// before:</span></div><div class="line"><span class="comment">// 41,9,22,4,1,32,10,28,4,94,3</span></div><div class="line"><span class="comment">// after:</span></div><div class="line"><span class="comment">// 1,3,4,4,9,10,22,28,32,41,94</span></div></pre></td></tr></table></figure>
@@ -339,7 +339,7 @@
 <li>JavaScript 应尽量少影响 DOM 的构建。</li>
 </ol>
 <p>浏览器的发展日益加快（目前的 Chrome 官方稳定版是 61），具体的渲染策略会不断进化，但了解这些原理后，就能想通它进化的逻辑。下面来看看 CSS 与 JavaScript 具体会怎样阻塞资源。</p>
-<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"> p &#123; color: red; &#125;</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"index.css"</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"> <span class="selector-tag">p</span> &#123; <span class="attribute">color</span>: red; &#125;</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"index.css"</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>这样的 link 标签（无论是否 inline）会被视为阻塞渲染的资源，浏览器会优先处理这些 CSS 资源，直至 CSSOM 构建完毕。</p>
 <p>渲染树（Render-Tree）的关键渲染路径中，要求同时具有 DOM 和 CSSOM，之后才会构建渲染树。即，HTML 和 CSS 都是阻塞渲染的资源。HTML 显然是必需的，因为包括我们希望显示的文本在内的内容，都在 DOM 中存放，那么可以从 CSS 上想办法。</p>
 <p>最容易想到的当然是<strong>精简 CSS 并尽快提供它</strong>。除此之外，还可以用媒体类型（media type）和媒体查询（media query）来解除对渲染的阻塞。</p>
@@ -386,13 +386,13 @@
     
       <category term="JavaScript" scheme="http://tianfangye.com/tags/JavaScript/"/>
     
+      <category term="CSS" scheme="http://tianfangye.com/tags/CSS/"/>
+    
       <category term="Web" scheme="http://tianfangye.com/tags/Web/"/>
     
       <category term="Browser" scheme="http://tianfangye.com/tags/Browser/"/>
     
       <category term="HTML" scheme="http://tianfangye.com/tags/HTML/"/>
-    
-      <category term="CSS" scheme="http://tianfangye.com/tags/CSS/"/>
     
   </entry>
   
