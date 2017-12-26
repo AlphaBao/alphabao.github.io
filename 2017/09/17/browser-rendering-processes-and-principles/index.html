@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="JavaScript,CSS,Web,Browser,HTML," />
+  <meta name="keywords" content="JavaScript,Web,Browser,HTML,CSS," />
 
 
 
@@ -87,7 +87,7 @@
 
 
 <meta name="description" content="内容说明本文不是关于浏览器渲染的底层原理或前端优化具体细节的讲解，而是关于浏览器对页面的渲染——这一过程的描述及其背后原理的解释。这是因为前端优化是一个非常庞大且零散的知识集合，一篇文章如果要写优化的具体方法恐怕只能做一些有限的列举。 然而，如果了解清楚浏览器的渲染过程、渲染原理，其实就掌握了指导原则。根据优化原则，可以实现出无数种具体的优化方案，各种预编译、预加载、资源合并、按需加载方案都是针对">
-<meta name="keywords" content="JavaScript,CSS,Web,Browser,HTML">
+<meta name="keywords" content="JavaScript,Web,Browser,HTML,CSS">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浏览器的渲染：过程与原理">
 <meta property="og:url" content="http://tianfangye.com/2017/09/17/browser-rendering-processes-and-principles/index.html">
@@ -334,7 +334,7 @@
 <li>JavaScript 应尽量少影响 DOM 的构建。</li>
 </ol>
 <p>浏览器的发展日益加快（目前的 Chrome 官方稳定版是 61），具体的渲染策略会不断进化，但了解这些原理后，就能想通它进化的逻辑。下面来看看 CSS 与 JavaScript 具体会怎样阻塞资源。</p>
-<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"> <span class="selector-tag">p</span> &#123; <span class="attribute">color</span>: red; &#125;</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"index.css"</span>&gt;</span></div></pre></td></tr></table></figure>
+<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="undefined"> p &#123; color: red; &#125;</span><span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"index.css"</span>&gt;</span></div></pre></td></tr></table></figure>
 <p>这样的 link 标签（无论是否 inline）会被视为阻塞渲染的资源，浏览器会优先处理这些 CSS 资源，直至 CSSOM 构建完毕。</p>
 <p>渲染树（Render-Tree）的关键渲染路径中，要求同时具有 DOM 和 CSSOM，之后才会构建渲染树。即，HTML 和 CSS 都是阻塞渲染的资源。HTML 显然是必需的，因为包括我们希望显示的文本在内的内容，都在 DOM 中存放，那么可以从 CSS 上想办法。</p>
 <p>最容易想到的当然是<strong>精简 CSS 并尽快提供它</strong>。除此之外，还可以用媒体类型（media type）和媒体查询（media query）来解除对渲染的阻塞。</p>
@@ -388,13 +388,13 @@
           
             <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
           
-            <a href="/tags/CSS/" rel="tag">#CSS</a>
-          
             <a href="/tags/Web/" rel="tag">#Web</a>
           
             <a href="/tags/Browser/" rel="tag">#Browser</a>
           
             <a href="/tags/HTML/" rel="tag">#HTML</a>
+          
+            <a href="/tags/CSS/" rel="tag">#CSS</a>
           
         </div>
       
