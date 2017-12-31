@@ -237,6 +237,130 @@
             
               
                 
+                <a class="post-title-link" href="/2017/12/31/inheritance-in-javascript-es3-es5-and-es6/" itemprop="url">
+                  JavaScript 中的继承：ES3、ES5 和 ES6
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-12-31T09:28:31+08:00" content="2017-12-31">
+              2017-12-31
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h2 id="选择一种继承方式"><a href="#选择一种继承方式" class="headerlink" title="选择一种继承方式"></a>选择一种继承方式</h2><p>JavaScript 是一门动态语言，动态意味着高灵活性，而这尤其可以体现在继承上面。JavaScript 中的继承有很多种实现方式，可以分成下面四类：</p>
+<ol>
+<li>Mixin 模式，即属性混入，从一个或多个对象中复制属性到新的对象中</li>
+<li>方法借用模式，即通过 call 或 apply 实现方法的重用</li>
+<li>原型模式，使用 Object.create 方法直接以一个对象为原型创造新的对象</li>
+<li>类模式，实际上是使用构造函数或 ES6 class</li>
+</ol>
+<p>前三种有一个共同点，就是没有“类”的概念，它们在适当的场景下非常有用，不过也因为没有类，缺失了很多经典面向对象继承的要素。例如父子对象之间没有严格的传承关系，即不一定是 is-a 的关系，这决定了无法将它们直接应用在面向对象分析与设计方面，可以说它们并不是真正的继承，而是介于继承和组合之间的代码复用方案。</p>
+<p>而第四种，类式继承，无论是使用构造函数还是 ES6 加入的 class，都能表达明确的继承关系，在需要对继承重度使用的场景下，应该使用类式继承。接下来，本文讨论的都是类式继承。</p>
+<p>有一点需要牢记：继承是一种强耦合，应该谨慎使用。
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2017/12/31/inheritance-in-javascript-es3-es5-and-es6/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
                 <a class="post-title-link" href="/2017/12/07/merge-sort-and-quick-sort/" itemprop="url">
                   归并排序与快速排序的简明实现及对比
                 </a>
@@ -1296,124 +1420,6 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2015/11/04/css-min-height/" itemprop="url">
-                  CSS：min-height百分比问题
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2015-11-04T18:10:58+08:00" content="2015-11-04">
-              2015-11-04
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
-                    <span itemprop="name">编程</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>对于高度不确定的页面，想实现总是撑满一屏的效果，可以结合 height 与 min-height 来设置，但是有一些瑕疵。</p>
-<h3 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span> &#123;</div><div class="line">  <span class="attribute">min-height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">  <span class="attribute">min-height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>html 与 body 都设置为 <code>min-height: 100%</code>，意图是想页面高度不足一屏时 body 高度为一屏的高度，高度超过一屏则 body 的高度为页面的高度。但这样设置后会发现， html 的高度变成了 100%（一屏的高度），而 body 的高度却是 0。那么将 body 的子元素设为 <code>min-height: 100%</code> 时，这个元素的高度自然也是 0（除非靠内容撑开）。</p>
-<p>试验发现，如果将 min-height 的值设置为百分比，那么上一级元素必须有一个明确的高度（不能是 min-height: 100%），否则高度是 0。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/11/04/css-min-height/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1456,7 +1462,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">33</span>
+              <span class="site-state-item-count">34</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1473,7 +1479,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">63</span>
+                <span class="site-state-item-count">66</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
