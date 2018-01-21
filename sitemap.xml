@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://tianfangye.com/2017/12/31/inheritance-in-javascript-es3-es5-and-es6/</loc>
+    <loc>http://tianfangye.com/2017/12/07/merge-sort-and-quick-sort/</loc>
     
-    <lastmod>2017-12-31T02:47:54.523Z</lastmod>
+    <lastmod>2018-01-21T05:08:42.070Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2017/12/07/merge-sort-and-quick-sort/</loc>
+    <loc>http://tianfangye.com/2017/12/31/inheritance-in-javascript-es3-es5-and-es6/</loc>
     
-    <lastmod>2017-12-26T06:12:01.773Z</lastmod>
+    <lastmod>2018-01-01T01:28:20.392Z</lastmod>
     
   </url>
   
@@ -72,7 +72,28 @@
   </url>
   
   <url>
+    <loc>http://tianfangye.com/2013/09/30/first-reading-edogawa-ranpo/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/categories/index.html</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://tianfangye.com/2014/07/09/how-to-access-google/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/2013/09/18/backbone-listento/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -87,27 +108,6 @@
   
   <url>
     <loc>http://tianfangye.com/2014/01/26/html5-tags-div-section-article/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2015/09/06/escape-unescape-encodeURI-decodeURI-encodeURIComponent-decodeURIComponent/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/tags/index.html</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/2013/09/18/backbone-listento/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -163,6 +163,13 @@
   </url>
   
   <url>
+    <loc>http://tianfangye.com/2016/10/29/state-pattern-the-difference-between-javascript-and-java/</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://tianfangye.com/2015/06/06/semicolons-in-javascript/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
@@ -170,7 +177,7 @@
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2016/10/29/state-pattern-the-difference-between-javascript-and-java/</loc>
+    <loc>http://tianfangye.com/2013/07/22/test-driven-life/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -205,7 +212,7 @@
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2013/07/22/test-driven-life/</loc>
+    <loc>http://tianfangye.com/2016/10/23/to-see-the-nipponia-nippon-from-a-nerdy-perspective/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -219,13 +226,6 @@
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2016/10/23/to-see-the-nipponia-nippon-from-a-nerdy-perspective/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://tianfangye.com/2014/10/18/using-local-storage/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
@@ -233,14 +233,7 @@
   </url>
   
   <url>
-    <loc>http://tianfangye.com/2013/09/30/first-reading-edogawa-ranpo/</loc>
-    
-    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://tianfangye.com/categories/index.html</loc>
+    <loc>http://tianfangye.com/2015/09/06/escape-unescape-encodeURI-decodeURI-encodeURIComponent-decodeURIComponent/</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
@@ -248,6 +241,13 @@
   
   <url>
     <loc>http://tianfangye.com/about/index.html</loc>
+    
+    <lastmod>2016-11-02T09:55:21.000Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://tianfangye.com/tags/index.html</loc>
     
     <lastmod>2016-11-02T09:55:21.000Z</lastmod>
     
