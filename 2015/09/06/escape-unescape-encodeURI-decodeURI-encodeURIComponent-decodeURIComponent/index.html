@@ -86,18 +86,18 @@
 
 
 
-<meta name="description" content="escapeunescape  encodeURIdecodeURI  encodeURIComponentdecodeURIComponent    这六个方法功能有关联，如果不清楚每一个的作用，很容易混淆。问题的本质，是如何在 URL 中正确处理各种令人头疼的字符。">
+<meta name="description" content="escapeunescape     encodeURIdecodeURI     encodeURIComponentdecodeURIComponent   这六个方法功能有关联，如果不清楚每一个的作用，很容易混淆。问题的本质，是如何在 URL 中正确处理各种令人头疼的字符。">
 <meta name="keywords" content="JavaScript,URL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="URL字符集的编码与解码：escape unescape encodeURI decodeURI encodeURIComponent decodeURIComponent">
 <meta property="og:url" content="http://tianfangye.com/2015/09/06/escape-unescape-encodeURI-decodeURI-encodeURIComponent-decodeURIComponent/index.html">
 <meta property="og:site_name" content="天方夜">
-<meta property="og:description" content="escapeunescape  encodeURIdecodeURI  encodeURIComponentdecodeURIComponent    这六个方法功能有关联，如果不清楚每一个的作用，很容易混淆。问题的本质，是如何在 URL 中正确处理各种令人头疼的字符。">
+<meta property="og:description" content="escapeunescape     encodeURIdecodeURI     encodeURIComponentdecodeURIComponent   这六个方法功能有关联，如果不清楚每一个的作用，很容易混淆。问题的本质，是如何在 URL 中正确处理各种令人头疼的字符。">
 <meta property="og:locale" content="en">
 <meta property="og:updated_time" content="2016-11-02T09:55:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="URL字符集的编码与解码：escape unescape encodeURI decodeURI encodeURIComponent decodeURIComponent">
-<meta name="twitter:description" content="escapeunescape  encodeURIdecodeURI  encodeURIComponentdecodeURIComponent    这六个方法功能有关联，如果不清楚每一个的作用，很容易混淆。问题的本质，是如何在 URL 中正确处理各种令人头疼的字符。">
+<meta name="twitter:description" content="escapeunescape     encodeURIdecodeURI     encodeURIComponentdecodeURIComponent   这六个方法功能有关联，如果不清楚每一个的作用，很容易混淆。问题的本质，是如何在 URL 中正确处理各种令人头疼的字符。">
 
 
 
@@ -297,22 +297,29 @@
       
         <blockquote>
 <ul>
-<li><p>escape<br>unescape</p>
-</li>
-<li><p>encodeURI<br>decodeURI</p>
-</li>
-<li><p>encodeURIComponent<br>decodeURIComponent</p>
-</li>
+<li>escape<br>unescape</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>encodeURI<br>decodeURI</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>encodeURIComponent<br>decodeURIComponent</li>
 </ul>
 </blockquote>
 <p>这六个方法功能有关联，如果不清楚每一个的作用，很容易混淆。问题的本质，是如何在 URL 中正确处理各种令人头疼的字符。<a id="more"></a></p>
 <p>首先，<code>escape unescape</code> 已经废弃，应当避免使用。</p>
 <blockquote>
 <ul>
-<li><p>The deprecated escape() method computes a new string in which certain characters have been replaced by a hexadecimal escape sequence. Use encodeURI or encodeURIComponent instead.</p>
-</li>
-<li><p>The deprecated unescape() method computes a new string in which hexadecimal escape sequences are replaced with the character that it represents. The escape sequences might be introduced by a function like escape. Because unescape is deprecated, use decodeURI or decodeURIComponent instead.</p>
-</li>
+<li>The deprecated escape() method computes a new string in which certain characters have been replaced by a hexadecimal escape sequence. Use encodeURI or encodeURIComponent instead.</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>The deprecated unescape() method computes a new string in which hexadecimal escape sequences are replaced with the character that it represents. The escape sequences might be introduced by a function like escape. Because unescape is deprecated, use decodeURI or decodeURIComponent instead.</li>
 </ul>
 </blockquote>
 <p>根据 MDN 的说明，escape 应当换用为 encodeURI 或 encodeURIComponent；unescape 应当换用为 decodeURI 或 decodeURIComponent。</p>

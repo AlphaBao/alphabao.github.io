@@ -537,12 +537,17 @@
         
           <blockquote>
 <ul>
-<li><p>escape<br>unescape</p>
-</li>
-<li><p>encodeURI<br>decodeURI</p>
-</li>
-<li><p>encodeURIComponent<br>decodeURIComponent</p>
-</li>
+<li>escape<br>unescape</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>encodeURI<br>decodeURI</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>encodeURIComponent<br>decodeURIComponent</li>
 </ul>
 </blockquote>
 <p>这六个方法功能有关联，如果不清楚每一个的作用，很容易混淆。问题的本质，是如何在 URL 中正确处理各种令人头疼的字符。
@@ -663,11 +668,11 @@
           
             <p>对于 Base64 编码，浏览器提供的原生方法是 <code>window.btoa</code> 和 <code>window.atob</code>。</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> encodedData = <span class="built_in">window</span>.btoa(<span class="string">"Hello, world"</span>); <span class="comment">// encode a string</span></div><div class="line"><span class="keyword">var</span> decodedData = <span class="built_in">window</span>.atob(encodedData); <span class="comment">// decode the string</span></div></pre></td></tr></table></figure>
-<p>从 <a href="http://caniuse.com/#search=Base64" target="_blank" rel="external">caniuse.com</a> 的数据来看，IE10 才开始支持这两个方法；而 iOS 和 Android 都很早就支持了，似乎可以用在移动端。但是在使用 <code>atob</code> 的过程中，还是遇到了兼容性问题。在 Chrome for Android 中可以正常解码，但是在 iOS Safari 中出现了下面这个错误：</p>
+<p>从 <a href="http://caniuse.com/#search=Base64" target="_blank" rel="noopener">caniuse.com</a> 的数据来看，IE10 才开始支持这两个方法；而 iOS 和 Android 都很早就支持了，似乎可以用在移动端。但是在使用 <code>atob</code> 的过程中，还是遇到了兼容性问题。在 Chrome for Android 中可以正常解码，但是在 iOS Safari 中出现了下面这个错误：</p>
 <blockquote>
 <p>DOM Exception 5: An invalid or illegal character was specified, such as in an XML name</p>
 </blockquote>
-<p>无奈之下，还是找了个第三方库 <a href="https://github.com/dankogai/js-base64" target="_blank" rel="external">https://github.com/dankogai/js-base64</a>，用了之后 Android、iOS 都可以正常解码了。</p>
+<p>无奈之下，还是找了个第三方库 <a href="https://github.com/dankogai/js-base64" target="_blank" rel="noopener">https://github.com/dankogai/js-base64</a>，用了之后 Android、iOS 都可以正常解码了。</p>
 
           
         
@@ -905,7 +910,7 @@
 
       
         
-          <p>　　写这篇笔记，当然是因为喜欢这本书的文字，但书中很多观点我都不赞同，尤其关于老子的。本文中我对《老子》的认识很多来自李航的<a href="http://yuedu.baidu.com/ebook/a97ae58576a20029bc642d56" target="_blank" rel="external">《道纪》</a>一书。</p>
+          <p>　　写这篇笔记，当然是因为喜欢这本书的文字，但书中很多观点我都不赞同，尤其关于老子的。本文中我对《老子》的认识很多来自李航的<a href="http://yuedu.baidu.com/ebook/a97ae58576a20029bc642d56" target="_blank" rel="noopener">《道纪》</a>一书。</p>
 <h3 id="穷·白·空"><a href="#穷·白·空" class="headerlink" title="穷·白·空"></a>穷·白·空</h3><blockquote>
 <p>一穷，穷在经济上；二白，白在文化上；三空，空在思想上。</p>
 </blockquote>
@@ -1145,7 +1150,7 @@
       
         
           <p>localStorage 属于 Web 存储的一个 API（另一个是 sessionStorage），以 Key-Value 的形式保存数据，key 和 value 都是字符串。</p>
-<h3 id="容量"><a href="#容量" class="headerlink" title="容量"></a>容量</h3><p>每个浏览器的容量限制不同，现代浏览器一般是 5M。检测容量：<a href="http://dev-test.nemikor.com/web-storage/support-test/" target="_blank" rel="external">Web Storage Support Test</a></p>
+<h3 id="容量"><a href="#容量" class="headerlink" title="容量"></a>容量</h3><p>每个浏览器的容量限制不同，现代浏览器一般是 5M。检测容量：<a href="http://dev-test.nemikor.com/web-storage/support-test/" target="_blank" rel="noopener">Web Storage Support Test</a></p>
 <h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>以未加密的形式保存在用户的计算机上。<br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2014/10/18/using-local-storage/#more" rel="contents">
@@ -1386,8 +1391,8 @@
 
       
         
-          <h3 id="1-添加正确的-host"><a href="#1-添加正确的-host" class="headerlink" title="1. 添加正确的 host"></a>1. 添加正确的 host</h3><p>想方设法找到正确的 host：<br><a href="https://git.oschina.net/kawaiiushio/misc/raw/master/hosts/pc/hosts" target="_blank" rel="external">https://git.oschina.net/kawaiiushio/misc/raw/master/hosts/pc/hosts</a></p>
-<h3 id="2-Chrome-中设置搜索引擎为使用-ncr"><a href="#2-Chrome-中设置搜索引擎为使用-ncr" class="headerlink" title="2. Chrome 中设置搜索引擎为使用 ncr"></a>2. Chrome 中设置搜索引擎为使用 ncr</h3><p>填入如下参数，并设为默认引擎：<br><a href="https://www.google.com/#lr=lang_zh-CN&amp;newwindow=1&amp;q=%s" target="_blank" rel="external">https://www.google.com/#lr=lang_zh-CN&amp;newwindow=1&amp;q=%s</a><br>
+          <h3 id="1-添加正确的-host"><a href="#1-添加正确的-host" class="headerlink" title="1. 添加正确的 host"></a>1. 添加正确的 host</h3><p>想方设法找到正确的 host：<br><a href="https://git.oschina.net/kawaiiushio/misc/raw/master/hosts/pc/hosts" target="_blank" rel="noopener">https://git.oschina.net/kawaiiushio/misc/raw/master/hosts/pc/hosts</a></p>
+<h3 id="2-Chrome-中设置搜索引擎为使用-ncr"><a href="#2-Chrome-中设置搜索引擎为使用-ncr" class="headerlink" title="2. Chrome 中设置搜索引擎为使用 ncr"></a>2. Chrome 中设置搜索引擎为使用 ncr</h3><p>填入如下参数，并设为默认引擎：<br><a href="https://www.google.com/#lr=lang_zh-CN&amp;newwindow=1&amp;q=%s" target="_blank" rel="noopener">https://www.google.com/#lr=lang_zh-CN&amp;newwindow=1&amp;q=%s</a><br>
           <div class="post-more-link text-center">
             <a class="btn" href="/2014/07/09/how-to-access-google/#more" rel="contents">
               Read more &raquo;

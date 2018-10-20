@@ -1028,7 +1028,7 @@
       
         
           <p>这篇文章缘起于前几天微博上有关动态语言与静态语言的讨论，因为有几个编程高手参加，所以能看到一些特别有启发性的发言。本文主要是下面这一条微博的读后感，也是我的练习与思考。</p>
-<p><a href="http://weibo.com/1655747731/EebsQBk82" target="_blank" rel="external">@有个梨UGlee：如果你去看四人帮的Design Pattern里，就有State Pattern；State Pattern用类型编码State，就是我们说的问题；但是动态语言里写出来非常简单，类型语言里写得极其繁琐。</a></p>
+<p><a href="http://weibo.com/1655747731/EebsQBk82" target="_blank" rel="noopener">@有个梨UGlee：如果你去看四人帮的Design Pattern里，就有State Pattern；State Pattern用类型编码State，就是我们说的问题；但是动态语言里写出来非常简单，类型语言里写得极其繁琐。</a></p>
 <p>关于动态语言与静态语言，有很多比较和讨论它们的文章，但大部分都没有抓住重点。而上面一条微博，提到了一个很好的切入点，那就是「状态模式（State Pattern）」。</p>
 <h2 id="状态模式：蝙蝠侠-布鲁斯·韦恩"><a href="#状态模式：蝙蝠侠-布鲁斯·韦恩" class="headerlink" title="状态模式：蝙蝠侠/布鲁斯·韦恩"></a>状态模式：蝙蝠侠/布鲁斯·韦恩</h2><p>蝙蝠侠（英语：Batman）是一名出现于DC漫画的虚构超级英雄角色，由鲍勃·凯恩和比尔·芬格创作。他的名字叫 Bruce，是一位美国亿万富翁，这是他的正常身份，用于正常生活，例如进行参加宴会之类的活动。他的另一个身份是 Batman，是打击犯罪的黑暗骑士。</p>
 <p>这是一个状态模式的好示例，我用 Java 和 JavaScript 各写了一个示例，体会体会「极其繁琐」与「非常简单」。</p>
@@ -1387,9 +1387,9 @@
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install karma karma-mocha karma-chai --save-dev</div></pre></td></tr></table></figure>
 <p>如果 npm 版本 &gt;=3.0，会看到如下提示：</p>
 <blockquote>
-<p>UNMET PEER DEPENDENCY chai@<em><br>karma@1.2.0<br>karma-chai@0.1.0<br>karma-mocha@1.1.1<br>UNMET PEER DEPENDENCY mocha@</em></p>
+<p>UNMET PEER DEPENDENCY chai@<em><br><a href="mailto:karma@1.2.0" target="_blank" rel="noopener">karma@1.2.0</a><br><a href="mailto:karma-chai@0.1.0" target="_blank" rel="noopener">karma-chai@0.1.0</a><br><a href="mailto:karma-mocha@1.1.1" target="_blank" rel="noopener">karma-mocha@1.1.1</a><br>UNMET PEER DEPENDENCY mocha@</em></p>
 </blockquote>
-<p>这是因为 npm 已经不再自动安装 peerDependencies：<br><a href="http://blog.npmjs.org/post/110924823920/npm-weekly-5" target="_blank" rel="external">We will also be changing the behavior of peerDependencies in npm@3. We won’t be automatically downloading the peer dependency anymore. Instead, we’ll warn you if the peer dependency isn’t already installed. This requires you to resolve peerDependency conflicts yourself, manually, but in the long run this should make it less likely that you’ll end up in a tricky spot with your packages’ dependencies.</a></p>
+<p>这是因为 npm 已经不再自动安装 peerDependencies：<br><a href="http://blog.npmjs.org/post/110924823920/npm-weekly-5" target="_blank" rel="noopener">We will also be changing the behavior of peerDependencies in npm@3. We won’t be automatically downloading the peer dependency anymore. Instead, we’ll warn you if the peer dependency isn’t already installed. This requires you to resolve peerDependency conflicts yourself, manually, but in the long run this should make it less likely that you’ll end up in a tricky spot with your packages’ dependencies.</a></p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2016/09/02/karma-mocha-chai-webpack-es6/#more" rel="contents">
               Read more &raquo;
