@@ -73,6 +73,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
 
@@ -87,17 +89,19 @@
 
 
 <meta name="description" content="DOM 元素中的 attribute 与 property 并不相同。attribute 通常翻译为“特性”，property 通常翻译为“属性”。其实它们是近义词，并不能根据特性、属性这两个词汇来区分 attribute 与 property。   特性：某事物所特有的性质；特殊的品性、品质。 属性：事物所具有的不可缺少的性质。   所以，attribute 与 property 都可以叫“特性">
-<meta name="keywords" content="JavaScript,DOM,jQuery">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Attribute 与 Property">
-<meta property="og:url" content="http://tianfangye.com/2014/09/02/attributes-and-properties/index.html">
+<meta property="og:url" content="http://alphabao.github.io/2014/09/02/attributes-and-properties/index.html">
 <meta property="og:site_name" content="天方夜">
 <meta property="og:description" content="DOM 元素中的 attribute 与 property 并不相同。attribute 通常翻译为“特性”，property 通常翻译为“属性”。其实它们是近义词，并不能根据特性、属性这两个词汇来区分 attribute 与 property。   特性：某事物所特有的性质；特殊的品性、品质。 属性：事物所具有的不可缺少的性质。   所以，attribute 与 property 都可以叫“特性">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-10-26T11:48:43.000Z">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2014-09-02T09:44:41.000Z">
+<meta property="article:modified_time" content="2017-10-26T11:48:43.000Z">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="DOM">
+<meta property="article:tag" content="jQuery">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Attribute 与 Property">
-<meta name="twitter:description" content="DOM 元素中的 attribute 与 property 并不相同。attribute 通常翻译为“特性”，property 通常翻译为“属性”。其实它们是近义词，并不能根据特性、属性这两个词汇来区分 attribute 与 property。   特性：某事物所特有的性质；特殊的品性、品质。 属性：事物所具有的不可缺少的性质。   所以，attribute 与 property 都可以叫“特性">
 
 
 
@@ -114,11 +118,11 @@
 
 
 
-  <link rel="canonical" href="http://tianfangye.com/2014/09/02/attributes-and-properties/"/>
+  <link rel="canonical" href="http://alphabao.github.io/2014/09/02/attributes-and-properties/"/>
 
 
   <title> Attribute 与 Property | 天方夜 </title>
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="en">
 
@@ -262,7 +266,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -304,21 +308,28 @@
 </blockquote>
 <p>所以，attribute 与 property 都可以叫“特性”，也都可以叫“属性”。</p>
 <h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><p>从 HTML 到 DOM 元素，一种是声明式的语言，一种是命令式语言。attribute 是直接收集 HTML 中的属性转为 js 对象，对象的 value 最接近原生态，也就是 HTML 标记里面的样子；property 也是转为 js 对象，但是转化的过程中会对 value 做一些处理，将 value 转为对 js 来说更有意义的值。</p>
-<p>比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input type=&quot;checkbox&quot; checked=&quot;checked&quot; /&gt;</div></pre></td></tr></table></figure></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">elem.getAttribute("checked”) // “checked”，原生态的值</div><div class="line">elem.checked // true，对 js 来说更有意义的值</div></pre></td></tr></table></figure>
+<p>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type&#x3D;&quot;checkbox&quot; checked&#x3D;&quot;checked&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">elem.getAttribute(<span class="string">"checked”) // “checked”，原生态的值</span></span><br><span class="line"><span class="string">elem.checked // true，对 js 来说更有意义的值</span></span><br></pre></td></tr></table></figure>
 <a id="more"></a>
 <h3 id="HTML-标准属性"><a href="#HTML-标准属性" class="headerlink" title="HTML 标准属性"></a>HTML 标准属性</h3><p>对于标准属性，无论是改变 attribute 还是改变 property，对应的另一个值也会改变。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input id=&quot;ak47&quot; type=&quot;checkbox&quot; checked=&quot;checked&quot; /&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">elem.getAttribute("id”) // "ak47"</div><div class="line">elem.id // "ak47"</div><div class="line">elem.id = "m16"</div><div class="line">elem.getAttribute("id”) // "m16"</div><div class="line">elem.setAttribute("id”, "mac10")</div><div class="line">elem.id = "m16" // "mac10"</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input id&#x3D;&quot;ak47&quot; type&#x3D;&quot;checkbox&quot; checked&#x3D;&quot;checked&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">elem.getAttribute(<span class="string">"id”) // "</span>ak47<span class="string">"</span></span><br><span class="line"><span class="string">elem.id // "</span>ak47<span class="string">"</span></span><br><span class="line"><span class="string">elem.id = "</span>m16<span class="string">"</span></span><br><span class="line"><span class="string">elem.getAttribute("</span>id”) <span class="comment">// "m16"</span></span><br><span class="line">elem.setAttribute(<span class="string">"id”, "</span>mac10<span class="string">")</span></span><br><span class="line"><span class="string">elem.id = "</span>m16<span class="string">" // "</span>mac10<span class="string">"</span></span><br></pre></td></tr></table></figure>
+
 <h3 id="自定义属性"><a href="#自定义属性" class="headerlink" title="自定义属性"></a>自定义属性</h3><p>对于自定义属性，改变 attribute 或是 property，对应的另一个值不受影响（IE6、7 不区分 attribute 和 property，改变一个，对应的另一个值也会改变）。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input test=&quot;abcde&quot; type=&quot;checkbox&quot; checked=&quot;checked&quot; /&gt;</div></pre></td></tr></table></figure>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">elem.attributes <span class="comment">// 类数组 test: "abcde", type: "checkbox", checked: "checked"</span></div><div class="line">elem.test <span class="comment">// undefined 不包含自定义的 attribute</span></div><div class="line">elem.testName = <span class="string">"tianfangye"</span> <span class="comment">// 自定义的 property</span></div><div class="line">elem.testName <span class="comment">// "tianfangye"</span></div><div class="line">elem.getAttribute(<span class="string">"testName"</span>) <span class="comment">// null 不包含自定义的 property</span></div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input test&#x3D;&quot;abcde&quot; type&#x3D;&quot;checkbox&quot; checked&#x3D;&quot;checked&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">elem.attributes <span class="comment">// 类数组 test: "abcde", type: "checkbox", checked: "checked"</span></span><br><span class="line">elem.test <span class="comment">// undefined 不包含自定义的 attribute</span></span><br><span class="line">elem.testName = <span class="string">"tianfangye"</span> <span class="comment">// 自定义的 property</span></span><br><span class="line">elem.testName <span class="comment">// "tianfangye"</span></span><br><span class="line">elem.getAttribute(<span class="string">"testName"</span>) <span class="comment">// null 不包含自定义的 property</span></span><br></pre></td></tr></table></figure>
 <h3 id="boolean-attribute"><a href="#boolean-attribute" class="headerlink" title="boolean attribute"></a>boolean attribute</h3><p><em>boolean attribute</em> 不同于上面两种，这种属性有特殊的处理方式。例如 checked，只要存在 attribute，不论值是什么（checked=””, checked, checked=”false”），对应的 property 都是 true。</p>
 <p>checked attribute 并不对应 checked property，而是对应 defaultChecked property。这是一个初始值，checked property 变化后它并不会改变（所以 checked attribute 也不变）。根据 jQuery 的文档，selected 与 value 也是如此。</p>
 <p>jQuery 中检测是否选中可以用如下三种方式：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> ( elem.checked )</div><div class="line"><span class="keyword">if</span> ( $( elem ).prop( <span class="string">"checked"</span> ) )</div><div class="line"><span class="keyword">if</span> ( $( elem ).is( <span class="string">":checked"</span> ) )</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( elem.checked )</span><br><span class="line"><span class="keyword">if</span> ( $( elem ).prop( <span class="string">"checked"</span> ) )</span><br><span class="line"><span class="keyword">if</span> ( $( elem ).is( <span class="string">":checked"</span> ) )</span><br></pre></td></tr></table></figure>
+
 <h3 id="jQuery-中的-attr-与-prop"><a href="#jQuery-中的-attr-与-prop" class="headerlink" title="jQuery 中的 .attr() 与 .prop()"></a><a href="http://jquery.com/upgrade-guide/1.9/#attr-versus-prop" target="_blank" rel="noopener">jQuery 中的 .attr() 与 .prop()</a></h3><p>jQuery 中的 .attr() 方法稍有混乱，有些应当使用 attribute 的地方使用了 property。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">elem.checked <span class="comment">// true (Boolean) Will change with checkbox state</span></div><div class="line">$( elem ).prop( <span class="string">"checked"</span> ) <span class="comment">// true (Boolean) Will change with checkbox state</span></div><div class="line">elem.getAttribute( <span class="string">"checked"</span> ) <span class="comment">// "checked" (String) Initial state of the checkbox; does not change</span></div><div class="line">$( elem ).attr( <span class="string">"checked"</span> ) <span class="comment">// (1.6) "checked" (String) Initial state of the checkbox; does not change</span></div><div class="line">$( elem ).attr( <span class="string">"checked"</span> ) <span class="comment">// (1.6.1+)    "checked" (String) Will change with checkbox state</span></div><div class="line">$( elem ).attr( <span class="string">"checked"</span> ) <span class="comment">// (pre-1.6)   true (Boolean) Changed with checkbox state</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">elem.checked <span class="comment">// true (Boolean) Will change with checkbox state</span></span><br><span class="line">$( elem ).prop( <span class="string">"checked"</span> ) <span class="comment">// true (Boolean) Will change with checkbox state</span></span><br><span class="line">elem.getAttribute( <span class="string">"checked"</span> ) <span class="comment">// "checked" (String) Initial state of the checkbox; does not change</span></span><br><span class="line">$( elem ).attr( <span class="string">"checked"</span> ) <span class="comment">// (1.6) "checked" (String) Initial state of the checkbox; does not change</span></span><br><span class="line">$( elem ).attr( <span class="string">"checked"</span> ) <span class="comment">// (1.6.1+)    "checked" (String) Will change with checkbox state</span></span><br><span class="line">$( elem ).attr( <span class="string">"checked"</span> ) <span class="comment">// (pre-1.6)   true (Boolean) Changed with checkbox state</span></span><br></pre></td></tr></table></figure>
+
 <p>下面两种选择器在 1.9 之前的版本中可能会不准确：</p>
 <ol>
 <li><p>“input[checked]”<br>选择所有存在 checked attribute 的元素。</p>
@@ -519,11 +530,11 @@ var jiathis_config = {data_track_clickback:'true'};
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <a href="https://www.zhihu.com/people/tianfangye">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
   <div class="copyright" >
     
     &copy; 
-    <span itemprop="copyrightYear">2019</span>
+    <span itemprop="copyrightYear">2020</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
@@ -532,12 +543,12 @@ var jiathis_config = {data_track_clickback:'true'};
 </a>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
 </div>
 
 <div class="theme-info">
   Theme -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
     NexT.Muse
   </a>
 </div>

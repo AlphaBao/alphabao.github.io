@@ -73,6 +73,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
 
@@ -87,17 +89,18 @@
 
 
 <meta name="description" content="语义化标签·非语义化标签标签名描述了标签内容，就是语义化标签（semantic elements）；标签名对标签内容毫无描述，则是非语义化标签（non-semantic elements）。img、form 和 table 是语义化标签，div、span 则是非语义化标签。 使用语义化标签的好处HTML5 中增加了一批语义化标签，说明开发者应当尽量写语义化的 HTML。另外，HTML 是声明式语言">
-<meta name="keywords" content="HTML5,语义化标签">
 <meta property="og:type" content="article">
 <meta property="og:title" content="理解 HTML5 语义化标签：div, section &amp; article">
-<meta property="og:url" content="http://tianfangye.com/2014/01/26/html5-tags-div-section-article/index.html">
+<meta property="og:url" content="http://alphabao.github.io/2014/01/26/html5-tags-div-section-article/index.html">
 <meta property="og:site_name" content="天方夜">
 <meta property="og:description" content="语义化标签·非语义化标签标签名描述了标签内容，就是语义化标签（semantic elements）；标签名对标签内容毫无描述，则是非语义化标签（non-semantic elements）。img、form 和 table 是语义化标签，div、span 则是非语义化标签。 使用语义化标签的好处HTML5 中增加了一批语义化标签，说明开发者应当尽量写语义化的 HTML。另外，HTML 是声明式语言">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2016-11-02T09:55:21.000Z">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2014-01-26T03:19:52.000Z">
+<meta property="article:modified_time" content="2016-11-02T09:55:21.000Z">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="HTML5">
+<meta property="article:tag" content="语义化标签">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="理解 HTML5 语义化标签：div, section &amp; article">
-<meta name="twitter:description" content="语义化标签·非语义化标签标签名描述了标签内容，就是语义化标签（semantic elements）；标签名对标签内容毫无描述，则是非语义化标签（non-semantic elements）。img、form 和 table 是语义化标签，div、span 则是非语义化标签。 使用语义化标签的好处HTML5 中增加了一批语义化标签，说明开发者应当尽量写语义化的 HTML。另外，HTML 是声明式语言">
 
 
 
@@ -114,11 +117,11 @@
 
 
 
-  <link rel="canonical" href="http://tianfangye.com/2014/01/26/html5-tags-div-section-article/"/>
+  <link rel="canonical" href="http://alphabao.github.io/2014/01/26/html5-tags-div-section-article/"/>
 
 
   <title> 理解 HTML5 语义化标签：div, section & article | 天方夜 </title>
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="en">
 
@@ -262,7 +265,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -298,7 +301,9 @@
         <h2 id="语义化标签·非语义化标签"><a href="#语义化标签·非语义化标签" class="headerlink" title="语义化标签·非语义化标签"></a>语义化标签·非语义化标签</h2><p>标签名描述了标签内容，就是语义化标签（semantic elements）；标签名对标签内容毫无描述，则是非语义化标签（non-semantic elements）。img、form 和 table 是语义化标签，div、span 则是非语义化标签。</p>
 <h2 id="使用语义化标签的好处"><a href="#使用语义化标签的好处" class="headerlink" title="使用语义化标签的好处"></a>使用语义化标签的好处</h2><p>HTML5 中增加了一批语义化标签，说明开发者应当尽量写语义化的 HTML。另外，HTML 是声明式语言，语义化的标签名称，既是给人看的，也是给浏览器看的。</p>
 <p>语义化标签，就像写明了“产品部”、“设计部”、“研发部”的门牌——不用打开门，只需要看看门牌，就能知道这个房间的作用。</p>
-<p>非语义化标签，就像只写了号码的门牌——光看门牌，只能看到与房间作用无关的门牌号；必须开门看看，才能知道这个房间是干什么的。<br><a id="more"></a></p>
+<p>非语义化标签，就像只写了号码的门牌——光看门牌，只能看到与房间作用无关的门牌号；必须开门看看，才能知道这个房间是干什么的。</p>
+<a id="more"></a>
+
 <h2 id="div-section-amp-article"><a href="#div-section-amp-article" class="headerlink" title="div, section &amp; article"></a>div, section &amp; article</h2><p>div、section、article 都可以作为容器标签，但在语义上是递增的，使用方面有所不同。</p>
 <h3 id="div"><a href="#div" class="headerlink" title="div"></a>div</h3><p>语义：无语义<br>说明：它是通用的容器标签，本身不包含语义。通常为了非语义的功能而使用，比如样式控制、脚本化 HTML。</p>
 <h3 id="section"><a href="#section" class="headerlink" title="section"></a>section</h3><p>语义：部分<br>说明：一组逻辑上相关的内容，可以放在一个 section 里面。section 是独立的一段内容，但 section 往往是整体的一部分。</p>
@@ -329,7 +334,7 @@
           
             <a href="/tags/HTML5/" rel="tag">#HTML5</a>
           
-            <a href="/tags/语义化标签/" rel="tag">#语义化标签</a>
+            <a href="/tags/%E8%AF%AD%E4%B9%89%E5%8C%96%E6%A0%87%E7%AD%BE/" rel="tag">#语义化标签</a>
           
         </div>
       
@@ -496,11 +501,11 @@ var jiathis_config = {data_track_clickback:'true'};
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <a href="https://www.zhihu.com/people/tianfangye">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
   <div class="copyright" >
     
     &copy; 
-    <span itemprop="copyrightYear">2019</span>
+    <span itemprop="copyrightYear">2020</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
@@ -509,12 +514,12 @@ var jiathis_config = {data_track_clickback:'true'};
 </a>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
 </div>
 
 <div class="theme-info">
   Theme -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
     NexT.Muse
   </a>
 </div>

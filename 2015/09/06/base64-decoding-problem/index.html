@@ -73,6 +73,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
 
@@ -86,18 +88,19 @@
 
 
 
-<meta name="description" content="对于 Base64 编码，浏览器提供的原生方法是 window.btoa 和 window.atob。 12var encodedData = window.btoa(&quot;Hello, world&quot;); // encode a stringvar decodedData = window.atob(encodedData); // decode the string 从 caniuse.com 的数">
-<meta name="keywords" content="JavaScript,Base64">
+<meta name="description" content="对于 Base64 编码，浏览器提供的原生方法是 window.btoa 和 window.atob。 12var encodedData &#x3D; window.btoa(&quot;Hello, world&quot;); &#x2F;&#x2F; encode a stringvar decodedData &#x3D; window.atob(encodedData); &#x2F;&#x2F; decode the string  从 caniuse.com 的">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Base64：window.atob 的兼容性问题">
-<meta property="og:url" content="http://tianfangye.com/2015/09/06/base64-decoding-problem/index.html">
+<meta property="og:url" content="http://alphabao.github.io/2015/09/06/base64-decoding-problem/index.html">
 <meta property="og:site_name" content="天方夜">
-<meta property="og:description" content="对于 Base64 编码，浏览器提供的原生方法是 window.btoa 和 window.atob。 12var encodedData = window.btoa(&quot;Hello, world&quot;); // encode a stringvar decodedData = window.atob(encodedData); // decode the string 从 caniuse.com 的数">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2016-11-02T09:55:21.000Z">
+<meta property="og:description" content="对于 Base64 编码，浏览器提供的原生方法是 window.btoa 和 window.atob。 12var encodedData &#x3D; window.btoa(&quot;Hello, world&quot;); &#x2F;&#x2F; encode a stringvar decodedData &#x3D; window.atob(encodedData); &#x2F;&#x2F; decode the string  从 caniuse.com 的">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2015-09-06T07:29:13.000Z">
+<meta property="article:modified_time" content="2016-11-02T09:55:21.000Z">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="Base64">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Base64：window.atob 的兼容性问题">
-<meta name="twitter:description" content="对于 Base64 编码，浏览器提供的原生方法是 window.btoa 和 window.atob。 12var encodedData = window.btoa(&quot;Hello, world&quot;); // encode a stringvar decodedData = window.atob(encodedData); // decode the string 从 caniuse.com 的数">
 
 
 
@@ -114,11 +117,11 @@
 
 
 
-  <link rel="canonical" href="http://tianfangye.com/2015/09/06/base64-decoding-problem/"/>
+  <link rel="canonical" href="http://alphabao.github.io/2015/09/06/base64-decoding-problem/"/>
 
 
   <title> Base64：window.atob 的兼容性问题 | 天方夜 </title>
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="en">
 
@@ -262,7 +265,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -296,7 +299,8 @@
 
       
         <p>对于 Base64 编码，浏览器提供的原生方法是 <code>window.btoa</code> 和 <code>window.atob</code>。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> encodedData = <span class="built_in">window</span>.btoa(<span class="string">"Hello, world"</span>); <span class="comment">// encode a string</span></div><div class="line"><span class="keyword">var</span> decodedData = <span class="built_in">window</span>.atob(encodedData); <span class="comment">// decode the string</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> encodedData = <span class="built_in">window</span>.btoa(<span class="string">"Hello, world"</span>); <span class="comment">// encode a string</span></span><br><span class="line"><span class="keyword">var</span> decodedData = <span class="built_in">window</span>.atob(encodedData); <span class="comment">// decode the string</span></span><br></pre></td></tr></table></figure>
+
 <p>从 <a href="http://caniuse.com/#search=Base64" target="_blank" rel="noopener">caniuse.com</a> 的数据来看，IE10 才开始支持这两个方法；而 iOS 和 Android 都很早就支持了，似乎可以用在移动端。但是在使用 <code>atob</code> 的过程中，还是遇到了兼容性问题。在 Chrome for Android 中可以正常解码，但是在 iOS Safari 中出现了下面这个错误：</p>
 <blockquote>
 <p>DOM Exception 5: An invalid or illegal character was specified, such as in an XML name</p>
@@ -493,11 +497,11 @@ var jiathis_config = {data_track_clickback:'true'};
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <a href="https://www.zhihu.com/people/tianfangye">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
   <div class="copyright" >
     
     &copy; 
-    <span itemprop="copyrightYear">2019</span>
+    <span itemprop="copyrightYear">2020</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
@@ -506,12 +510,12 @@ var jiathis_config = {data_track_clickback:'true'};
 </a>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
 </div>
 
 <div class="theme-info">
   Theme -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
     NexT.Muse
   </a>
 </div>

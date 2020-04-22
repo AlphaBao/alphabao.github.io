@@ -73,6 +73,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
 
@@ -87,17 +89,18 @@
 
 
 <meta name="description" content="浏览器大多数内置浏览器都被紧密集成到底层的操作系统中，无法单独升级。设备供应商经常拒绝给他们的内置浏览器命名，iOS 的内置浏览器叫作 Safari，而 Android、黑莓、塞班的内置浏览器没有名字，作者把它们叫作「安卓WebKit」「黑莓WebKit」「塞班WebKit」。 安卓一个智能系统需要一个浏览器，安卓系统提供了基于 WebKit 的浏览器；它没有名字，英文网站上一般称之为「Andro">
-<meta name="keywords" content="Web,Mobile">
 <meta property="og:type" content="article">
 <meta property="og:title" content="PPK《移动Web手册》读书笔记">
-<meta property="og:url" content="http://tianfangye.com/2015/10/01/the-mobile-web-handbook-reading-notes/index.html">
+<meta property="og:url" content="http://alphabao.github.io/2015/10/01/the-mobile-web-handbook-reading-notes/index.html">
 <meta property="og:site_name" content="天方夜">
 <meta property="og:description" content="浏览器大多数内置浏览器都被紧密集成到底层的操作系统中，无法单独升级。设备供应商经常拒绝给他们的内置浏览器命名，iOS 的内置浏览器叫作 Safari，而 Android、黑莓、塞班的内置浏览器没有名字，作者把它们叫作「安卓WebKit」「黑莓WebKit」「塞班WebKit」。 安卓一个智能系统需要一个浏览器，安卓系统提供了基于 WebKit 的浏览器；它没有名字，英文网站上一般称之为「Andro">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2016-11-02T09:55:21.000Z">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2015-10-01T04:16:06.000Z">
+<meta property="article:modified_time" content="2016-11-02T09:55:21.000Z">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="Web">
+<meta property="article:tag" content="Mobile">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="PPK《移动Web手册》读书笔记">
-<meta name="twitter:description" content="浏览器大多数内置浏览器都被紧密集成到底层的操作系统中，无法单独升级。设备供应商经常拒绝给他们的内置浏览器命名，iOS 的内置浏览器叫作 Safari，而 Android、黑莓、塞班的内置浏览器没有名字，作者把它们叫作「安卓WebKit」「黑莓WebKit」「塞班WebKit」。 安卓一个智能系统需要一个浏览器，安卓系统提供了基于 WebKit 的浏览器；它没有名字，英文网站上一般称之为「Andro">
 
 
 
@@ -114,11 +117,11 @@
 
 
 
-  <link rel="canonical" href="http://tianfangye.com/2015/10/01/the-mobile-web-handbook-reading-notes/"/>
+  <link rel="canonical" href="http://alphabao.github.io/2015/10/01/the-mobile-web-handbook-reading-notes/"/>
 
 
   <title> PPK《移动Web手册》读书笔记 | 天方夜 </title>
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="en">
 
@@ -262,7 +265,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -297,7 +300,9 @@
       
         <h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><p>大多数内置浏览器都被紧密集成到底层的操作系统中，无法单独升级。设备供应商经常拒绝给他们的内置浏览器命名，iOS 的内置浏览器叫作 Safari，而 Android、黑莓、塞班的内置浏览器没有名字，作者把它们叫作「安卓WebKit」「黑莓WebKit」「塞班WebKit」。</p>
 <h3 id="安卓"><a href="#安卓" class="headerlink" title="安卓"></a>安卓</h3><p>一个智能系统需要一个浏览器，安卓系统提供了基于 WebKit 的浏览器；它没有名字，英文网站上一般称之为「Android Browser」，作者称之为「安卓WebKit」。</p>
-<p>安卓WebKit 并不是 Chrome：它有完全分离的代码库，里面有完全分离的漏洞。查看 userAgent 是否含有 Chrome 这个单词，可以区分 安卓WebKit 与 Chrome。安卓WebKit 包含大量开关，用来打开或关闭特定功能，设备厂商可以随心所欲地设置这些开关。所以 三星安卓WebKit 与 索尼安卓WebKit 并不相同。<br><a id="more"></a></p>
+<p>安卓WebKit 并不是 Chrome：它有完全分离的代码库，里面有完全分离的漏洞。查看 userAgent 是否含有 Chrome 这个单词，可以区分 安卓WebKit 与 Chrome。安卓WebKit 包含大量开关，用来打开或关闭特定功能，设备厂商可以随心所欲地设置这些开关。所以 三星安卓WebKit 与 索尼安卓WebKit 并不相同。</p>
+<a id="more"></a>
+
 <p>谷歌想利用 Chrome 代替 安卓WebKit，这有利于谷歌收集用户数据并提供更强大的广告；设备厂商系统自己获取用户数据，并且希望继续使自己的设备与众不同。</p>
 <p>谷歌强制所有使用谷歌服务的设备使用 Google Chrome，但设备厂商能改变手机的内置浏览器。 HTC M8 的内置浏览器是 安卓WebKit，但它也安装了 Google Chrome；三星 S4 安装了两款基于 Chromium（人人都可以下载和修改的谷歌开源浏览器）的浏览器：三星Chrome 和 Google Chrome。</p>
 <p>亚马逊拒绝了谷歌服务，因此 Amazon Kindle Fire 中内置的是 Silk（基于 Chromium）。</p>
@@ -494,11 +499,11 @@ var jiathis_config = {data_track_clickback:'true'};
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <a href="https://www.zhihu.com/people/tianfangye">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
   <div class="copyright" >
     
     &copy; 
-    <span itemprop="copyrightYear">2019</span>
+    <span itemprop="copyrightYear">2020</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
@@ -507,12 +512,12 @@ var jiathis_config = {data_track_clickback:'true'};
 </a>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
 </div>
 
 <div class="theme-info">
   Theme -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
     NexT.Muse
   </a>
 </div>

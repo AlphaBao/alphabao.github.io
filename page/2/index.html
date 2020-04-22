@@ -73,6 +73,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
 
@@ -87,16 +89,15 @@
 
 
 <meta name="description" content="天方夜的博客">
-<meta name="keywords" content="卫斯理|三国|JavaScript|文学|历史|编程">
 <meta property="og:type" content="website">
 <meta property="og:title" content="天方夜">
-<meta property="og:url" content="http://tianfangye.com/page/2/index.html">
+<meta property="og:url" content="http://alphabao.github.io/page/2/index.html">
 <meta property="og:site_name" content="天方夜">
 <meta property="og:description" content="天方夜的博客">
-<meta property="og:locale" content="en">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="卫斯理|三国|JavaScript|文学|历史|编程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="天方夜">
-<meta name="twitter:description" content="天方夜的博客">
 
 
 
@@ -113,11 +114,11 @@
 
 
 
-  <link rel="canonical" href="http://tianfangye.com/page/2/"/>
+  <link rel="canonical" href="http://alphabao.github.io/page/2/"/>
 
 
   <title> 天方夜 </title>
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="en">
 
@@ -266,7 +267,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -301,9 +302,10 @@
       
         
           <p>对于高度不确定的页面，想实现总是撑满一屏的效果，可以结合 height 与 min-height 来设置，但是有一些瑕疵。</p>
-<h3 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">html</span> &#123;</div><div class="line">  <span class="attribute">min-height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">  <span class="attribute">min-height</span>: <span class="number">100%</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="示例-1："><a href="#示例-1：" class="headerlink" title="示例 1："></a>示例 1：</h3><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">html</span> &#123;</span><br><span class="line">  <span class="attribute">min-height</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-tag">body</span> &#123;</span><br><span class="line">  <span class="attribute">min-height</span>: <span class="number">100%</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>html 与 body 都设置为 <code>min-height: 100%</code>，意图是想页面高度不足一屏时 body 高度为一屏的高度，高度超过一屏则 body 的高度为页面的高度。但这样设置后会发现， html 的高度变成了 100%（一屏的高度），而 body 的高度却是 0。那么将 body 的子元素设为 <code>min-height: 100%</code> 时，这个元素的高度自然也是 0（除非靠内容撑开）。</p>
-<p>试验发现，如果将 min-height 的值设置为百分比，那么上一级元素必须有一个明确的高度（不能是 min-height: 100%），否则高度是 0。<br>
+<p>试验发现，如果将 min-height 的值设置为百分比，那么上一级元素必须有一个明确的高度（不能是 min-height: 100%），否则高度是 0。</p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2015/11/04/css-min-height/#more" rel="contents">
               Read more &raquo;
@@ -384,7 +386,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -420,7 +422,7 @@
         
           <h2 id="浏览器"><a href="#浏览器" class="headerlink" title="浏览器"></a>浏览器</h2><p>大多数内置浏览器都被紧密集成到底层的操作系统中，无法单独升级。设备供应商经常拒绝给他们的内置浏览器命名，iOS 的内置浏览器叫作 Safari，而 Android、黑莓、塞班的内置浏览器没有名字，作者把它们叫作「安卓WebKit」「黑莓WebKit」「塞班WebKit」。</p>
 <h3 id="安卓"><a href="#安卓" class="headerlink" title="安卓"></a>安卓</h3><p>一个智能系统需要一个浏览器，安卓系统提供了基于 WebKit 的浏览器；它没有名字，英文网站上一般称之为「Android Browser」，作者称之为「安卓WebKit」。</p>
-<p>安卓WebKit 并不是 Chrome：它有完全分离的代码库，里面有完全分离的漏洞。查看 userAgent 是否含有 Chrome 这个单词，可以区分 安卓WebKit 与 Chrome。安卓WebKit 包含大量开关，用来打开或关闭特定功能，设备厂商可以随心所欲地设置这些开关。所以 三星安卓WebKit 与 索尼安卓WebKit 并不相同。<br>
+<p>安卓WebKit 并不是 Chrome：它有完全分离的代码库，里面有完全分离的漏洞。查看 userAgent 是否含有 Chrome 这个单词，可以区分 安卓WebKit 与 Chrome。安卓WebKit 包含大量开关，用来打开或关闭特定功能，设备厂商可以随心所欲地设置这些开关。所以 三星安卓WebKit 与 索尼安卓WebKit 并不相同。</p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2015/10/01/the-mobile-web-handbook-reading-notes/#more" rel="contents">
               Read more &raquo;
@@ -501,7 +503,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -631,7 +633,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -667,7 +669,8 @@
         
           
             <p>对于 Base64 编码，浏览器提供的原生方法是 <code>window.btoa</code> 和 <code>window.atob</code>。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> encodedData = <span class="built_in">window</span>.btoa(<span class="string">"Hello, world"</span>); <span class="comment">// encode a string</span></div><div class="line"><span class="keyword">var</span> decodedData = <span class="built_in">window</span>.atob(encodedData); <span class="comment">// decode the string</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> encodedData = <span class="built_in">window</span>.btoa(<span class="string">"Hello, world"</span>); <span class="comment">// encode a string</span></span><br><span class="line"><span class="keyword">var</span> decodedData = <span class="built_in">window</span>.atob(encodedData); <span class="comment">// decode the string</span></span><br></pre></td></tr></table></figure>
+
 <p>从 <a href="http://caniuse.com/#search=Base64" target="_blank" rel="noopener">caniuse.com</a> 的数据来看，IE10 才开始支持这两个方法；而 iOS 和 Android 都很早就支持了，似乎可以用在移动端。但是在使用 <code>atob</code> 的过程中，还是遇到了兼容性问题。在 Chrome for Android 中可以正常解码，但是在 iOS Safari 中出现了下面这个错误：</p>
 <blockquote>
 <p>DOM Exception 5: An invalid or illegal character was specified, such as in an XML name</p>
@@ -750,7 +753,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -876,7 +879,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/杂文/" itemprop="url" rel="index">
+                  <a href="/categories/%E6%9D%82%E6%96%87/" itemprop="url" rel="index">
                     <span itemprop="name">杂文</span>
                   </a>
                 </span>
@@ -999,7 +1002,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/杂文/" itemprop="url" rel="index">
+                  <a href="/categories/%E6%9D%82%E6%96%87/" itemprop="url" rel="index">
                     <span itemprop="name">杂文</span>
                   </a>
                 </span>
@@ -1115,7 +1118,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -1151,7 +1154,7 @@
         
           <p>localStorage 属于 Web 存储的一个 API（另一个是 sessionStorage），以 Key-Value 的形式保存数据，key 和 value 都是字符串。</p>
 <h3 id="容量"><a href="#容量" class="headerlink" title="容量"></a>容量</h3><p>每个浏览器的容量限制不同，现代浏览器一般是 5M。检测容量：<a href="http://dev-test.nemikor.com/web-storage/support-test/" target="_blank" rel="noopener">Web Storage Support Test</a></p>
-<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>以未加密的形式保存在用户的计算机上。<br>
+<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>以未加密的形式保存在用户的计算机上。</p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2014/10/18/using-local-storage/#more" rel="contents">
               Read more &raquo;
@@ -1232,7 +1235,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -1275,8 +1278,10 @@
 </blockquote>
 <p>所以，attribute 与 property 都可以叫“特性”，也都可以叫“属性”。</p>
 <h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><p>从 HTML 到 DOM 元素，一种是声明式的语言，一种是命令式语言。attribute 是直接收集 HTML 中的属性转为 js 对象，对象的 value 最接近原生态，也就是 HTML 标记里面的样子；property 也是转为 js 对象，但是转化的过程中会对 value 做一些处理，将 value 转为对 js 来说更有意义的值。</p>
-<p>比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input type=&quot;checkbox&quot; checked=&quot;checked&quot; /&gt;</div></pre></td></tr></table></figure></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">elem.getAttribute("checked”) // “checked”，原生态的值</div><div class="line">elem.checked // true，对 js 来说更有意义的值</div></pre></td></tr></table></figure>
+<p>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type&#x3D;&quot;checkbox&quot; checked&#x3D;&quot;checked&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">elem.getAttribute(<span class="string">"checked”) // “checked”，原生态的值</span></span><br><span class="line"><span class="string">elem.checked // true，对 js 来说更有意义的值</span></span><br></pre></td></tr></table></figure>
           <div class="post-more-link text-center">
             <a class="btn" href="/2014/09/02/attributes-and-properties/#more" rel="contents">
               Read more &raquo;
@@ -1357,7 +1362,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -1392,7 +1397,7 @@
       
         
           <h3 id="1-添加正确的-host"><a href="#1-添加正确的-host" class="headerlink" title="1. 添加正确的 host"></a>1. 添加正确的 host</h3><p>想方设法找到正确的 host：<br><a href="https://git.oschina.net/kawaiiushio/misc/raw/master/hosts/pc/hosts" target="_blank" rel="noopener">https://git.oschina.net/kawaiiushio/misc/raw/master/hosts/pc/hosts</a></p>
-<h3 id="2-Chrome-中设置搜索引擎为使用-ncr"><a href="#2-Chrome-中设置搜索引擎为使用-ncr" class="headerlink" title="2. Chrome 中设置搜索引擎为使用 ncr"></a>2. Chrome 中设置搜索引擎为使用 ncr</h3><p>填入如下参数，并设为默认引擎：<br><a href="https://www.google.com/#lr=lang_zh-CN&amp;newwindow=1&amp;q=%s" target="_blank" rel="noopener">https://www.google.com/#lr=lang_zh-CN&amp;newwindow=1&amp;q=%s</a><br>
+<h3 id="2-Chrome-中设置搜索引擎为使用-ncr"><a href="#2-Chrome-中设置搜索引擎为使用-ncr" class="headerlink" title="2. Chrome 中设置搜索引擎为使用 ncr"></a>2. Chrome 中设置搜索引擎为使用 ncr</h3><p>填入如下参数，并设为默认引擎：<br><a href="https://www.google.com/#lr=lang_zh-CN&amp;newwindow=1&amp;q=%s" target="_blank" rel="noopener">https://www.google.com/#lr=lang_zh-CN&amp;newwindow=1&amp;q=%s</a></p>
           <div class="post-more-link text-center">
             <a class="btn" href="/2014/07/09/how-to-access-google/#more" rel="contents">
               Read more &raquo;
@@ -1428,7 +1433,7 @@
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" href="/">&lt;i class&#x3D;&quot;fa fa-angle-left&quot;&gt;&lt;&#x2F;i&gt;</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/">&lt;i class&#x3D;&quot;fa fa-angle-right&quot;&gt;&lt;&#x2F;i&gt;</a>
   </nav>
 
 
@@ -1524,11 +1529,11 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <a href="https://www.zhihu.com/people/tianfangye">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
   <div class="copyright" >
     
     &copy; 
-    <span itemprop="copyrightYear">2019</span>
+    <span itemprop="copyrightYear">2020</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
@@ -1537,12 +1542,12 @@
 </a>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
 </div>
 
 <div class="theme-info">
   Theme -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
     NexT.Muse
   </a>
 </div>

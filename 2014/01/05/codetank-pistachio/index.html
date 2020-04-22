@@ -73,6 +73,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
 
@@ -86,15 +88,17 @@
 
 
 
-<meta name="keywords" content="JavaScript,游戏">
 <meta property="og:type" content="article">
 <meta property="og:title" content="CodeTank Pistachio">
-<meta property="og:url" content="http://tianfangye.com/2014/01/05/codetank-pistachio/index.html">
+<meta property="og:url" content="http://alphabao.github.io/2014/01/05/codetank-pistachio/index.html">
 <meta property="og:site_name" content="天方夜">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2016-11-02T09:55:21.000Z">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2014-01-05T11:30:37.000Z">
+<meta property="article:modified_time" content="2016-11-02T09:55:21.000Z">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="游戏">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="CodeTank Pistachio">
 
 
 
@@ -111,11 +115,11 @@
 
 
 
-  <link rel="canonical" href="http://tianfangye.com/2014/01/05/codetank-pistachio/"/>
+  <link rel="canonical" href="http://alphabao.github.io/2014/01/05/codetank-pistachio/"/>
 
 
   <title> CodeTank Pistachio | 天方夜 </title>
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="en">
 
@@ -259,7 +263,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -292,7 +296,9 @@
       
 
       
-        <p><iframe width="750" height="600" src="http://codetank.alloyteam.com/?cmd=battle&param=alloyteam.fire,Tianfangye.Pistachio&mode=battle&theme=transparent"></iframe><br><a id="more"></a></p>
+        <iframe width="750" height="600" src="http://codetank.alloyteam.com/?cmd=battle&param=alloyteam.fire,Tianfangye.Pistachio&mode=battle&theme=transparent"></iframe>
+<a id="more"></a>
+
 <p>CodeTank（代码坦克）是由 腾讯 <a href="http://codetank.alloyteam.com/" target="_blank" rel="noopener">AlloyTeam</a> 和 HTML5 梦工场联合出品的在线坦克仿真游戏平台，构建了一个基于互联网的在线智能坦克机器人战斗仿真引擎。算是 Javascript程序员 的编程游戏，可以用 Javascript 代码控制坦克进行战斗。</p>
 <p>我已经创建了第一个坦克，它叫——Pistachio（开心果）。Pistachio 只考虑了一对一的情况，下文也全是针对一对一而言。</p>
 <p>玩游戏通常赢了才开心，Pistachio 战胜官方示例坦克的概率已经很高（其他的坦克也没发现什么强大的）。</p>
@@ -301,8 +307,7 @@
 <p>onScannedRobot() ：<br>发现敌方坦克 —- alloyTeam.fire。</p>
 <p>onHitRobot() ：<br>与敌方坦克相撞 —- alloyTeam.tracker。</p>
 <p>上面三部分官方示例中都有比较好的处理，后面标注的是现在 Pistachio 参考的官方示例。</p>
-<p>这个游戏最重要也是最大的挑战在于如何移动，你的坦克移动越智能，就越强大！这方面官方示例没什么帮助，胡乱走的话很容易撞墙（减血）。</p>
-<p>###对于智能移动，目标是：</p>
+<p>这个游戏最重要也是最大的挑战在于如何移动，你的坦克移动越智能，就越强大！这方面官方示例没什么帮助，胡乱走的话很容易撞墙（减血）。<br>###对于智能移动，目标是：</p>
 <p>1.灵活（能各个方向的走直线或弧线）<br>2.不撞墙<br>3.容易发现地方坦克（意味着雷达应该有适当的旋转角度与速率）</p>
 <p>###Pistachio 的智能移动：</p>
 <p>1.检查是否刚刚开火，如果是，先小角度转动雷达（此时敌方坦克还没跑远，小角度扫描发现的概率很大）。<br>2.下次移动方向、距离随机产生。<br>3.检查下次到达位置的坐标。<br>4.如果坐标超出战场范围，重新生成。<br>5.如果坐标靠近战场边缘，炮筒与雷达跟随坦克旋转，坦克先旋转、再走直线（避免撞墙）。<br>6.如果坐标安全（当前坐标与预定位置坐标都不靠近战场边缘），炮筒与雷达独立于坦克旋转，坦克走弧线。</p>
@@ -335,7 +340,7 @@
           
             <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
           
-            <a href="/tags/游戏/" rel="tag">#游戏</a>
+            <a href="/tags/%E6%B8%B8%E6%88%8F/" rel="tag">#游戏</a>
           
         </div>
       
@@ -502,11 +507,11 @@ var jiathis_config = {data_track_clickback:'true'};
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <a href="https://www.zhihu.com/people/tianfangye">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
   <div class="copyright" >
     
     &copy; 
-    <span itemprop="copyrightYear">2019</span>
+    <span itemprop="copyrightYear">2020</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
@@ -515,12 +520,12 @@ var jiathis_config = {data_track_clickback:'true'};
 </a>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
 </div>
 
 <div class="theme-info">
   Theme -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
     NexT.Muse
   </a>
 </div>

@@ -73,6 +73,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
 
@@ -87,17 +89,18 @@
 
 
 <meta name="description" content="escapeunescape     encodeURIdecodeURI     encodeURIComponentdecodeURIComponent   这六个方法功能有关联，如果不清楚每一个的作用，很容易混淆。问题的本质，是如何在 URL 中正确处理各种令人头疼的字符。">
-<meta name="keywords" content="JavaScript,URL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="URL字符集的编码与解码：escape unescape encodeURI decodeURI encodeURIComponent decodeURIComponent">
-<meta property="og:url" content="http://tianfangye.com/2015/09/06/escape-unescape-encodeURI-decodeURI-encodeURIComponent-decodeURIComponent/index.html">
+<meta property="og:url" content="http://alphabao.github.io/2015/09/06/escape-unescape-encodeURI-decodeURI-encodeURIComponent-decodeURIComponent/index.html">
 <meta property="og:site_name" content="天方夜">
 <meta property="og:description" content="escapeunescape     encodeURIdecodeURI     encodeURIComponentdecodeURIComponent   这六个方法功能有关联，如果不清楚每一个的作用，很容易混淆。问题的本质，是如何在 URL 中正确处理各种令人头疼的字符。">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2016-11-02T09:55:21.000Z">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2015-09-06T08:20:59.000Z">
+<meta property="article:modified_time" content="2016-11-02T09:55:21.000Z">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="URL">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="URL字符集的编码与解码：escape unescape encodeURI decodeURI encodeURIComponent decodeURIComponent">
-<meta name="twitter:description" content="escapeunescape     encodeURIdecodeURI     encodeURIComponentdecodeURIComponent   这六个方法功能有关联，如果不清楚每一个的作用，很容易混淆。问题的本质，是如何在 URL 中正确处理各种令人头疼的字符。">
 
 
 
@@ -114,11 +117,11 @@
 
 
 
-  <link rel="canonical" href="http://tianfangye.com/2015/09/06/escape-unescape-encodeURI-decodeURI-encodeURIComponent-decodeURIComponent/"/>
+  <link rel="canonical" href="http://alphabao.github.io/2015/09/06/escape-unescape-encodeURI-decodeURI-encodeURIComponent-decodeURIComponent/"/>
 
 
   <title> URL字符集的编码与解码：escape unescape encodeURI decodeURI encodeURIComponent decodeURIComponent | 天方夜 </title>
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="en">
 
@@ -262,7 +265,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -325,11 +328,13 @@
 <p>根据 MDN 的说明，escape 应当换用为 encodeURI 或 encodeURIComponent；unescape 应当换用为 decodeURI 或 decodeURIComponent。</p>
 <p>那么，问题就简化为 <code>encodeURI decodeURI</code> 与 <code>encodeURIComponent decodeURIComponent</code> 的区分。encodeURI 应当用于整个 URI 的编码，encodeURIComponent 应当用于 URI 中某个部分的编码。</p>
 <p> 如果用 URL 举例，如下：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">encodeURI</span>(<span class="string">'https://www.baidu.com/ a b c'</span>)</div><div class="line"><span class="comment">// "https://www.baidu.com/%20a%20b%20c"</span></div><div class="line"><span class="built_in">encodeURIComponent</span>(<span class="string">'https://www.baidu.com/ a b c'</span>)</div><div class="line"><span class="comment">// "https%3A%2F%2Fwww.baidu.com%2F%20a%20b%20c"</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">encodeURI</span>(<span class="string">'https://www.baidu.com/ a b c'</span>)</span><br><span class="line"><span class="comment">// "https://www.baidu.com/%20a%20b%20c"</span></span><br><span class="line"><span class="built_in">encodeURIComponent</span>(<span class="string">'https://www.baidu.com/ a b c'</span>)</span><br><span class="line"><span class="comment">// "https%3A%2F%2Fwww.baidu.com%2F%20a%20b%20c"</span></span><br></pre></td></tr></table></figure>
+
 <p>而 escape 会编码成下面这样，不伦不类，所以废弃。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">escape</span>(<span class="string">'https://www.baidu.com/ a b c'</span>)</div><div class="line"><span class="comment">// "https%3A//www.baidu.com/%20a%20b%20c"</span></div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">escape</span>(<span class="string">'https://www.baidu.com/ a b c'</span>)</span><br><span class="line"><span class="comment">// "https%3A//www.baidu.com/%20a%20b%20c"</span></span><br></pre></td></tr></table></figure>
+
 <p>由此可知，前端开发中用到最多的应该是 encodeURIComponent/decodeURIComponent。例如下面这个将 URL Search 中的参数转化为对象的方法：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> parseUrlSearch = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</div><div class="line">  <span class="keyword">var</span> query = <span class="built_in">window</span>.location.search.slice(<span class="number">1</span>);</div><div class="line">  <span class="keyword">var</span> result = &#123;&#125;;</div><div class="line">  query.split(<span class="string">"&amp;"</span>).forEach(<span class="function"><span class="keyword">function</span>(<span class="params">part</span>) </span>&#123;</div><div class="line">    <span class="keyword">var</span> item = part.split(<span class="string">"="</span>);</div><div class="line">    result[item[<span class="number">0</span>]] = <span class="built_in">decodeURIComponent</span>(item[<span class="number">1</span>]);</div><div class="line">  &#125;);</div><div class="line">  <span class="keyword">return</span> result;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> parseUrlSearch = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> query = <span class="built_in">window</span>.location.search.slice(<span class="number">1</span>);</span><br><span class="line">  <span class="keyword">var</span> result = &#123;&#125;;</span><br><span class="line">  query.split(<span class="string">"&amp;"</span>).forEach(<span class="function"><span class="keyword">function</span>(<span class="params">part</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> item = part.split(<span class="string">"="</span>);</span><br><span class="line">    result[item[<span class="number">0</span>]] = <span class="built_in">decodeURIComponent</span>(item[<span class="number">1</span>]);</span><br><span class="line">  &#125;);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -521,11 +526,11 @@ var jiathis_config = {data_track_clickback:'true'};
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <a href="https://www.zhihu.com/people/tianfangye">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
   <div class="copyright" >
     
     &copy; 
-    <span itemprop="copyrightYear">2019</span>
+    <span itemprop="copyrightYear">2020</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
@@ -534,12 +539,12 @@ var jiathis_config = {data_track_clickback:'true'};
 </a>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
 </div>
 
 <div class="theme-info">
   Theme -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
     NexT.Muse
   </a>
 </div>

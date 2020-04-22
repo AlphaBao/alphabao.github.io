@@ -73,6 +73,8 @@
 
 
 
+  
+
 
   <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
 
@@ -87,17 +89,17 @@
 
 
 <meta name="description" content="现状JavaScript 分号之争由来已久，目前最被认可的结论是：JavaScript 语句末尾是否加分号是一个编程风格问题，可以加，也可以不加。 选择 事情总要有个决定的！——卫斯理《只限老友》（卫斯理系列最后一句话）  那么，到底加不加分号呢？ 既然是一个风格问题，我们要明白的是如何选择。选择之前，我们来看看做出选择的前提是什么：  加分号：前提是你了解如何以加分号的方式写 JavaScrip">
-<meta name="keywords" content="JavaScript">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JavaScript 分号问题">
-<meta property="og:url" content="http://tianfangye.com/2015/06/06/semicolons-in-javascript/index.html">
+<meta property="og:url" content="http://alphabao.github.io/2015/06/06/semicolons-in-javascript/index.html">
 <meta property="og:site_name" content="天方夜">
 <meta property="og:description" content="现状JavaScript 分号之争由来已久，目前最被认可的结论是：JavaScript 语句末尾是否加分号是一个编程风格问题，可以加，也可以不加。 选择 事情总要有个决定的！——卫斯理《只限老友》（卫斯理系列最后一句话）  那么，到底加不加分号呢？ 既然是一个风格问题，我们要明白的是如何选择。选择之前，我们来看看做出选择的前提是什么：  加分号：前提是你了解如何以加分号的方式写 JavaScrip">
-<meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2016-11-02T09:55:21.000Z">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2015-06-06T12:43:52.000Z">
+<meta property="article:modified_time" content="2016-11-02T09:55:21.000Z">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="JavaScript">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JavaScript 分号问题">
-<meta name="twitter:description" content="现状JavaScript 分号之争由来已久，目前最被认可的结论是：JavaScript 语句末尾是否加分号是一个编程风格问题，可以加，也可以不加。 选择 事情总要有个决定的！——卫斯理《只限老友》（卫斯理系列最后一句话）  那么，到底加不加分号呢？ 既然是一个风格问题，我们要明白的是如何选择。选择之前，我们来看看做出选择的前提是什么：  加分号：前提是你了解如何以加分号的方式写 JavaScrip">
 
 
 
@@ -114,11 +116,11 @@
 
 
 
-  <link rel="canonical" href="http://tianfangye.com/2015/06/06/semicolons-in-javascript/"/>
+  <link rel="canonical" href="http://alphabao.github.io/2015/06/06/semicolons-in-javascript/"/>
 
 
   <title> JavaScript 分号问题 | 天方夜 </title>
-</head>
+<meta name="generator" content="Hexo 4.2.0"></head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="en">
 
@@ -262,7 +264,7 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/编程/" itemprop="url" rel="index">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
                     <span itemprop="name">编程</span>
                   </a>
                 </span>
@@ -308,31 +310,43 @@
 </li>
 </ul>
 <a id="more"></a>
+
 <p>初期，了解哪种，选择哪种。如果都不了解，其实你只是胡乱写 JavaScript。若都有了解，自然可以根据喜好，任性！不过我们往往需要考虑更多，如今这个<strong>你也造轮子，我也改框架</strong>的时代，其实我们需要同时了解这两种规则，这是语言设计带来的问题（JavaScript 有自动插入分号的机制，然而并不可靠），避无可避。</p>
 <h2 id="不加分号"><a href="#不加分号" class="headerlink" title="不加分号"></a>不加分号</h2><p>选择不加分号的风格，就要了解哪些情况下不加分号会产生歧义，然后避免。</p>
 <p>最著名的例子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span></div><div class="line">&#123;</div><div class="line">  <span class="attr">index</span>: <span class="number">0</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span></span><br><span class="line">&#123;</span><br><span class="line">  index: <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>return 后面会自动加入上分号，这并不是期望的结果。所以，要写成：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> &#123;</div><div class="line">  <span class="attr">index</span>: <span class="number">0</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">  index: <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>上面是一个<strong>不想加而被加</strong>的例子，下面看一个<strong>想被加而没有加</strong>的例子：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</div><div class="line"></div><div class="line">[].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(elem.innerText)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</span><br><span class="line"></span><br><span class="line">[].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(elem.innerText)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
 <p>这段代码会报错，因为它被解释为这样：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)[].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(elem.innerText)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)[].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(elem.innerText)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
 <p>“[“, “(“, “+”, “-“, “/“ 这些符号也有同样的问题。所以，不加分号的风格，要避免这些情况。于是，可以这样：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</div><div class="line"></div><div class="line">;[].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(elem.innerText)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</span><br><span class="line"></span><br><span class="line">;[].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(elem.innerText)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
 <p>也就是在 “[“, “(“, “+”, “-“, “/“ 这些前面加分号，如果感觉分号不好看，还可以这样：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</div><div class="line"></div><div class="line"><span class="keyword">void</span> [].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(elem.innerText)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> [].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(elem.innerText)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
 <p>最好的方式也许是这样：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</div><div class="line"></div><div class="line"><span class="built_in">Array</span>.prototype.forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</div><div class="line">  <span class="built_in">console</span>.log(elem.innerText)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">Array</span>.prototype.forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(elem.innerText)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
 <p>然而，还没有结束，<code>Zepto, Sea.js, Vue.js</code> 都是不加分号阵营，观察它们的源代码，你会发现一个问题。这些代码中极少用 var 定义函数。这是因为：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> a + b</div><div class="line">&#125;</div><div class="line"></div><div class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(add)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(add)</span><br></pre></td></tr></table></figure>
+
 <p>会被解释为：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> a + b</div><div class="line">&#125;[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(add)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b</span><br><span class="line">&#125;[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(add)</span><br></pre></td></tr></table></figure>
+
 <p>如果代码是这样：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mark = [[], [], [<span class="number">1</span>, <span class="number">2</span>]]</div><div class="line"></div><div class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(<span class="function"><span class="keyword">function</span>(<span class="params">pre, cur</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> pre + cur</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mark = [[], [], [<span class="number">1</span>, <span class="number">2</span>]]</span><br><span class="line"></span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(<span class="function"><span class="keyword">function</span>(<span class="params">pre, cur</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> pre + cur</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
 <p>还会不报错，对排错很不友好。</p>
 <h2 id="加分号"><a href="#加分号" class="headerlink" title="加分号"></a>加分号</h2><p>以加分号的方式写代码，不需要特别的规则，只需要熟练掌握 JavaScript 语法。加分号的风格，只有在<strong>漏加分号</strong>的情况下才会出问题：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</div><div class="line">  <span class="keyword">return</span> a + b</div><div class="line">&#125;</div><div class="line"></div><div class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(add)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(add)</span><br></pre></td></tr></table></figure>
+
 <p>这是前面用到过的例子，代码会解释为 }[] 的结构。加分号阵营有：jQuery, Underscore.js, Backbone.js…</p>
 <h2 id="推荐"><a href="#推荐" class="headerlink" title="推荐"></a>推荐</h2><p>我推荐的是加分号风格，因为加分号不需要多余的附加规则。当然，你也可以选择不加分号风格，只要你清楚由此带来的附加限制。</p>
 <h2 id="争议"><a href="#争议" class="headerlink" title="争议"></a>争议</h2><p><a href="http://www.zhihu.com/people/he-shi-jun" target="_blank" rel="noopener">贺师俊</a>写过一篇<a href="http://hax.iteye.com/blog/1563585" target="_blank" rel="noopener">《JavaScript语句后应该加分号么？》</a>。他推荐不加分号的风格，文章中谈了团队习惯、编程语言的风格、代码构建等更深入的问题，但是他的每个推论我都无法赞同。</p>
@@ -340,7 +354,8 @@
 <p>行首加分号的规则比函数表达式后面加分号的规则其实要简单！</p>
 </blockquote>
 <p>这是他推荐不加分号风格的依据，可是这个结论太过武断。他的推理过程是这样的：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> a = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  </div><div class="line">  ...  </div><div class="line">&#125;</div><div class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].forEach(...)</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  </span><br><span class="line">  ...  </span><br><span class="line">&#125;</span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].forEach(...)</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>var a = function () {} 后面要加分号，坑爹！</p>
 </blockquote>
@@ -353,7 +368,8 @@
 <p>行首是否要加分号，我只要看本行的第一个字符就可以了……然而，你如果要判断“}”后面是否要加“;”，你得向上回溯，看清楚整段代码是一个结构呢？还是一个函数？如果是函数的话，是函数声明呢？还是函数表达式！许多时候，你可能向上翻几页还没找到对应的“{”！或者已经忘记了是几层缩进了！</p>
 </blockquote>
 <p>这是编写可维护代码的问题。首先，你不应该写超长的 function。其次，缩进很多也是要尽量避免的。如果你写了超长的函数或者超多的缩进，有没有分号都一样难以阅读。其实超长 function 只应该出现在封装模块的时候：</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root, factory</span>) </span>&#123;</div><div class="line">  <span class="comment">//</span></div><div class="line">&#125;(<span class="keyword">this</span>, <span class="function"><span class="keyword">function</span>(<span class="params">root</span>) </span>&#123;</div><div class="line"></div><div class="line">  <span class="comment">// 超长函数</span></div><div class="line"></div><div class="line">&#125;));</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root, factory</span>) </span>&#123;</span><br><span class="line">  <span class="comment">//</span></span><br><span class="line">&#125;(<span class="keyword">this</span>, <span class="function"><span class="keyword">function</span>(<span class="params">root</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 超长函数</span></span><br><span class="line"></span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
+
 <p>这种超长函数不会带来困扰：</p>
 <ol>
 <li>这种情况下超长函数不会有那么多缩进。</li>
@@ -561,11 +577,11 @@ var jiathis_config = {data_track_clickback:'true'};
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <a href="https://www.zhihu.com/people/tianfangye">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
   <div class="copyright" >
     
     &copy; 
-    <span itemprop="copyrightYear">2019</span>
+    <span itemprop="copyrightYear">2020</span>
     <span class="with-love">
       <i class="fa fa-heart"></i>
     </span>
@@ -574,12 +590,12 @@ var jiathis_config = {data_track_clickback:'true'};
 </a>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
 </div>
 
 <div class="theme-info">
   Theme -
-  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
     NexT.Muse
   </a>
 </div>
