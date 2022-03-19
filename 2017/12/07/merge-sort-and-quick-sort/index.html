@@ -1,0 +1,676 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="算法,排序," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="前言归并排序与快速排序是两种有实际应用的排序算法，它们有一些共同的特点，整体思路上也比较相近。本文会从更简单的一些排序算法开始，过渡到归并排序和快速排序的实现，并对它们做一些简单的对比思考和总结。在这之前，先简单介绍一下排序算法的意义。 排序算法就是将一串数据依照特定排序方式进行排列，它们在计算机科学中有大量研究以及应用。 想象一下下列场景：  从通讯录中寻找某个联系人 从一大堆文件中寻找某个文件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="归并排序与快速排序的简明实现及对比">
+<meta property="og:url" content="http://alphabao.github.io/2017/12/07/merge-sort-and-quick-sort/index.html">
+<meta property="og:site_name" content="天方夜">
+<meta property="og:description" content="前言归并排序与快速排序是两种有实际应用的排序算法，它们有一些共同的特点，整体思路上也比较相近。本文会从更简单的一些排序算法开始，过渡到归并排序和快速排序的实现，并对它们做一些简单的对比思考和总结。在这之前，先简单介绍一下排序算法的意义。 排序算法就是将一串数据依照特定排序方式进行排列，它们在计算机科学中有大量研究以及应用。 想象一下下列场景：  从通讯录中寻找某个联系人 从一大堆文件中寻找某个文件">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-12-07T12:33:54.000Z">
+<meta property="article:modified_time" content="2022-03-19T13:00:34.899Z">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="算法">
+<meta property="article:tag" content="排序">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://alphabao.github.io/2017/12/07/merge-sort-and-quick-sort/"/>
+
+
+  <title> 归并排序与快速排序的简明实现及对比 | 天方夜 </title>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天方夜</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不患人之不己知，患不知人也</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                归并排序与快速排序的简明实现及对比
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-12-07T20:33:54+08:00" content="2017-12-07">
+              2017-12-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>归并排序与快速排序是两种有实际应用的排序算法，它们有一些共同的特点，整体思路上也比较相近。本文会从更简单的一些排序算法开始，过渡到归并排序和快速排序的实现，并对它们做一些简单的对比思考和总结。在这之前，先简单介绍一下排序算法的意义。</p>
+<p>排序算法就是将一串数据依照特定排序方式进行排列，它们在计算机科学中有大量研究以及应用。</p>
+<p>想象一下下列场景：</p>
+<ol>
+<li>从通讯录中寻找某个联系人</li>
+<li>从一大堆文件中寻找某个文件</li>
+<li>到了影厅之后，寻找电影票上指定的座位</li>
+</ol>
+<p>如果以上情况中，联系人、文件、影厅座位这些“数据”没有按照需要的顺序组织，如何找到想要的特定“数据”呢？会非常麻烦！所以说，对于需要搜索的数据，往往应该先排个序！</p>
+<h2 id="热身一：选择排序"><a href="#热身一：选择排序" class="headerlink" title="热身一：选择排序"></a>热身一：选择排序</h2><p>本文的示例都是数值排序，对于这个问题，最简单直观的方法是：先找出最小的、再找出第二小的、接着找出第三小的……这就是选择排序的思路。<a id="more"></a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">selectionSort</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> len = array.length;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; len - <span class="number">1</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">let</span> min = i;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = i + <span class="number">1</span>; j &lt; len; j++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (array[min] &gt; array[j]) &#123;</span><br><span class="line">        min = j;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [ array[min], array[i] ] = [ array[i], array[min] ];</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> array;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>实现解析：</p>
+<ol>
+<li>遍历数组</li>
+<li>找到当前范围内最小的元素，用 minIndex 记录它的下标，第一次遍历时范围就是整个数组</li>
+<li>将下标为 minIndex 的元素的值与当前最小下标的元素交换，第一次遍历时下标最小的元素就是 a[0]</li>
+<li>第二次遍历时，范围就从第二个数据元素的下标开始，那么当前最小下标元素就是 a[1]</li>
+<li>重复交换直至遍历结束</li>
+</ol>
+<p>用一段辅助代码，做一些展示用的示例。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">createUnsortedArray</span>(<span class="params">size</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> array = [];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = size; i &gt; <span class="number">0</span>; i--) &#123;</span><br><span class="line">    <span class="keyword">const</span> num = (i / <span class="number">10</span> &gt; <span class="number">1</span>) ? i : <span class="number">10</span>;</span><br><span class="line">    array.push( <span class="built_in">Math</span>.round(<span class="built_in">Math</span>.random(i) * num + <span class="built_in">Math</span>.round(<span class="built_in">Math</span>.random(i)) * <span class="built_in">Math</span>.random(i) * num * <span class="number">10</span>) );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> array;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">show</span>(<span class="params">fn, size = <span class="number">11</span></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'------------------------------------------'</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">`Method: <span class="subst">$&#123;fn.name&#125;</span>`</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'------------------------------------------'</span>);</span><br><span class="line">  <span class="keyword">const</span> array = createUnsortedArray(size);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'before:'</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(array.toString());</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'after:'</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(fn(array).toString());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先创建一个随机生成的未排序的数组，然后打印结果。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">show(selectionSort);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ------------------------------------------</span></span><br><span class="line"><span class="comment">// Method: selectionSort</span></span><br><span class="line"><span class="comment">// ------------------------------------------</span></span><br><span class="line"><span class="comment">// before:</span></span><br><span class="line"><span class="comment">// 9,22,3,27,74,54,8,41,80,74,3</span></span><br><span class="line"><span class="comment">// after:</span></span><br><span class="line"><span class="comment">// 3,3,8,9,22,27,41,54,74,74,80</span></span><br></pre></td></tr></table></figure>
+
+
+<h2 id="热身二：冒泡排序"><a href="#热身二：冒泡排序" class="headerlink" title="热身二：冒泡排序"></a>热身二：冒泡排序</h2><p>冒泡排序与选择排序有些类似，区别在于冒泡排序是先将最大值冒泡到最后的位置。早在 1956 年，就已经有人研究冒泡排序。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">bubbleSort</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> first = <span class="number">0</span>, len = array.length; first &lt; len; first++) &#123;</span><br><span class="line">    <span class="keyword">let</span> isSorted = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> second = <span class="number">0</span>; second &lt; len - first - <span class="number">1</span>; second++) &#123;</span><br><span class="line">      <span class="keyword">if</span> (array[second] &gt; array[second + <span class="number">1</span>]) &#123;</span><br><span class="line">        <span class="keyword">let</span> temp = array[second];</span><br><span class="line">        array[second] = array[second + <span class="number">1</span>]</span><br><span class="line">        array[second + <span class="number">1</span>] = temp;</span><br><span class="line">        isSorted = <span class="literal">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (isSorted) &#123;</span><br><span class="line">      <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> array;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">show(bubbleSort);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ------------------------------------------                                      </span></span><br><span class="line"><span class="comment">// Method: bubbleSort                                                              </span></span><br><span class="line"><span class="comment">// ------------------------------------------                                      </span></span><br><span class="line"><span class="comment">// before:</span></span><br><span class="line"><span class="comment">// 35,8,2,2,8,1,3,4,2,10,4</span></span><br><span class="line"><span class="comment">// after:</span></span><br><span class="line"><span class="comment">// 1,2,2,2,3,4,4,8,8,10,35</span></span><br></pre></td></tr></table></figure>
+
+<p>实现解析：</p>
+<ol>
+<li>遍历数组</li>
+<li>做第二层遍历，从前到后依次对比相邻两项，前一项的值大于后一项，则交换（冒泡）。第一遍冒泡，将最大的元素值冒泡至最后</li>
+<li>由于每一遍冒泡都确定一个当前最大值并放到当前范围的最后的位置，每一遍的冒泡就可以少检查一个位置</li>
+<li>可以使用一个变量记录当前一遍的冒泡有没有产生元素交换，如果没有，说明当前已经是排序完成的状态，终止循环</li>
+</ol>
+<h2 id="热身三：插入排序"><a href="#热身三：插入排序" class="headerlink" title="热身三：插入排序"></a>热身三：插入排序</h2><p>插入排序的思想在日常生活其实很常见，例如如何排定卢俊义的座次？综合出身、能力、江湖地位、形势人心等各项指标，他在梁山泊排名第二，地位仅次于宋江。这就是插入排序的思路。数据量很小，或类似“给卢俊义排座次”这种在已排序数据中增加一条数据的情况，插入排序优于本文提到的其他排序方式。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">insertionSort</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>, len = array.length; i &lt; len; i++) &#123;</span><br><span class="line">    <span class="keyword">let</span> j = i;</span><br><span class="line">    <span class="keyword">const</span> temp = array[i]</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (j &gt; <span class="number">0</span> &amp;&amp; array[j - <span class="number">1</span>] &gt; temp) &#123;</span><br><span class="line">      array[j] = array[j - <span class="number">1</span>];</span><br><span class="line">      j--;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    array[j] = temp;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> array;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">show(insertionSort);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ------------------------------------------                                      </span></span><br><span class="line"><span class="comment">// Method: insertionSort                                                              </span></span><br><span class="line"><span class="comment">// ------------------------------------------                                      </span></span><br><span class="line"><span class="comment">// before:</span></span><br><span class="line"><span class="comment">// 3,8,68,30,28,56,35,30,2,4,13</span></span><br><span class="line"><span class="comment">// after:</span></span><br><span class="line"><span class="comment">// 2,3,4,8,13,28,30,30,35,56,68</span></span><br></pre></td></tr></table></figure>
+
+<p>实现解析：</p>
+<ol>
+<li>从第一个元素开始，该元素可以认为已经被排序</li>
+<li>取出下一个元素，在已经排序的元素序列中从后向前扫描</li>
+<li>如果该元素（已排序）大于新元素，将该元素移到下一位置</li>
+<li>重复步骤3，直到找到已排序的元素小于或者等于新元素的位置</li>
+<li>将新元素插入到该位置后</li>
+<li>重复步骤2~5</li>
+</ol>
+<h2 id="归并排序（递归实现）"><a href="#归并排序（递归实现）" class="headerlink" title="归并排序（递归实现）"></a>归并排序（递归实现）</h2><p>选择排序和冒泡排序的时间复杂度都是 O(n^2)，很少用在实际工程中；归并排序的时间复杂度是 O(nlog(n))，是实际工程中可选的排序方案。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">mergeSort</span>(<span class="params">unsorted</span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">merge</span>(<span class="params">leftArr, rightArr</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> lenL = leftArr.length;</span><br><span class="line">    <span class="keyword">const</span> lenR = rightArr.length;</span><br><span class="line">    <span class="keyword">let</span> indexL = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> indexR = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">const</span> result = [];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (indexL &lt; lenL &amp;&amp; indexR &lt; lenR) &#123;</span><br><span class="line">      <span class="keyword">if</span> (leftArr[indexL] &lt; rightArr[indexR]) &#123;</span><br><span class="line">        result.push(leftArr[indexL++]);</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        result.push(rightArr[indexR++]);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (indexL &lt; lenL) &#123;</span><br><span class="line">      result.push(leftArr[indexL++]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (indexR &lt; lenR) &#123;</span><br><span class="line">      result.push(rightArr[indexR++]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">split</span>(<span class="params">array</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> len = array.length;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (len &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> array;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> mid = <span class="built_in">Math</span>.floor(len / <span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> leftArr = array.slice(<span class="number">0</span>, mid);</span><br><span class="line">    <span class="keyword">const</span> rightArr = array.slice(mid, len);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> merge( split(leftArr), split(rightArr) );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> split(unsorted);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">show(mergeSort);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ------------------------------------------</span></span><br><span class="line"><span class="comment">// Method: mergeSort</span></span><br><span class="line"><span class="comment">// ------------------------------------------</span></span><br><span class="line"><span class="comment">// before:</span></span><br><span class="line"><span class="comment">// 86,55,0,31,104,6,5,49,89,19,6</span></span><br><span class="line"><span class="comment">// after:</span></span><br><span class="line"><span class="comment">// 0,5,6,6,19,31,49,55,86,89,104</span></span><br></pre></td></tr></table></figure>
+
+<p>实现分析：</p>
+<ol>
+<li>将数组从中间切分为两个数组</li>
+<li>切分到最小之后，开始归并操作，即合并两个已排序的数组</li>
+<li>递归合并的过程，由于是从小到大合并，所以待合并的两个数组总是已排序的，一直做同样的归并操作就可以</li>
+</ol>
+<h2 id="快速排序（递归实现）"><a href="#快速排序（递归实现）" class="headerlink" title="快速排序（递归实现）"></a>快速排序（递归实现）</h2><p>快速排序是实际应用非常多的排序算法，它通常比其他 O(nlog(n)) 时间复杂度的算法更快。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">quickSort</span>(<span class="params">unsorted</span>) </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">partition</span>(<span class="params">array, left, right</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> pivot = array[ <span class="built_in">Math</span>.floor((left + right) / <span class="number">2</span>) ];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (left &lt;= right) &#123;</span><br><span class="line">      <span class="keyword">while</span> (array[left] &lt; pivot) &#123;</span><br><span class="line">        left++;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">while</span> (array[right] &gt; pivot) &#123;</span><br><span class="line">        right--;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (left &lt;= right) &#123;</span><br><span class="line">        [array[left], array[right]] = [array[right], array[left]];</span><br><span class="line">        left++;</span><br><span class="line">        right--;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> left;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">function</span> <span class="title">quick</span>(<span class="params">array, left, right</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (array.length &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> array;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> index = partition(array, left, right);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (left &lt; index - <span class="number">1</span>) &#123;</span><br><span class="line">      quick(array, left, index - <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (right &gt; index) &#123;</span><br><span class="line">      quick(array, index, right);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> array;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> quick(unsorted, <span class="number">0</span>, unsorted.length - <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">show(quickSort);</span><br><span class="line"></span><br><span class="line"><span class="comment">// ------------------------------------------</span></span><br><span class="line"><span class="comment">// Method: quickSort</span></span><br><span class="line"><span class="comment">// ------------------------------------------</span></span><br><span class="line"><span class="comment">// before:</span></span><br><span class="line"><span class="comment">// 41,9,22,4,1,32,10,28,4,94,3</span></span><br><span class="line"><span class="comment">// after:</span></span><br><span class="line"><span class="comment">// 1,3,4,4,9,10,22,28,32,41,94</span></span><br></pre></td></tr></table></figure>
+
+<p>实现分析：</p>
+<ol>
+<li>将当前数组分区</li>
+<li>分区时先选择一个基准值，再创建两个指针，左边一个指向数组第一个项，右边一个指向数组最后一个项。移动左指针直至找到一个比基准值大的元素，再移动右指针直至找到一个比基准值小的元素，然后交换它们，重复这个过程，直到左指针的位置超过了右指针。如此分区、交换使得比基准值小的元素都在基准值之前，比基准值大的元素都在基准值之后，这就是分区（partition）操作。</li>
+<li>对于上一次分区后的两个区域重复进行分区、交换操作，直至分区到最小。</li>
+</ol>
+<h2 id="对比归并排序与快速排序"><a href="#对比归并排序与快速排序" class="headerlink" title="对比归并排序与快速排序"></a>对比归并排序与快速排序</h2><ol>
+<li>都用了分治的思想。相比选择排序和冒泡排序，归并排序与快速排序使用了切分而不是直接遍历，这有效减少了交换次数。</li>
+<li>归并排序是先切分、后排序，过程可以描述为：切分、切分、切分……排序、排序、排序……</li>
+<li>快速排序是分区、排序交替进行，过程可以描述为：分区、排序、分区、排序……</li>
+<li>上两条所说的“排序”，在归并排序与快速排序中并非同样的操作，归并排序中的操作是将两个数组合并为一（归并操作），而快速排序中的操作是交换。</li>
+</ol>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a href="http://www.ituring.com.cn/book/2029" target="_blank" rel="noopener">学习JavaScript数据结构与算法（第2版）</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Sorting_algorithm" target="_blank" rel="noopener">Sorting algorithm</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/%E7%AE%97%E6%B3%95/" rel="tag">#算法</a>
+          
+            <a href="/tags/%E6%8E%92%E5%BA%8F/" rel="tag">#排序</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/24/binary-search-tree-es5-es6-md/" rel="next" title="二叉搜索树的简明实现（ES5 & ES6）">
+                <i class="fa fa-chevron-left"></i> 二叉搜索树的简明实现（ES5 & ES6）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/12/31/inheritance-in-javascript-es3-es5-and-es6/" rel="prev" title="JavaScript 中的继承：ES3、ES5 和 ES6">
+                JavaScript 中的继承：ES3、ES5 和 ES6 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a href="http://www.jiathis.com/share?uid=2149398" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2149398" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="天方夜" />
+          <p class="site-author-name" itemprop="name">天方夜</p>
+          <p class="site-description motion-element" itemprop="description">天方夜的博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#前言"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#热身一：选择排序"><span class="nav-number">2.</span> <span class="nav-text">热身一：选择排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#热身二：冒泡排序"><span class="nav-number">3.</span> <span class="nav-text">热身二：冒泡排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#热身三：插入排序"><span class="nav-number">4.</span> <span class="nav-text">热身三：插入排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#归并排序（递归实现）"><span class="nav-number">5.</span> <span class="nav-text">归并排序（递归实现）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速排序（递归实现）"><span class="nav-number">6.</span> <span class="nav-text">快速排序（递归实现）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对比归并排序与快速排序"><span class="nav-number">7.</span> <span class="nav-text">对比归并排序与快速排序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">8.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
+  <div class="copyright" >
+    
+    &copy; 
+    <span itemprop="copyrightYear">2022</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">天方夜</span>
+  </div>
+</a>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Muse
+  </a>
+</div>
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  
+  
+
+  
+
+  
+
+</body>
+</html>

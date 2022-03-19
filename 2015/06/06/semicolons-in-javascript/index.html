@@ -1,0 +1,687 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="现状JavaScript 分号之争由来已久，目前最被认可的结论是：JavaScript 语句末尾是否加分号是一个编程风格问题，可以加，也可以不加。 选择 事情总要有个决定的！——卫斯理《只限老友》（卫斯理系列最后一句话）  那么，到底加不加分号呢？ 既然是一个风格问题，我们要明白的是如何选择。选择之前，我们来看看做出选择的前提是什么：  加分号：前提是你了解如何以加分号的方式写 JavaScrip">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 分号问题">
+<meta property="og:url" content="http://alphabao.github.io/2015/06/06/semicolons-in-javascript/index.html">
+<meta property="og:site_name" content="天方夜">
+<meta property="og:description" content="现状JavaScript 分号之争由来已久，目前最被认可的结论是：JavaScript 语句末尾是否加分号是一个编程风格问题，可以加，也可以不加。 选择 事情总要有个决定的！——卫斯理《只限老友》（卫斯理系列最后一句话）  那么，到底加不加分号呢？ 既然是一个风格问题，我们要明白的是如何选择。选择之前，我们来看看做出选择的前提是什么：  加分号：前提是你了解如何以加分号的方式写 JavaScrip">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2015-06-06T12:43:52.000Z">
+<meta property="article:modified_time" content="2022-03-19T13:00:34.900Z">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://alphabao.github.io/2015/06/06/semicolons-in-javascript/"/>
+
+
+  <title> JavaScript 分号问题 | 天方夜 </title>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天方夜</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不患人之不己知，患不知人也</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript 分号问题
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2015-06-06T20:43:52+08:00" content="2015-06-06">
+              2015-06-06
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="现状"><a href="#现状" class="headerlink" title="现状"></a>现状</h2><p>JavaScript 分号之争由来已久，目前最被认可的结论是：<strong>JavaScript 语句末尾是否加分号是一个编程风格问题，可以加，也可以不加。</strong></p>
+<h2 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h2><blockquote>
+<p>事情总要有个决定的！<br>——卫斯理《只限老友》（卫斯理系列最后一句话）</p>
+</blockquote>
+<p>那么，到底加不加分号呢？</p>
+<p>既然是一个风格问题，我们要明白的是如何选择。选择之前，我们来看看做出选择的前提是什么：</p>
+<ul>
+<li><p><code>加分号</code>：前提是你了解如何以加分号的方式写 JavaScript。</p>
+</li>
+<li><p><code>不加分号</code>：前提是你了解如何以不加分号的方式写 JavaScript。</p>
+</li>
+</ul>
+<a id="more"></a>
+
+<p>初期，了解哪种，选择哪种。如果都不了解，其实你只是胡乱写 JavaScript。若都有了解，自然可以根据喜好，任性！不过我们往往需要考虑更多，如今这个<strong>你也造轮子，我也改框架</strong>的时代，其实我们需要同时了解这两种规则，这是语言设计带来的问题（JavaScript 有自动插入分号的机制，然而并不可靠），避无可避。</p>
+<h2 id="不加分号"><a href="#不加分号" class="headerlink" title="不加分号"></a>不加分号</h2><p>选择不加分号的风格，就要了解哪些情况下不加分号会产生歧义，然后避免。</p>
+<p>最著名的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span></span><br><span class="line">&#123;</span><br><span class="line">  index: <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>return 后面会自动加入上分号，这并不是期望的结果。所以，要写成：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">return</span> &#123;</span><br><span class="line">  index: <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面是一个<strong>不想加而被加</strong>的例子，下面看一个<strong>想被加而没有加</strong>的例子：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</span><br><span class="line"></span><br><span class="line">[].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(elem.innerText)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>这段代码会报错，因为它被解释为这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)[].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(elem.innerText)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>“[“, “(“, “+”, “-“, “&#x2F;“ 这些符号也有同样的问题。所以，不加分号的风格，要避免这些情况。于是，可以这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</span><br><span class="line"></span><br><span class="line">;[].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(elem.innerText)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>也就是在 “[“, “(“, “+”, “-“, “&#x2F;“ 这些前面加分号，如果感觉分号不好看，还可以这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> [].forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(elem.innerText)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>最好的方式也许是这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> buttons = <span class="built_in">document</span>.querySelectorAll(<span class="string">"button"</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">Array</span>.prototype.forEach.call(buttons, <span class="function"><span class="keyword">function</span>(<span class="params">elem</span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(elem.innerText)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>然而，还没有结束，<code>Zepto, Sea.js, Vue.js </code> 都是不加分号阵营，观察它们的源代码，你会发现一个问题。这些代码中极少用 var 定义函数。这是因为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(add)</span><br></pre></td></tr></table></figure>
+
+<p>会被解释为：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b</span><br><span class="line">&#125;[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(add)</span><br></pre></td></tr></table></figure>
+
+<p>如果代码是这样：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mark = [[], [], [<span class="number">1</span>, <span class="number">2</span>]]</span><br><span class="line"></span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(<span class="function"><span class="keyword">function</span>(<span class="params">pre, cur</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> pre + cur</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>还会不报错，对排错很不友好。</p>
+<h2 id="加分号"><a href="#加分号" class="headerlink" title="加分号"></a>加分号</h2><p>以加分号的方式写代码，不需要特别的规则，只需要熟练掌握 JavaScript 语法。加分号的风格，只有在<strong>漏加分号</strong>的情况下才会出问题：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> add = <span class="function"><span class="keyword">function</span>(<span class="params">a, b</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> a + b</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">[<span class="number">0</span>, <span class="number">1</span>, <span class="number">2</span>].reduce(add)</span><br></pre></td></tr></table></figure>
+
+<p>这是前面用到过的例子，代码会解释为 }[] 的结构。加分号阵营有：jQuery, Underscore.js, Backbone.js…</p>
+<h2 id="推荐"><a href="#推荐" class="headerlink" title="推荐"></a>推荐</h2><p>我推荐的是加分号风格，因为加分号不需要多余的附加规则。当然，你也可以选择不加分号风格，只要你清楚由此带来的附加限制。</p>
+<h2 id="争议"><a href="#争议" class="headerlink" title="争议"></a>争议</h2><p><a href="http://www.zhihu.com/people/he-shi-jun" target="_blank" rel="noopener">贺师俊</a>写过一篇<a href="http://hax.iteye.com/blog/1563585" target="_blank" rel="noopener">《JavaScript语句后应该加分号么？》</a>。他推荐不加分号的风格，文章中谈了团队习惯、编程语言的风格、代码构建等更深入的问题，但是他的每个推论我都无法赞同。</p>
+<blockquote>
+<p>行首加分号的规则比函数表达式后面加分号的规则其实要简单！</p>
+</blockquote>
+<p>这是他推荐不加分号风格的依据，可是这个结论太过武断。他的推理过程是这样的：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> a = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;  </span><br><span class="line">  ...  </span><br><span class="line">&#125;</span><br><span class="line">[<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>].forEach(...)</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>var a &#x3D; function () {} 后面要加分号，坑爹！</p>
+</blockquote>
+<p>var 声明的变量后面本来就要加分号，这里只不过是定义了一个 function 类型的变量而已，当然要加。</p>
+<blockquote>
+<p>function if for 结构的 {} 后面不加分号，var a &#x3D; function() {} 后面就要加分号，这样不一致。</p>
+</blockquote>
+<p>本来就是不同类型的语句，只要了解 JavaScript 语法，这不是什么问题。</p>
+<blockquote>
+<p>行首是否要加分号，我只要看本行的第一个字符就可以了……然而，你如果要判断“}”后面是否要加“;”，你得向上回溯，看清楚整段代码是一个结构呢？还是一个函数？如果是函数的话，是函数声明呢？还是函数表达式！许多时候，你可能向上翻几页还没找到对应的“{”！或者已经忘记了是几层缩进了！</p>
+</blockquote>
+<p>这是编写可维护代码的问题。首先，你不应该写超长的 function。其次，缩进很多也是要尽量避免的。如果你写了超长的函数或者超多的缩进，有没有分号都一样难以阅读。其实超长 function 只应该出现在封装模块的时候：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">root, factory</span>) </span>&#123;</span><br><span class="line">  <span class="comment">//</span></span><br><span class="line">&#125;(<span class="keyword">this</span>, <span class="function"><span class="keyword">function</span>(<span class="params">root</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 超长函数</span></span><br><span class="line"></span><br><span class="line">&#125;));</span><br></pre></td></tr></table></figure>
+
+<p>这种超长函数不会带来困扰：</p>
+<ol>
+<li>这种情况下超长函数不会有那么多缩进。</li>
+<li>包装的头尾可以通过构建工具来加。</li>
+<li>IDE 可以展开&#x2F;收缩大括号。</li>
+</ol>
+<blockquote>
+<p>漏加分号时 jslint 提示不智能。</p>
+</blockquote>
+<p>这虽然会带来一定困扰，但是实际操作中几乎不会带来问题，jslint 报错时我们首先检查是不是漏了分号就可以了。他的文章还列举了一些奇葩换行导致的问题，但那同样是代码可维护性差的问题，不是加不加分号的问题。那种奇葩代码，不加分号一样难读。</p>
+<blockquote>
+<p>编译器（代码分析器）完全可以知道哪里应该有EOS (End of Statement)。既然所有的分号其实可以由机器自行加上（无论是加在行首还是行尾），那么我们自己还要手写所有分号的意义到底在哪里？</p>
+</blockquote>
+<p>这是他的文章最后写到的，也很奇葩。要不要加分号之所以有争议，就是因为 JavaScript 的自动插入分号机制并不健全。如果要依赖这个机制，就像前面说的，要加入额外的限定规则。</p>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><ol>
+<li>如果涉及到改框架、造轮子等事情，需要同时了解<strong>加分号风格</strong>与<strong>不加分号风格</strong>。</li>
+<li>我们总要有个选择，我推荐<strong>加分号风格</strong>。</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/03/07/the-memoir-of-literature-laozi-note/" rel="next" title="木心《文学回忆录·先秦诸子·老子》阅读笔记">
+                <i class="fa fa-chevron-left"></i> 木心《文学回忆录·先秦诸子·老子》阅读笔记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/09/06/base64-decoding-problem/" rel="prev" title="Base64：window.atob 的兼容性问题">
+                Base64：window.atob 的兼容性问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a href="http://www.jiathis.com/share?uid=2149398" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2149398" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="天方夜" />
+          <p class="site-author-name" itemprop="name">天方夜</p>
+          <p class="site-description motion-element" itemprop="description">天方夜的博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#现状"><span class="nav-number">1.</span> <span class="nav-text">现状</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择"><span class="nav-number">2.</span> <span class="nav-text">选择</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#不加分号"><span class="nav-number">3.</span> <span class="nav-text">不加分号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加分号"><span class="nav-number">4.</span> <span class="nav-text">加分号</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐"><span class="nav-number">5.</span> <span class="nav-text">推荐</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#争议"><span class="nav-number">6.</span> <span class="nav-text">争议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论"><span class="nav-number">7.</span> <span class="nav-text">结论</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
+  <div class="copyright" >
+    
+    &copy; 
+    <span itemprop="copyrightYear">2022</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">天方夜</span>
+  </div>
+</a>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Muse
+  </a>
+</div>
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  
+  
+
+  
+
+  
+
+</body>
+</html>

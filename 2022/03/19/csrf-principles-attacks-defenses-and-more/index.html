@@ -1,0 +1,712 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CSRF,Cookie,网络安全," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="CSRF 概述：CSRF 就是 Cross Site Request Forgery，跨站请求伪造。这种攻击利用了浏览器端状态（Cookie）管理规则与服务端鉴权规则。CSRF 在攻击过程中不需要获取到用户的登录凭据，而是借用户之手发出恶意请求。 CSRF 的存在是由于 Cookie 架构的设计“非常古老”，已经有些不适应网络安全的需要。但是如下文所述，现代浏览器已经给 Cookie 规则打了很多">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSRF 原理、攻击、防御及其他">
+<meta property="og:url" content="http://alphabao.github.io/2022/03/19/csrf-principles-attacks-defenses-and-more/index.html">
+<meta property="og:site_name" content="天方夜">
+<meta property="og:description" content="CSRF 概述：CSRF 就是 Cross Site Request Forgery，跨站请求伪造。这种攻击利用了浏览器端状态（Cookie）管理规则与服务端鉴权规则。CSRF 在攻击过程中不需要获取到用户的登录凭据，而是借用户之手发出恶意请求。 CSRF 的存在是由于 Cookie 架构的设计“非常古老”，已经有些不适应网络安全的需要。但是如下文所述，现代浏览器已经给 Cookie 规则打了很多">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-03-19T09:20:08.000Z">
+<meta property="article:modified_time" content="2022-03-19T13:09:07.083Z">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="CSRF">
+<meta property="article:tag" content="Cookie">
+<meta property="article:tag" content="网络安全">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://alphabao.github.io/2022/03/19/csrf-principles-attacks-defenses-and-more/"/>
+
+
+  <title> CSRF 原理、攻击、防御及其他 | 天方夜 </title>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天方夜</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不患人之不己知，患不知人也</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CSRF 原理、攻击、防御及其他
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2022-03-19T17:20:08+08:00" content="2022-03-19">
+              2022-03-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="CSRF-概述："><a href="#CSRF-概述：" class="headerlink" title="CSRF 概述："></a>CSRF 概述：</h1><p>CSRF 就是 Cross Site Request Forgery，跨站请求伪造。这种攻击利用了浏览器端状态（Cookie）管理规则与服务端鉴权规则。CSRF 在攻击过程中不需要获取到用户的登录凭据，而是借用户之手发出恶意请求。</p>
+<p>CSRF 的存在是由于 Cookie 架构的设计“非常古老”，已经有些不适应网络安全的需要。但是如下文所述，现代浏览器已经给 Cookie 规则打了很多“补丁”，安全性大大提升。实际上，现代浏览器条件下，很多“传统的” CSRF 攻击手段已经失效，但是由于网络安全的短板效应，永远不能放松警惕，只有深入理解攻击方式的来龙去脉，才能从整体上尽可能确保安全。</p>
+<p>另一个 Web 开发者常听说的攻击方式叫 XSS（Cross Site Scripting），跨站脚本，了解它的人应该更多一些。相比而言，CSRF 攻击构造起来可以更简单，更低成本，但是攻击方式更精巧，背后的原理的也更复杂一些。更容易导致混乱的地方在于，不同的攻击方式可能混合出现。比如考虑到 UGC（User-generated content）场景下可能出现的 CSRF，就变得比典型的 CSRF 要复杂。对于整体防御思路来说，是很大的挑战。</p>
+<p>狭义上的 CSRF 知识不难理解，但要深入理解就比较繁琐，因为网络安全的事情往往都是很多不同层面的知识互相关联，CSRF 尤其如此。</p>
+<h1 id="与-CSRF-关系密切的领域："><a href="#与-CSRF-关系密切的领域：" class="headerlink" title="与 CSRF 关系密切的领域："></a>与 CSRF 关系密切的领域：</h1><ol>
+<li>网络协议</li>
+<li>浏览器特性</li>
+<li>API设计</li>
+<li>认证方式</li>
+<li>密码学</li>
+<li>社会工程</li>
+</ol>
+<p>可见，CSRF 本身不复杂，甚至看起来比较简单，但是每个相关的领域，都是个非常深的坑，本文会尽可能设计到足够广的领域。阅读本文之后，会发现每个领域的知识都有很多可以继续探索的地方。<a id="more"></a></p>
+<h1 id="CSRF-存在的原因："><a href="#CSRF-存在的原因：" class="headerlink" title="CSRF 存在的原因："></a>CSRF 存在的原因：</h1><p>浏览器 Cookie 架构的安全性不足，传统上是通过 domain 和 path 与 document 的匹配情况来携带。</p>
+<p>恶意页面可以通过诱导点击链接或者通过隐藏的 iframe 提交 form 表单（通常自动提交），让用户打开恶意页面就可能触发请求，由于带着 Cookie，这个请求在服务端会被认为是合法的。</p>
+<h1 id="CSRF-攻击的特点："><a href="#CSRF-攻击的特点：" class="headerlink" title="CSRF 攻击的特点："></a>CSRF 攻击的特点：</h1><ol>
+<li>可以权限提升；</li>
+<li>具有隐蔽性（被攻击者不易察觉）；</li>
+</ol>
+<h1 id="CSRF-防御设计的应用范围："><a href="#CSRF-防御设计的应用范围：" class="headerlink" title="CSRF 防御设计的应用范围："></a>CSRF 防御设计的应用范围：</h1><ol>
+<li>对于触发数据修改的接口；</li>
+<li>对于获取敏感信息的接口；</li>
+</ol>
+<h1 id="典型的-CSRF-攻击示例"><a href="#典型的-CSRF-攻击示例" class="headerlink" title="典型的 CSRF 攻击示例"></a>典型的 CSRF 攻击示例</h1><h2 id="Forge-GET"><a href="#Forge-GET" class="headerlink" title="Forge GET"></a>Forge GET</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"http://mysite.com/transfer.do?acct=MARIA&amp;amount=100000"</span>&gt;</span>View my Pictures!<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"http://mysite.com/transfer.do?acct=MARIA&amp;amount=100000"</span> <span class="attr">width</span>=<span class="string">"0"</span> <span class="attr">height</span>=<span class="string">"0"</span> <span class="attr">border</span>=<span class="string">"0"</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Forge-POST"><a href="#Forge-POST" class="headerlink" title="Forge POST"></a>Forge POST</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">form</span> <span class="attr">action</span>=<span class="string">"/action\_page\_binary.asp"</span> <span class="attr">method</span>=<span class="string">"post"</span> <span class="attr">enctype</span>=<span class="string">"multipart/form-data"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"fname"</span>&gt;</span>First name:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"fname"</span> <span class="attr">name</span>=<span class="string">"fname"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">label</span> <span class="attr">for</span>=<span class="string">"lname"</span>&gt;</span>Last name:<span class="tag">&lt;/<span class="name">label</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">id</span>=<span class="string">"lname"</span> <span class="attr">name</span>=<span class="string">"lname"</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"submit"</span> <span class="attr">value</span>=<span class="string">"Submit"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">form</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="CSRF-攻击的示例步骤："><a href="#CSRF-攻击的示例步骤：" class="headerlink" title="CSRF 攻击的示例步骤："></a>CSRF 攻击的示例步骤：</h2><h3 id="CSRF-GET："><a href="#CSRF-GET：" class="headerlink" title="CSRF GET："></a>CSRF GET：</h3><ol>
+<li>Bob 创建了含有 GET 请求的恶意链接</li>
+<li>Bob 通过聊天工具、邮件或网站传播恶意链接</li>
+<li>Alice 点击了恶意链接</li>
+<li>以 Alice 的身份发起了 GET 请求</li>
+<li>服务端以 Alice 认证的 Cookie 来处理请求</li>
+<li>服务端按照 Alice 的身份更新了状态（Alice 并不知情）</li>
+</ol>
+<h3 id="CSRF-POST："><a href="#CSRF-POST：" class="headerlink" title="CSRF POST："></a>CSRF POST：</h3><ol>
+<li>Bob 创建了恶意网页</li>
+<li>Bob 传播该网页</li>
+<li>Alice 点击恶意网页并提交了表单（可能有填写动作、也可能是自动提交）</li>
+<li>表单发起提交到另一个站点的 POST 请求</li>
+<li>服务端以 Alice 身份处理 POST 请求</li>
+<li>服务端状态已改变</li>
+</ol>
+<h1 id="CSRF-攻击手段："><a href="#CSRF-攻击手段：" class="headerlink" title="CSRF 攻击手段："></a>CSRF 攻击手段：</h1><h2 id="通过恶意页面上的-URL-或者-form-表单（通常使用-JavaScript-自动提交）："><a href="#通过恶意页面上的-URL-或者-form-表单（通常使用-JavaScript-自动提交）：" class="headerlink" title="通过恶意页面上的 URL 或者 form 表单（通常使用 JavaScript 自动提交）："></a>通过恶意页面上的 URL 或者 form 表单（通常使用 JavaScript 自动提交）：</h2><p>让用户打卡恶意页面就触发请求，由于带着 Cookie，这个请求在服务端会被认为是合法的。</p>
+<h2 id="攻击者有权限在本域发布内容（UGC-场景）："><a href="#攻击者有权限在本域发布内容（UGC-场景）：" class="headerlink" title="攻击者有权限在本域发布内容（UGC 场景）："></a>攻击者有权限在本域发布内容（UGC 场景）：</h2><p>CSRF 攻击大多数情况下来自第三方域名，但并不能排除可能从本域发起的攻击。如果攻击者有权限在网站（本域）发布评论（尤其是可以设置链接、图片等），那么它可以直接在本域发起攻击，这种情况下<strong>同源策略</strong>无法达到防护的作用。</p>
+<h2 id="服务端请求伪造（SSRF，Server-Side-Request-Forgery）："><a href="#服务端请求伪造（SSRF，Server-Side-Request-Forgery）：" class="headerlink" title="服务端请求伪造（SSRF，Server Side Request Forgery）："></a>服务端请求伪造（SSRF，Server Side Request Forgery）：</h2><p>这类攻击本质上是一种注入。利用了服务端的有代理请求功能：服务端可能根据用户的输入，在服务端构造一个 URL，并向其发起请求，通过访问其他的服务端资源来完成正常的页面展示。</p>
+<p>这类情况下，如果恶意用户提交的 URL 是操作内网的敏感资源，就可能意外修改的服务端资源的状态，也可能通过一系列操作“提权”成功。由于请求是从内往发起，往往已经绕过大部分的认证和授权机制，这一 “action” 就会具备很高的权限，所以 SSRF 很可能产生非常严重的后果。</p>
+<p>不幸的是，对于各种注入攻击，往往难以 100% 发现和防范，越是功能复杂的网站越是如此。</p>
+<h3 id="SSRF-示例："><a href="#SSRF-示例：" class="headerlink" title="SSRF 示例："></a>SSRF 示例：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http:&#x2F;&#x2F;image.mysite.com&#x2F;search&#x2F;detail?callback_url&#x3D;127.0.0.1:8081&#x2F;update&#x2F;1&#x2F;1</span><br></pre></td></tr></table></figure>
+
+<p>攻击者可能通过 SSRF 直接提权，也可能通过 SSRF 拿到了服务端返回的内部错误提示、源码等信息，根据这些信息可能找到了一个 SQL 注入的漏洞，再利用 SQL 注入攻击拿到内网的命令执行权限。</p>
+<h1 id="CSRF-防御手段："><a href="#CSRF-防御手段：" class="headerlink" title="CSRF 防御手段："></a>CSRF 防御手段：</h1><h2 id="通过浏览器原生-Header："><a href="#通过浏览器原生-Header：" class="headerlink" title="通过浏览器原生 Header："></a>通过浏览器原生 Header：</h2><p>这个防御策略主要针对 CSRF 最常规的情况——跨域场景。它的设计思路是在服务端拦截外域（不受信任的域名）对服务端发起的请求。在 HTTP 协议中，有两个 Header 字段可以用来判断来源域：Origin 和 Referer。</p>
+<p>浏览器发送请求时，这两个字段会自动携带，而且前端 JavaScript 代码无法对其进行修改。Origin 和 Referer 的规则在老旧浏览器上会有差异（可能不支持，也就无法起到防御的作用）。</p>
+<h2 id="通过浏览器-Custom-Header："><a href="#通过浏览器-Custom-Header：" class="headerlink" title="通过浏览器 Custom Header："></a>通过浏览器 Custom Header：</h2><p>通过 JavaScript 添加自定义的 Header 字段。缺点主要是使用成本（代码的侵入性）。</p>
+<h2 id="CSRF-Token："><a href="#CSRF-Token：" class="headerlink" title="CSRF Token："></a>CSRF Token：</h2><p>CSRF Token 是比较彻底的防御 CSRF 攻击的方法，可以防御从简单到复杂的各种情况（比如同域、XSS 等）。它的原理是将 CSRF Token 放在 HTTP Header 或者请求参数中，服务端对其进行校验。</p>
+<h3 id="CSRF-Token-应该满足三个特性："><a href="#CSRF-Token-应该满足三个特性：" class="headerlink" title="CSRF Token 应该满足三个特性："></a>CSRF Token 应该满足三个特性：</h3><ol>
+<li>每个用户唯一</li>
+<li>机密性</li>
+<li>不可预测(Unpredictable)</li>
+</ol>
+<p>如果需要防范本域的CSRF，需要为每一个 form 表单生成唯一的 Token，并且在 form 提交时验证 Token，就是 CSRF Token 的实现思路，但是 Token 需要保证不可预测，并且要区分内链、外链（避免将 Token 发送给其他服务器造成 Token 泄漏）。</p>
+<p>一个优化手段是无状态（stateless）CSRF Token（服务端保存密钥），利用密码学原理，不需要服务端保存每个 Token，而是只需要保存一个密钥，Token 都根据这个密钥生成，给每个用户的 Token 加盐（salt）。如此一来，既可以保证能够识别这个 Token 是否是服务端生成的（其他人无法伪造），也可以保证每个用户的 Token 不相同（其他人无法猜到我的 Token 是什么）。</p>
+<p>这种无状态设计是很多开发领域都推崇的设计原则，它的优点在于占用的服务器资源更少，而且通常能够通过减少耦合有效降低系统的复杂性。</p>
+<h3 id="koa-csrf-的防御方式（Stateless-CSRF-Token）："><a href="#koa-csrf-的防御方式（Stateless-CSRF-Token）：" class="headerlink" title="koa csrf 的防御方式（Stateless CSRF Token）："></a>koa csrf 的防御方式（Stateless CSRF Token）：</h3><p>koa csrf 的实现方式就是无状态的 CSRF Token，即前面所述的服务端只保存一个密钥。好处也是显而易见的，对于分布式 Web 应用，为了达到同步状态的效果，Session 会使用中间件存储或者动态计算。koa 的中间件存储方案就是将 Token 存储在 Redis 上，这样可以保证不同服务器取得的同一登录用户的 Session 值一致；由于 koa csrf 的密钥存储在 Session 中，可以保证任何一台分布式服务器取到 Token 后都可以执行解密操作并进行数据正确性比对。</p>
+<h3 id="koa-csrf-相关源码"><a href="#koa-csrf-相关源码" class="headerlink" title="koa csrf 相关源码"></a>koa csrf 相关源码</h3><p><a href="https://github.com/koajs/csrf" target="_blank" rel="noopener">https://github.com/koajs/csrf</a><br><a href="https://github.com/pillarjs/csrf" target="_blank" rel="noopener">https://github.com/pillarjs/csrf</a></p>
+<h2 id="超短期-Cookie"><a href="#超短期-Cookie" class="headerlink" title="超短期 Cookie"></a>超短期 Cookie</h2><p>具体的 Token 发送方式，还有一种是使用超短期 Cookie；如1秒后就过期的Cookie，在请求时候前端 set 这个超短期 Cookie。</p>
+<h2 id="Double-Submit-Cookie"><a href="#Double-Submit-Cookie" class="headerlink" title="Double Submit Cookie"></a>Double Submit Cookie</h2><p>Double Submit Cookie 基本都设计为无状态，因为使用这种方式本身就是出于便利性的考虑。服务端将满足随机性的 CSRF Token 放在 Cookie 中，浏览器端发起请求时将这个 Token 放在请求参数或 HTTP Header 中。</p>
+<p>考虑 UGC 场景和<strong>子域安全性</strong>的话，需要将 Cookie 中的 Token 加密 &#x2F; hash（消息摘要）&#x2F; HMAC。</p>
+<h3 id="egg-主要使用-Double-Submit-Cookie-策略"><a href="#egg-主要使用-Double-Submit-Cookie-策略" class="headerlink" title="egg 主要使用 Double Submit Cookie 策略"></a>egg 主要使用 Double Submit Cookie 策略</h3><p><a href="https://github.com/eggjs/egg/issues/260" target="_blank" rel="noopener">https://github.com/eggjs/egg/issues/260</a></p>
+<h3 id="egg-csrf-源码"><a href="#egg-csrf-源码" class="headerlink" title="egg csrf 源码"></a>egg csrf 源码</h3><p><a href="https://github.com/eggjs/egg-security" target="_blank" rel="noopener">https://github.com/eggjs/egg-security</a></p>
+<h3 id="Double-Submit-Cookie-与-Login-Cookie-和-CSRF-Token-的关系"><a href="#Double-Submit-Cookie-与-Login-Cookie-和-CSRF-Token-的关系" class="headerlink" title="Double Submit Cookie 与 Login Cookie 和 CSRF Token 的关系"></a>Double Submit Cookie 与 Login Cookie 和 CSRF Token 的关系</h3><ol>
+<li>CSRF Token 与 Cookie 没有必然联系，只要满足 CSRF Token 应该满足的那三个特性就可以，比如还可以放在 input type&#x3D;”hidden” 中，甚至任何资源中（动态html、js）；</li>
+<li>无状态又没有过期时间的情况下，如果 Token 泄漏就可以重放攻击，或者在本域攻击的条件下用低敏感操作的 Token 做高敏感操作；</li>
+<li>登录认证的安全性与 csrf 侧重点不同，所以通常不使用同一个 Cookie，其实用同一个也可以。登录认证可能是需要加密解密的信息（成本高于 csrf 的 hash&#x2F;hmac），那么认证信息也就不能是无状态的；</li>
+<li>如果登录认证使用无状态 Token 校验（服务端只需要知道这个 Token 是不是自己生成的，不需要解密或者不需要其他状态信息），可以当 CSRF Token 使用；</li>
+</ol>
+<h2 id="SameSite-Cookie"><a href="#SameSite-Cookie" class="headerlink" title="SameSite Cookie"></a>SameSite Cookie</h2><p>SameSite Cookie 就是浏览器为增强 Cookie 安全性而打的补丁之一。从 Chrome 80 开始，如果开发者不做设置，则当作 SameSite&#x3D;Lax 对待（规则见下文）。这也是文章开头说很多“传统的” CSRF 攻击手段已经失效的原因，即浏览器对第三方 Cookie 的限制越来越严格了。</p>
+<h3 id="设置为-Strict"><a href="#设置为-Strict" class="headerlink" title="设置为 Strict"></a>设置为 Strict</h3><p>完全禁止第三方 Cookie。</p>
+<h3 id="设置为-Lax"><a href="#设置为-Lax" class="headerlink" title="设置为 Lax"></a>设置为 Lax</h3><p>携带 Cookie：</p>
+<ol>
+<li>从第三方站点的链接打开；</li>
+<li>预加载请求；</li>
+<li>从第三方站点提交 Get 表单；</li>
+</ol>
+<p>不会携带 Cookie：</p>
+<ol>
+<li>第三方站点 Post 表单；</li>
+<li>通过 img、iframe、script 等标签加载的 URL；</li>
+</ol>
+<h3 id="设置为-None"><a href="#设置为-None" class="headerlink" title="设置为 None"></a>设置为 None</h3><p>不针对第三方 Cookie 进行限制。</p>
+<h2 id="通过人机交互手段进行防御"><a href="#通过人机交互手段进行防御" class="headerlink" title="通过人机交互手段进行防御"></a>通过人机交互手段进行防御</h2><ol>
+<li>验证码</li>
+<li>人脸识别</li>
+</ol>
+<p>比 CSRF Token 更可靠的方式是验证码、人脸识别等“人工形态的 CSRF Token”。当然，缺点也非常明显，需要中断操作流程，对用户是个强打扰。</p>
+<h1 id="GET-与-POST-“真正”的区别"><a href="#GET-与-POST-“真正”的区别" class="headerlink" title="GET 与 POST “真正”的区别"></a>GET 与 POST “真正”的区别</h1><p>从安全层面来说，GET 与 POST 真正的区别在于，GET 是一种缺省操作，很多时候出于业务需要，不得不放行 GET 请求。</p>
+<p>例如来自搜索引擎页面或者其他正常站点的链接，用户点击之后的跳转就是 GET 请求，不应该判定为 CSRF 攻击。由此可见，如果 Web 应用实现上允许用户通过 GET 请求发送敏感操作，更容易出现问题，所以敏感操作不使用 GET 请求通常是一个好的实践。</p>
+<h1 id="JSON-劫持（JSON-Hijacking）"><a href="#JSON-劫持（JSON-Hijacking）" class="headerlink" title="JSON 劫持（JSON Hijacking）"></a>JSON 劫持（JSON Hijacking）</h1><p>JSON 劫持是指通过 script 标签可以载入跨域资源的特性，获取接口数据或者执行恶意的 JSONP callback function。</p>
+<p>实际上，由于 SameSite&#x3D;Lax 的保护（通过 script 标签加载时不会发送 Cookie），再加上 JavaScript 原生对象劫持的失效，这是个基本已经失效的攻击方式（由于 JavaScript 语言的动态性极强，相对容易出现这类劫持漏洞，也许还有新的劫持方法），下面的示例只用于理解攻击意图。</p>
+<h2 id="示例：利用-JavaScript-原生对象劫持"><a href="#示例：利用-JavaScript-原生对象劫持" class="headerlink" title="示例：利用 JavaScript 原生对象劫持"></a>示例：利用 JavaScript 原生对象劫持</h2><p>攻击者可以在自己的站点通过 script 标签载入接口数据。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://www.mysite.com/api/getXXX"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>用户已登陆 <a href="http://www.mysite.com/" target="_blank" rel="noopener">www.mysite.com</a> 的情况下，如果访问了这个恶意页面，因为 script 标签会自动解析返回的 JSON 数据，攻击者通过 Object.prototype.<strong>defineSetter</strong> 劫持原生对象的行为，触发攻击。</p>
+<h2 id="示例：利用-JSONP-callback-function"><a href="#示例：利用-JSONP-callback-function" class="headerlink" title="示例：利用 JSONP callback function"></a>示例：利用 JSONP callback function</h2><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript"><span class="function"><span class="keyword">function</span> <span class="title">doSomeAction</span> <span class="params">(v)</span> </span>&#123;</span></span><br><span class="line"><span class="javascript">  <span class="built_in">console</span>.log(v);</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://www.mysite.com/api/getXXX?callback=doSomeAction"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>攻击者通过指定自己的恶意 JSONP callback function 进行攻击。</p>
+<h2 id="对-JSON-劫持的防御"><a href="#对-JSON-劫持的防御" class="headerlink" title="对 JSON 劫持的防御"></a>对 JSON 劫持的防御</h2><ol>
+<li>对于敏感 Cookie 不使用 SameSite&#x3D;None；</li>
+<li>在获取的字符串第一行设置死循环语句。自己的程序中，获取数据时先当作字符串，去掉第一行，再 Parse JSON String；</li>
+</ol>
+<h1 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h1><ol>
+<li><a href="https://owasp.org/www-community/attacks/csrf" target="_blank" rel="noopener">Cross Site Request Forgery (CSRF)</a></li>
+<li><a href="https://danilocesar.hashnode.dev/understanding-cross-site-request-forgery-csrf-or-xsrf" target="_blank" rel="noopener">Understanding Cross-Site Request Forgery (CSRF or XSRF)</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSRF/" rel="tag">#CSRF</a>
+          
+            <a href="/tags/Cookie/" rel="tag">#Cookie</a>
+          
+            <a href="/tags/%E7%BD%91%E7%BB%9C%E5%AE%89%E5%85%A8/" rel="tag">#网络安全</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2022/03/11/javascript-await-advanced-guide/" rel="next" title="JavaScript await 进阶指南">
+                <i class="fa fa-chevron-left"></i> JavaScript await 进阶指南
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a href="http://www.jiathis.com/share?uid=2149398" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2149398" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="天方夜" />
+          <p class="site-author-name" itemprop="name">天方夜</p>
+          <p class="site-description motion-element" itemprop="description">天方夜的博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSRF-概述："><span class="nav-number">1.</span> <span class="nav-text">CSRF 概述：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#与-CSRF-关系密切的领域："><span class="nav-number">2.</span> <span class="nav-text">与 CSRF 关系密切的领域：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSRF-存在的原因："><span class="nav-number">3.</span> <span class="nav-text">CSRF 存在的原因：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSRF-攻击的特点："><span class="nav-number">4.</span> <span class="nav-text">CSRF 攻击的特点：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSRF-防御设计的应用范围："><span class="nav-number">5.</span> <span class="nav-text">CSRF 防御设计的应用范围：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#典型的-CSRF-攻击示例"><span class="nav-number">6.</span> <span class="nav-text">典型的 CSRF 攻击示例</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Forge-GET"><span class="nav-number">6.1.</span> <span class="nav-text">Forge GET</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Forge-POST"><span class="nav-number">6.2.</span> <span class="nav-text">Forge POST</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSRF-攻击的示例步骤："><span class="nav-number">6.3.</span> <span class="nav-text">CSRF 攻击的示例步骤：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSRF-GET："><span class="nav-number">6.3.1.</span> <span class="nav-text">CSRF GET：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CSRF-POST："><span class="nav-number">6.3.2.</span> <span class="nav-text">CSRF POST：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSRF-攻击手段："><span class="nav-number">7.</span> <span class="nav-text">CSRF 攻击手段：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#通过恶意页面上的-URL-或者-form-表单（通常使用-JavaScript-自动提交）："><span class="nav-number">7.1.</span> <span class="nav-text">通过恶意页面上的 URL 或者 form 表单（通常使用 JavaScript 自动提交）：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#攻击者有权限在本域发布内容（UGC-场景）："><span class="nav-number">7.2.</span> <span class="nav-text">攻击者有权限在本域发布内容（UGC 场景）：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#服务端请求伪造（SSRF，Server-Side-Request-Forgery）："><span class="nav-number">7.3.</span> <span class="nav-text">服务端请求伪造（SSRF，Server Side Request Forgery）：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#SSRF-示例："><span class="nav-number">7.3.1.</span> <span class="nav-text">SSRF 示例：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSRF-防御手段："><span class="nav-number">8.</span> <span class="nav-text">CSRF 防御手段：</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#通过浏览器原生-Header："><span class="nav-number">8.1.</span> <span class="nav-text">通过浏览器原生 Header：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过浏览器-Custom-Header："><span class="nav-number">8.2.</span> <span class="nav-text">通过浏览器 Custom Header：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSRF-Token："><span class="nav-number">8.3.</span> <span class="nav-text">CSRF Token：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSRF-Token-应该满足三个特性："><span class="nav-number">8.3.1.</span> <span class="nav-text">CSRF Token 应该满足三个特性：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#koa-csrf-的防御方式（Stateless-CSRF-Token）："><span class="nav-number">8.3.2.</span> <span class="nav-text">koa csrf 的防御方式（Stateless CSRF Token）：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#koa-csrf-相关源码"><span class="nav-number">8.3.3.</span> <span class="nav-text">koa csrf 相关源码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#超短期-Cookie"><span class="nav-number">8.4.</span> <span class="nav-text">超短期 Cookie</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Double-Submit-Cookie"><span class="nav-number">8.5.</span> <span class="nav-text">Double Submit Cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#egg-主要使用-Double-Submit-Cookie-策略"><span class="nav-number">8.5.1.</span> <span class="nav-text">egg 主要使用 Double Submit Cookie 策略</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#egg-csrf-源码"><span class="nav-number">8.5.2.</span> <span class="nav-text">egg csrf 源码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Double-Submit-Cookie-与-Login-Cookie-和-CSRF-Token-的关系"><span class="nav-number">8.5.3.</span> <span class="nav-text">Double Submit Cookie 与 Login Cookie 和 CSRF Token 的关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SameSite-Cookie"><span class="nav-number">8.6.</span> <span class="nav-text">SameSite Cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#设置为-Strict"><span class="nav-number">8.6.1.</span> <span class="nav-text">设置为 Strict</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置为-Lax"><span class="nav-number">8.6.2.</span> <span class="nav-text">设置为 Lax</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#设置为-None"><span class="nav-number">8.6.3.</span> <span class="nav-text">设置为 None</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通过人机交互手段进行防御"><span class="nav-number">8.7.</span> <span class="nav-text">通过人机交互手段进行防御</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GET-与-POST-“真正”的区别"><span class="nav-number">9.</span> <span class="nav-text">GET 与 POST “真正”的区别</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#JSON-劫持（JSON-Hijacking）"><span class="nav-number">10.</span> <span class="nav-text">JSON 劫持（JSON Hijacking）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例：利用-JavaScript-原生对象劫持"><span class="nav-number">10.1.</span> <span class="nav-text">示例：利用 JavaScript 原生对象劫持</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#示例：利用-JSONP-callback-function"><span class="nav-number">10.2.</span> <span class="nav-text">示例：利用 JSONP callback function</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对-JSON-劫持的防御"><span class="nav-number">10.3.</span> <span class="nav-text">对 JSON 劫持的防御</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考资料"><span class="nav-number">11.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
+  <div class="copyright" >
+    
+    &copy; 
+    <span itemprop="copyrightYear">2022</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">天方夜</span>
+  </div>
+</a>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Muse
+  </a>
+</div>
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  
+  
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,640 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,DOM,jQuery," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="DOM 元素中的 attribute 与 property 并不相同。attribute 通常翻译为“特性”，property 通常翻译为“属性”。其实它们是近义词，并不能根据特性、属性这两个词汇来区分 attribute 与 property。   特性：某事物所特有的性质；特殊的品性、品质。 属性：事物所具有的不可缺少的性质。   所以，attribute 与 property 都可以叫“特性">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Attribute 与 Property">
+<meta property="og:url" content="http://alphabao.github.io/2014/09/02/attributes-and-properties/index.html">
+<meta property="og:site_name" content="天方夜">
+<meta property="og:description" content="DOM 元素中的 attribute 与 property 并不相同。attribute 通常翻译为“特性”，property 通常翻译为“属性”。其实它们是近义词，并不能根据特性、属性这两个词汇来区分 attribute 与 property。   特性：某事物所特有的性质；特殊的品性、品质。 属性：事物所具有的不可缺少的性质。   所以，attribute 与 property 都可以叫“特性">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2014-09-02T09:44:41.000Z">
+<meta property="article:modified_time" content="2022-03-19T13:00:34.895Z">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="DOM">
+<meta property="article:tag" content="jQuery">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://alphabao.github.io/2014/09/02/attributes-and-properties/"/>
+
+
+  <title> Attribute 与 Property | 天方夜 </title>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天方夜</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不患人之不己知，患不知人也</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Attribute 与 Property
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2014-09-02T17:44:41+08:00" content="2014-09-02">
+              2014-09-02
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>DOM 元素中的 attribute 与 property 并不相同。attribute 通常翻译为“特性”，property 通常翻译为“属性”。其实它们是近义词，并不能根据特性、属性这两个词汇来区分 attribute 与 property。</p>
+<blockquote>
+<ul>
+<li>特性：某事物所特有的性质；特殊的品性、品质。</li>
+<li>属性：事物所具有的不可缺少的性质。</li>
+</ul>
+</blockquote>
+<p>所以，attribute 与 property 都可以叫“特性”，也都可以叫“属性”。</p>
+<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><p>从 HTML 到 DOM 元素，一种是声明式的语言，一种是命令式语言。attribute 是直接收集 HTML 中的属性转为 js 对象，对象的 value 最接近原生态，也就是 HTML 标记里面的样子；property 也是转为 js 对象，但是转化的过程中会对 value 做一些处理，将 value 转为对 js 来说更有意义的值。</p>
+<p>比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type&#x3D;&quot;checkbox&quot; checked&#x3D;&quot;checked&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">elem.getAttribute(<span class="string">"checked”) // “checked”，原生态的值</span></span><br><span class="line"><span class="string">elem.checked // true，对 js 来说更有意义的值</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h3 id="HTML-标准属性"><a href="#HTML-标准属性" class="headerlink" title="HTML 标准属性"></a>HTML 标准属性</h3><p>对于标准属性，无论是改变 attribute 还是改变 property，对应的另一个值也会改变。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input id&#x3D;&quot;ak47&quot; type&#x3D;&quot;checkbox&quot; checked&#x3D;&quot;checked&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">elem.getAttribute(<span class="string">"id”) // "</span>ak47<span class="string">"</span></span><br><span class="line"><span class="string">elem.id // "</span>ak47<span class="string">"</span></span><br><span class="line"><span class="string">elem.id = "</span>m16<span class="string">"</span></span><br><span class="line"><span class="string">elem.getAttribute("</span>id”) <span class="comment">// "m16"</span></span><br><span class="line">elem.setAttribute(<span class="string">"id”, "</span>mac10<span class="string">")</span></span><br><span class="line"><span class="string">elem.id = "</span>m16<span class="string">" // "</span>mac10<span class="string">"</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义属性"><a href="#自定义属性" class="headerlink" title="自定义属性"></a>自定义属性</h3><p>对于自定义属性，改变 attribute 或是 property，对应的另一个值不受影响（IE6、7 不区分 attribute 和 property，改变一个，对应的另一个值也会改变）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input test&#x3D;&quot;abcde&quot; type&#x3D;&quot;checkbox&quot; checked&#x3D;&quot;checked&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">elem.attributes <span class="comment">// 类数组 test: "abcde", type: "checkbox", checked: "checked"</span></span><br><span class="line">elem.test <span class="comment">// undefined 不包含自定义的 attribute</span></span><br><span class="line">elem.testName = <span class="string">"tianfangye"</span> <span class="comment">// 自定义的 property</span></span><br><span class="line">elem.testName <span class="comment">// "tianfangye"</span></span><br><span class="line">elem.getAttribute(<span class="string">"testName"</span>) <span class="comment">// null 不包含自定义的 property</span></span><br></pre></td></tr></table></figure>
+<h3 id="boolean-attribute"><a href="#boolean-attribute" class="headerlink" title="boolean attribute"></a>boolean attribute</h3><p><em>boolean attribute</em> 不同于上面两种，这种属性有特殊的处理方式。例如 checked，只要存在 attribute，不论值是什么（checked&#x3D;””, checked, checked&#x3D;”false”），对应的 property 都是 true。</p>
+<p>checked attribute 并不对应 checked property，而是对应 defaultChecked property。这是一个初始值，checked property 变化后它并不会改变（所以 checked attribute 也不变）。根据 jQuery 的文档，selected 与 value 也是如此。</p>
+<p>jQuery 中检测是否选中可以用如下三种方式：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( elem.checked )</span><br><span class="line"><span class="keyword">if</span> ( $( elem ).prop( <span class="string">"checked"</span> ) )</span><br><span class="line"><span class="keyword">if</span> ( $( elem ).is( <span class="string">":checked"</span> ) )</span><br></pre></td></tr></table></figure>
+
+<h3 id="jQuery-中的-attr-与-prop"><a href="#jQuery-中的-attr-与-prop" class="headerlink" title="jQuery 中的 .attr() 与 .prop()"></a><a href="http://jquery.com/upgrade-guide/1.9/#attr-versus-prop" target="_blank" rel="noopener">jQuery 中的 .attr() 与 .prop()</a></h3><p>jQuery 中的 .attr() 方法稍有混乱，有些应当使用 attribute 的地方使用了 property。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">elem.checked <span class="comment">// true (Boolean) Will change with checkbox state</span></span><br><span class="line">$( elem ).prop( <span class="string">"checked"</span> ) <span class="comment">// true (Boolean) Will change with checkbox state</span></span><br><span class="line">elem.getAttribute( <span class="string">"checked"</span> ) <span class="comment">// "checked" (String) Initial state of the checkbox; does not change</span></span><br><span class="line">$( elem ).attr( <span class="string">"checked"</span> ) <span class="comment">// (1.6) "checked" (String) Initial state of the checkbox; does not change</span></span><br><span class="line">$( elem ).attr( <span class="string">"checked"</span> ) <span class="comment">// (1.6.1+)    "checked" (String) Will change with checkbox state</span></span><br><span class="line">$( elem ).attr( <span class="string">"checked"</span> ) <span class="comment">// (pre-1.6)   true (Boolean) Changed with checkbox state</span></span><br></pre></td></tr></table></figure>
+
+<p>下面两种选择器在 1.9 之前的版本中可能会不准确：</p>
+<ol>
+<li><p>“input[checked]”<br>选择所有存在 checked attribute 的元素。</p>
+</li>
+<li><p>“input:checked”<br>选择所有选中的元素。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/DOM/" rel="tag">#DOM</a>
+          
+            <a href="/tags/jQuery/" rel="tag">#jQuery</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2014/07/09/how-to-access-google/" rel="next" title="如何访问 Google">
+                <i class="fa fa-chevron-left"></i> 如何访问 Google
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2014/10/18/using-local-storage/" rel="prev" title="使用 localStorage">
+                使用 localStorage <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a href="http://www.jiathis.com/share?uid=2149398" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2149398" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="天方夜" />
+          <p class="site-author-name" itemprop="name">天方夜</p>
+          <p class="site-description motion-element" itemprop="description">天方夜的博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#区别"><span class="nav-number">1.</span> <span class="nav-text">区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HTML-标准属性"><span class="nav-number">2.</span> <span class="nav-text">HTML 标准属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自定义属性"><span class="nav-number">3.</span> <span class="nav-text">自定义属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#boolean-attribute"><span class="nav-number">4.</span> <span class="nav-text">boolean attribute</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jQuery-中的-attr-与-prop"><span class="nav-number">5.</span> <span class="nav-text">jQuery 中的 .attr() 与 .prop()</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
+  <div class="copyright" >
+    
+    &copy; 
+    <span itemprop="copyrightYear">2022</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">天方夜</span>
+  </div>
+</a>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Muse
+  </a>
+</div>
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  
+  
+
+  
+
+  
+
+</body>
+</html>

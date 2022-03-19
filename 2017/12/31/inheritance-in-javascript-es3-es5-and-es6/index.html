@@ -1,0 +1,701 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,class,继承,面向对象," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="选择一种继承方式JavaScript 是一门动态语言，动态意味着高灵活性，而这尤其可以体现在继承上面。JavaScript 中的继承有很多种实现方式，可以分成下面四类：  Mixin 模式，即属性混入，从一个或多个对象中复制属性到新的对象中 方法借用模式，即通过 call 或 apply 实现方法的重用 原型模式，使用 Object.create 方法直接以一个对象为原型创造新的对象 类模式，实际">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 中的继承：ES3、ES5 和 ES6">
+<meta property="og:url" content="http://alphabao.github.io/2017/12/31/inheritance-in-javascript-es3-es5-and-es6/index.html">
+<meta property="og:site_name" content="天方夜">
+<meta property="og:description" content="选择一种继承方式JavaScript 是一门动态语言，动态意味着高灵活性，而这尤其可以体现在继承上面。JavaScript 中的继承有很多种实现方式，可以分成下面四类：  Mixin 模式，即属性混入，从一个或多个对象中复制属性到新的对象中 方法借用模式，即通过 call 或 apply 实现方法的重用 原型模式，使用 Object.create 方法直接以一个对象为原型创造新的对象 类模式，实际">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2017-12-31T01:28:31.000Z">
+<meta property="article:modified_time" content="2022-03-19T13:00:34.898Z">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="class">
+<meta property="article:tag" content="继承">
+<meta property="article:tag" content="面向对象">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://alphabao.github.io/2017/12/31/inheritance-in-javascript-es3-es5-and-es6/"/>
+
+
+  <title> JavaScript 中的继承：ES3、ES5 和 ES6 | 天方夜 </title>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天方夜</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不患人之不己知，患不知人也</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript 中的继承：ES3、ES5 和 ES6
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-12-31T09:28:31+08:00" content="2017-12-31">
+              2017-12-31
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="选择一种继承方式"><a href="#选择一种继承方式" class="headerlink" title="选择一种继承方式"></a>选择一种继承方式</h2><p>JavaScript 是一门动态语言，动态意味着高灵活性，而这尤其可以体现在继承上面。JavaScript 中的继承有很多种实现方式，可以分成下面四类：</p>
+<ol>
+<li>Mixin 模式，即属性混入，从一个或多个对象中复制属性到新的对象中</li>
+<li>方法借用模式，即通过 call 或 apply 实现方法的重用</li>
+<li>原型模式，使用 Object.create 方法直接以一个对象为原型创造新的对象</li>
+<li>类模式，实际上是使用构造函数或 ES6 class</li>
+</ol>
+<p>前三种有一个共同点，就是没有“类”的概念，它们在适当的场景下非常有用，不过也因为没有类，缺失了很多经典面向对象继承的要素。例如父子对象之间没有严格的传承关系，即不一定是 is-a 的关系，这决定了无法将它们直接应用在面向对象分析与设计方面，可以说它们并不是真正的继承，而是介于继承和组合之间的代码复用方案。</p>
+<p>而第四种，类式继承，无论是使用构造函数还是 ES6 加入的 class，都能表达明确的继承关系，在需要对继承重度使用的场景下，应该使用类式继承。接下来，本文讨论的都是类式继承。</p>
+<p>有一点需要牢记：继承是一种强耦合，应该谨慎使用。<a id="more"></a></p>
+<h2 id="如何学习-JavaScript-中的继承"><a href="#如何学习-JavaScript-中的继承" class="headerlink" title="如何学习 JavaScript 中的继承"></a>如何学习 JavaScript 中的继承</h2><p>理解 JavaScript 里面的类继承实现方式，我认为最好的方法是——找一门面向对象机制更为完善的语言，去理解其中的继承。实际上，JavaScript 中以前就有的 new 和 ES6 加入的 class，都是参考自 Java 语言。</p>
+<p>不过，这样的对照学习是有前提条件的，即首先掌握 JavaScript 中的原型、原型链和作用域，否则很容易误解 JavaScript 本质的执行机制。如果已经理解了这些前置知识，就可以探索一下 JavaScript 中的继承了。</p>
+<h2 id="用-ES3-实现继承"><a href="#用-ES3-实现继承" class="headerlink" title="用 ES3 实现继承"></a>用 ES3 实现继承</h2><p>实现要点：</p>
+<ol>
+<li>利用 Person.call(this) 执行“方法借用”，获取 Person 的属性</li>
+<li>利用一个空函数将 Person.prototype 加入原型链</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Person.prototype.printName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bob</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  Person.call(<span class="keyword">this</span>, <span class="string">"Bob"</span>);</span><br><span class="line">  <span class="keyword">this</span>.hobby = <span class="string">"Histroy"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">inheritProto</span>(<span class="params">Parent, Child</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> Fn = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;&#125;;</span><br><span class="line">  Fn.prototype = Parent.prototype;</span><br><span class="line">  Child.prototype = <span class="keyword">new</span> Fn();</span><br><span class="line">  Child.prototype.constructor = Child;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">inheritProto(Person, Bob);</span><br><span class="line"></span><br><span class="line">Bob.prototype.printHobby = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.hobby);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.dir(<span class="keyword">new</span> Bob());</span><br></pre></td></tr></table></figure>
+
+<p>dir 输出：</p>
+<pre><code>Bob
+  |-- hobby:&quot;Histroy&quot;
+  |-- name:&quot;Bob&quot;
+  |-- __proto__:Person
+      |-- printHobby:ƒ ()
+      |-- constructor:ƒ Bob()
+      |-- __proto__:
+          |-- printName:ƒ ()
+          |-- constructor:ƒ Person(name)
+          |-- __proto__:Object
+</code></pre>
+<h2 id="用-ES5-实现继承"><a href="#用-ES5-实现继承" class="headerlink" title="用 ES5 实现继承"></a>用 ES5 实现继承</h2><p>实现要点：</p>
+<ol>
+<li>利用 Person.call(this) 执行“方法借用”，获取 Person 的属性</li>
+<li>利用 ES5 增加的 Object.create 方法将 Person.prototype 加入原型链</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Person</span>(<span class="params">name</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>.name = name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Person.prototype.printName = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">Bob</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  Person.call(<span class="keyword">this</span>, <span class="string">"Bob"</span>);</span><br><span class="line">  <span class="keyword">this</span>.hobby = <span class="string">"Histroy"</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Bob.prototype  = <span class="built_in">Object</span>.create(Person.prototype, &#123;</span><br><span class="line">  <span class="keyword">constructor</span>: &#123;</span><br><span class="line">    value: Bob,</span><br><span class="line">    enumerable: <span class="literal">false</span>,</span><br><span class="line">    configurable: <span class="literal">true</span>,</span><br><span class="line">    writable: <span class="literal">true</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">Bob.prototype.printHobby = <span class="function"><span class="keyword">function</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="keyword">this</span>.hobby);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.dir(<span class="keyword">new</span> Bob());</span><br></pre></td></tr></table></figure>
+
+<p>dir 输出：</p>
+<pre><code>Bob
+  |-- hobby:&quot;Histroy&quot;
+  |-- name:&quot;Bob&quot;
+  |-- __proto__:Person
+      |-- printHobby:ƒ ()
+      |-- constructor:ƒ Bob()
+      |-- __proto__:
+          |-- printName:ƒ ()
+          |-- constructor:ƒ Person(name)
+          |-- __proto__:Object
+</code></pre>
+<h2 id="用-ES6-实现继承"><a href="#用-ES6-实现继承" class="headerlink" title="用 ES6 实现继承"></a>用 ES6 实现继承</h2><p>实现要点：</p>
+<ol>
+<li>利用 ES6 增加的 class 和 extends 实现比以前更完善的继承</li>
+</ol>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>(name) &#123;</span><br><span class="line">    <span class="keyword">this</span>.name = name;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  printName() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.name);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Bob</span> <span class="keyword">extends</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">  <span class="keyword">constructor</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>(<span class="string">"Bob"</span>);</span><br><span class="line">    <span class="keyword">this</span>.hobby = <span class="string">"Histroy"</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  printHobby() &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="keyword">this</span>.hobby);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.dir(<span class="keyword">new</span> Bob());</span><br></pre></td></tr></table></figure>
+
+<p>dir 输出：</p>
+<pre><code>Bob
+  |-- hobby:&quot;Histroy&quot;
+  |-- name:&quot;Bob&quot;
+  |-- __proto__:Person
+      |-- constructor:class Bob
+      |-- printHobby:ƒ printHobby()
+      |-- __proto__:
+          |-- constructor:class Person
+          |-- printName:ƒ printName()
+          |-- __proto__:Object
+</code></pre>
+<h2 id="从-class-和-super-看-JavaScript-与-Java-的继承"><a href="#从-class-和-super-看-JavaScript-与-Java-的继承" class="headerlink" title="从 class 和 super 看 JavaScript 与 Java 的继承"></a>从 class 和 super 看 JavaScript 与 Java 的继承</h2><p>编写代码时，ES6 class 带来的最明显的两个便利是：</p>
+<ol>
+<li>隐藏原型链的拼接过程，将代码的重点放在类型之间的传承</li>
+<li>使用 super 来实现更简化、更灵活的多态方法</li>
+</ol>
+<p>实际上，ES6 围绕 class 增加了很多新功能，比如继承这件事情上，与之前不同的是：用 class 实现的继承，既包括类实例的继承关系，也包括类本身的继承关系。这里的类其实是特殊的 JavaScript 函数，而在 JavaScript 中，函数是对象的子类型，即函数对象，所以也能够体现出原型继承。</p>
+<p>例如，用前面的代码来说明就是：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 类实例的继承关系</span></span><br><span class="line">Bob.prototype.__proto__ === Person.prototype <span class="comment">// true</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 类本身的继承关系</span></span><br><span class="line">Bob.__proto__ === Person <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<p>再来看 ES6 中的 super，子类的方法想借助父类的方法完成一部分工作时，super 就可以派上用场了，这是比继承更为细粒度的代码复用，不过耦合性也也变得更强了。实际上 super 也有很多功能，既可以当作函数使用，也可以当作对象使用。将 class 和 super 结合起来看，就可以领会一下 JavaScript 与 Java 在继承上的异同了。</p>
+<p>与 Java 相同或非常类似的是：</p>
+<ul>
+<li>在子类构造方法中调用父类的构造方法。ES6 中，子类的构造器中必须调用父类的构造器来完成初始化，子类的实例是基于父类实例的加工。正是因此，父类的所有行为都可以继承。所以，ES6 中可以继承原生数据结构的完整功能，在此基础上定义自己的数据结构。就像 Java 中继承 HashMap 类，JavaScript 可以继承 Number、Array 等构造函数。</li>
+</ul>
+<p>与 Java 不同的是：</p>
+<ul>
+<li>在普通方法中，super 可以调用的是父类的原型对象上的方法（可以理解为 super 此时指向父类的原型对象）；在静态方法中，super 可以调用父类的静态方法（可以理解为 super 此时指向父类）。而在 Java 中，通过 super 可以访问父类中被覆盖的同名变量或者方法，要访问静态方法则是通过“类名.方法名”或“对象名.方法名”。</li>
+</ul>
+<p>比较后可见，真的是和 Java 非常类似。</p>
+<p>结合前面的内容，可以发现从 ES3 到 ES6，JavaScript 中的面向对象部分一直是在向 Java 靠拢的。尤其增加了 class 和 extends 关键字之后，靠拢了一大步。但这些并没有改变 JavaScript 是基于原型这一实质。Java 中的类就像对象的设计图，每次调用 new 创建一个新的对象，就产生一个独立的对象占用独立的内存空间；而在 JavaScript，继承所做工作实际上是在构造原型链，所有子类的实例共享的是同一个原型。所以 JavaScript 中调用父类的方法实际上是在不同的对象上调用同一个方法，即“方法借用”，这种行为实际上是“委托（delegation）”调用。</p>
+<h2 id="扩展阅读"><a href="#扩展阅读" class="headerlink" title="扩展阅读"></a>扩展阅读</h2><ol>
+<li><a href="http://es6.ruanyifeng.com/#docs/class-extends#super-%E5%85%B3%E9%94%AE%E5%AD%97" target="_blank" rel="noopener">ECMAScript 6 入门：Class 的继承 - super 关键字</a></li>
+</ol>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ol>
+<li><a href="https://github.com/jayli/javascript-patterns/blob/master/chapter6.markdown#%E7%B1%BB%E5%BC%8F%E7%BB%A7%E6%89%BF-vs-%E7%8E%B0%E4%BB%A3%E7%BB%A7%E6%89%BF%E6%A8%A1%E5%BC%8F" target="_blank" rel="noopener">《JavaScript模式》- 类式继承 vs 现代继承模式</a></li>
+<li><a href="http://www.ituring.com.cn/book/946" target="_blank" rel="noopener">《JavaScript高级程序设计（第3版）》- 面向对象的程序设计</a></li>
+<li><a href="http://www.ituring.com.cn/book/1488" target="_blank" rel="noopener">《你不知道的JavaScript》- this和对象原型</a></li>
+</ol>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/class/" rel="tag">#class</a>
+          
+            <a href="/tags/%E7%BB%A7%E6%89%BF/" rel="tag">#继承</a>
+          
+            <a href="/tags/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/" rel="tag">#面向对象</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/07/merge-sort-and-quick-sort/" rel="next" title="归并排序与快速排序的简明实现及对比">
+                <i class="fa fa-chevron-left"></i> 归并排序与快速排序的简明实现及对比
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2022/03/11/javascript-await-advanced-guide/" rel="prev" title="JavaScript await 进阶指南">
+                JavaScript await 进阶指南 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a href="http://www.jiathis.com/share?uid=2149398" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2149398" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="天方夜" />
+          <p class="site-author-name" itemprop="name">天方夜</p>
+          <p class="site-description motion-element" itemprop="description">天方夜的博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#选择一种继承方式"><span class="nav-number">1.</span> <span class="nav-text">选择一种继承方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#如何学习-JavaScript-中的继承"><span class="nav-number">2.</span> <span class="nav-text">如何学习 JavaScript 中的继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用-ES3-实现继承"><span class="nav-number">3.</span> <span class="nav-text">用 ES3 实现继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用-ES5-实现继承"><span class="nav-number">4.</span> <span class="nav-text">用 ES5 实现继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用-ES6-实现继承"><span class="nav-number">5.</span> <span class="nav-text">用 ES6 实现继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从-class-和-super-看-JavaScript-与-Java-的继承"><span class="nav-number">6.</span> <span class="nav-text">从 class 和 super 看 JavaScript 与 Java 的继承</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展阅读"><span class="nav-number">7.</span> <span class="nav-text">扩展阅读</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">8.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
+  <div class="copyright" >
+    
+    &copy; 
+    <span itemprop="copyrightYear">2022</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">天方夜</span>
+  </div>
+</a>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Muse
+  </a>
+</div>
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  
+  
+
+  
+
+  
+
+</body>
+</html>

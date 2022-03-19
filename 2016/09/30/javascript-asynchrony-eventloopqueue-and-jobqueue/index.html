@@ -1,0 +1,669 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,异步,Event Loop,Job Queue," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="异步简单地说，JavaScript 是单线程执行的语言，但在使用中有很多异步执行的情况。异步的本质是用其他方式（相对同步）控制程序的执行顺序，这与其他语言中的多线程模型不同，所以常常有人对非顺序 JavaScript 代码的运行结果感到困惑不解。 一段简单的小程序任何使用过 JavaScript 的程序员都能说出下面这段代码的输出： 1234567console.log(&quot;A&quot;);setTimeo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript 中的异步：Event Loop 及其他">
+<meta property="og:url" content="http://alphabao.github.io/2016/09/30/javascript-asynchrony-eventloopqueue-and-jobqueue/index.html">
+<meta property="og:site_name" content="天方夜">
+<meta property="og:description" content="异步简单地说，JavaScript 是单线程执行的语言，但在使用中有很多异步执行的情况。异步的本质是用其他方式（相对同步）控制程序的执行顺序，这与其他语言中的多线程模型不同，所以常常有人对非顺序 JavaScript 代码的运行结果感到困惑不解。 一段简单的小程序任何使用过 JavaScript 的程序员都能说出下面这段代码的输出： 1234567console.log(&quot;A&quot;);setTimeo">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2016-09-30T01:11:31.000Z">
+<meta property="article:modified_time" content="2022-03-19T13:00:34.898Z">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="异步">
+<meta property="article:tag" content="Event Loop">
+<meta property="article:tag" content="Job Queue">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://alphabao.github.io/2016/09/30/javascript-asynchrony-eventloopqueue-and-jobqueue/"/>
+
+
+  <title> JavaScript 中的异步：Event Loop 及其他 | 天方夜 </title>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天方夜</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不患人之不己知，患不知人也</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JavaScript 中的异步：Event Loop 及其他
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-09-30T09:11:31+08:00" content="2016-09-30">
+              2016-09-30
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="异步"><a href="#异步" class="headerlink" title="异步"></a>异步</h2><p>简单地说，JavaScript 是单线程执行的语言，但在使用中有很多异步执行的情况。异步的本质是用其他方式（相对同步）控制程序的执行顺序，这与其他语言中的多线程模型不同，所以常常有人对<strong>非顺序</strong> JavaScript 代码的运行结果感到困惑不解。</p>
+<h3 id="一段简单的小程序"><a href="#一段简单的小程序" class="headerlink" title="一段简单的小程序"></a>一段简单的小程序</h3><p>任何使用过 JavaScript 的程序员都能说出下面这段代码的输出：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"A"</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"B"</span>);</span><br><span class="line">&#125;, <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"C"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>先后顺序是 <code>A、C、B</code>，因为第二个参数的作用是指定延迟的毫秒数，这段代码只有一个 setTimeout，所以不会让人迷惑。</p>
+<p>对类似程序的解释通常是由 setTimeout 设置一个定时器，在指定毫秒数后调用回调函数。然而，它的执行机制并不是这么简单。<strong>实际上，setTimeout 的作用是在指定的毫秒数之后，在得到机会时，将 callback 放入 Event Loop Queue</strong>。</p>
+<h3 id="Event-Loop"><a href="#Event-Loop" class="headerlink" title="Event Loop"></a>Event Loop</h3><a id="more"></a>
+
+<p>首先要抛出一些概念，通常所说的 JavaScript Engine 是指负责执行一个一个 chunk 的程序，它依赖宿主环境的调度，也需要通过宿主环境与操作系统产生关联并得到支持。JavaScript Engine 是 JavaScript Runtime(Hosting Environment) 的一部分。</p>
+<p>每个 chunk 通常是以 function 为单位，一个 chunk 执行完成后，才会执行下一个 chunk。下一个 chunk 是什么呢？取决于当前 Event Loop Queue 中的队首。Event Loop Queue 中存放的都是消息，每个消息关联着一个函数，JavaScript Engine 就按照队列中的消息顺序执行它们，也就是执行 chunk。</p>
+<p>所以上面的 setTimeout 实际执行起来更接近这样：</p>
+<ul>
+<li><p>chunk1执行：由 setTimeout 启动定时器（100毫秒）</p>
+</li>
+<li><p>chunk2执行：得到机会，将 callback 放入 Event Loop Queue</p>
+</li>
+<li><p>chunk3执行：此 callback 执行</p>
+</li>
+</ul>
+<p>不难发现，<strong>得到机会</strong>很重要！这也就可以解释用 setTimeout 延迟 1000 不一定是准确的，而是会至少延迟一秒。因为如果还有其他的任务在前面，它要等待那些任务对应的消息都出队，也就是程序都执行完成，它才能将 callback 放入队列。也就是实际延迟会大于或等于一秒。</p>
+<p>通常所说的触发了一个事件，就是指这个 event listener 得到了执行。与 setTimeout 这个例子中的概念一样，这也是一次 chunk 的执行。像这样一个一个执行 chunk 的过程就叫 <strong>Event Loop</strong>。</p>
+<p>还有一个经常提到的概念叫「无阻塞」，JavaScript 中的无阻塞就是指这种 Event Loop 模型。除去 alert 或同步 Ajax 请求等历史原因造成的问题，程序总是不会出现阻塞；也就是说 JavaScript Engine 总是可以处理下一个任务，如处理用户对浏览器的操作。</p>
+<h3 id="一些简单的小例子"><a href="#一些简单的小例子" class="headerlink" title="一些简单的小例子"></a>一些简单的小例子</h3><p>将 setTimeout 加入 try 语句之中，结果会如何？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Error - from try statement"</span>);</span><br><span class="line">  &#125;, <span class="number">0</span>);</span><br><span class="line">&#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">  <span class="built_in">console</span>.error(e);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>try catch 与 setTimeout 不在同一个 chunk，所以……你懂的。</p>
+<p>再看下一个。</p>
+<p>下面的堆栈信息会输出 C - B - A 吗？</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">A</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">B</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    setTimeout(<span class="function"><span class="keyword">function</span> <span class="title">C</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> <span class="built_in">Error</span>(<span class="string">"Error - from function C"</span>);</span><br><span class="line">    &#125;, <span class="number">0</span>);</span><br><span class="line">  &#125;, <span class="number">0</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<p>它们并不对应同一条 Event Loop Queue 中的消息，分别有各自的调用栈，所以错误栈里面只有 C。</p>
+<h3 id="Job-Queue"><a href="#Job-Queue" class="headerlink" title="Job Queue"></a>Job Queue</h3><p>Job 是 ES6 中新增的概念，它与 Promise 的执行有关，可以理解为等待执行的任务；Job Queue 就是这种类型的任务的队列。JavaScript Runtime 对于 Job Queue 与 Event Loop Queue 的处理有所不同。</p>
+<p>相同点：</p>
+<ul>
+<li>都用作先进先出队列</li>
+</ul>
+<p>相异点：</p>
+<ul>
+<li><p>每个 JavaScript Runtime 可以有多个 Job Queue，但只有一个 Event Loop Queue</p>
+</li>
+<li><p>当 JavaScript Engine 处理完当前 chunk 后，优先执行所有的 Job Queue，然后再处理 Event Loop Queue</p>
+</li>
+</ul>
+<p>ES6 中，一个 Promise 就是一个 PromiseJob，一种 Job。</p>
+<p>再来观察一段小程序：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">"A"</span>);</span><br><span class="line"></span><br><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">"A - setTimeout"</span>);</span><br><span class="line">&#125;, <span class="number">0</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">  resolve();</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"A - Promise 1"</span>);</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"B - Promise 1"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">new</span> <span class="built_in">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">  resolve();</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"A - Promise 2"</span>);</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"B - Promise 2"</span>);</span><br><span class="line">&#125;)</span><br><span class="line">.then(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">console</span>.log(<span class="string">"C - Promise 2"</span>);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">"AA"</span>);</span><br></pre></td></tr></table></figure>
+
+<p>在原生支持 Promise 的环境，输出是这样：</p>
+<p><code>A</code><br><code>AA</code><br><code>A - Promise 1</code><br><code>A - Promise 2</code><br><code>B - Promise 1</code><br><code>B - Promise 2</code><br><code>C - Promise 2</code><br><code>A - setTimeout</code></p>
+<p>理解这个输出：</p>
+<ul>
+<li><p>A 与 AA 最先输出，因为它们不是异步任务，属于第一个 chunk。</p>
+</li>
+<li><p>Promise 1 与 Promise 2 先于 setTimeout 执行，因为 Job Queue 的执行优先于 Event Loop Queue。</p>
+</li>
+<li><p>Promise 1 与 Promise 2 各自的输出都是顺序的，因为 Job Queue 是先进先出队列，同一 Job Queue 中的任务顺序执行。</p>
+</li>
+<li><p>Promise 1 与 Promise 2 的后续任务是交错的，因为 Promise 1 与 Promise 2 都是独立的 PromiseJob（job 的其中一种），属于不同的 Job Queue，它们之间的顺序规范中没有规定。</p>
+</li>
+</ul>
+<h2 id="并发"><a href="#并发" class="headerlink" title="并发"></a>并发</h2><p>文章开头，我说「简单地说，JavaScript 是单线程执行的语言」，现在可以说得稍微复杂一点了：JavaScript Engine 对 JavaScript 程序的执行是单线程的，但是 JavaScript Runtime（整个宿主环境）并不是单线程的；而且，几乎所有的异步任务都是并发的，例如多个 Job Queue、Ajax、Timer、I&#x2F;O(Node)等等。</p>
+<p>上面说的是 JavaScript Runtime 层面，从开发者的 JavaScript 代码执行层面来说，也有一些特殊情况，例如：一个 Web Worker，是一个独立的线程，有自己的内存空间（栈、堆）以及 Event Loop Queue。要与这样的不同的线程通信，只能通过 postMessage。一次 postMessage 就是在另一个线程的 Event Loop Queue 中加入一条消息。</p>
+<p>而一个<strong>跨域的</strong> iframe 中，JavaScript 也有单独的内存空间（栈、堆）以及 Event Loop Queue，也只能通过 postMessage 与它通信。至于它与主页面是否运行在同一线程内，取决于浏览器的实现（目前是在同一线程内）。</p>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><p><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/EventLoop" target="_blank" rel="noopener">Concurrency model and Event Loop</a><br><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-jobs-and-job-queues" target="_blank" rel="noopener">ECMAScript® 2015 Language Specification</a><br><a href="https://github.com/getify/You-Dont-Know-JS/blob/master/async%20%26%20performance/ch1.md" target="_blank" rel="noopener">You Don’t Know JS: Async &amp; Performance</a><br><a href="http://www.ituring.com.cn/book/1132" target="_blank" rel="noopener">JavaScript异步编程：设计快速响应的网络应用</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/%E5%BC%82%E6%AD%A5/" rel="tag">#异步</a>
+          
+            <a href="/tags/Event-Loop/" rel="tag">#Event Loop</a>
+          
+            <a href="/tags/Job-Queue/" rel="tag">#Job Queue</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/09/02/karma-mocha-chai-webpack-es6/" rel="next" title="使用 Karma、Mocha、Chai 搭建支持 ES6 的测试环境">
+                <i class="fa fa-chevron-left"></i> 使用 Karma、Mocha、Chai 搭建支持 ES6 的测试环境
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/10/23/to-see-the-nipponia-nippon-from-a-nerdy-perspective/" rel="prev" title="宅男视角看朱鹮">
+                宅男视角看朱鹮 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a href="http://www.jiathis.com/share?uid=2149398" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2149398" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="天方夜" />
+          <p class="site-author-name" itemprop="name">天方夜</p>
+          <p class="site-description motion-element" itemprop="description">天方夜的博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#异步"><span class="nav-number">1.</span> <span class="nav-text">异步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#一段简单的小程序"><span class="nav-number">1.1.</span> <span class="nav-text">一段简单的小程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Event-Loop"><span class="nav-number">1.2.</span> <span class="nav-text">Event Loop</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些简单的小例子"><span class="nav-number">1.3.</span> <span class="nav-text">一些简单的小例子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Job-Queue"><span class="nav-number">1.4.</span> <span class="nav-text">Job Queue</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#并发"><span class="nav-number">2.</span> <span class="nav-text">并发</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考资料"><span class="nav-number">3.</span> <span class="nav-text">参考资料</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
+  <div class="copyright" >
+    
+    &copy; 
+    <span itemprop="copyrightYear">2022</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">天方夜</span>
+  </div>
+</a>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Muse
+  </a>
+</div>
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  
+  
+
+  
+
+  
+
+</body>
+</html>

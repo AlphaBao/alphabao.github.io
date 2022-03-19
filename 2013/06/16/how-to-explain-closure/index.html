@@ -1,0 +1,624 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,closure,对象," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="天方夜" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="新读（2017年10月19日）本文写于 2013年06月16日，今天做了一点修改，所谓修改，其实只是删去了几句不影响技术内容的话。关于闭包，我最近写了一篇新的文章，提到了静态作用域，相比本文，是对闭包的更深一层的解释，可以作为本文的后续阅读。至于本文，也不是已经没有阅读的价值，因为它说明了以下两点：  闭包是一个概念，JavaScript 编程中常常用到闭包，但仅仅学会使用闭包，并不等于知道闭包本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【旧文新读】解释“闭包”需要几行代码？">
+<meta property="og:url" content="http://alphabao.github.io/2013/06/16/how-to-explain-closure/index.html">
+<meta property="og:site_name" content="天方夜">
+<meta property="og:description" content="新读（2017年10月19日）本文写于 2013年06月16日，今天做了一点修改，所谓修改，其实只是删去了几句不影响技术内容的话。关于闭包，我最近写了一篇新的文章，提到了静态作用域，相比本文，是对闭包的更深一层的解释，可以作为本文的后续阅读。至于本文，也不是已经没有阅读的价值，因为它说明了以下两点：  闭包是一个概念，JavaScript 编程中常常用到闭包，但仅仅学会使用闭包，并不等于知道闭包本">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2013-06-16T04:21:53.000Z">
+<meta property="article:modified_time" content="2022-03-19T13:00:34.897Z">
+<meta property="article:author" content="天方夜">
+<meta property="article:tag" content="JavaScript">
+<meta property="article:tag" content="closure">
+<meta property="article:tag" content="对象">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Muse',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://alphabao.github.io/2013/06/16/how-to-explain-closure/"/>
+
+
+  <title> 【旧文新读】解释“闭包”需要几行代码？ | 天方夜 </title>
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">天方夜</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">不患人之不己知，患不知人也</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                【旧文新读】解释“闭包”需要几行代码？
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2013-06-16T12:21:53+08:00" content="2013-06-16">
+              2013-06-16
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/%E7%BC%96%E7%A8%8B/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="新读（2017年10月19日）"><a href="#新读（2017年10月19日）" class="headerlink" title="新读（2017年10月19日）"></a>新读（2017年10月19日）</h3><p>本文写于 <code>2013年06月16日</code>，今天做了一点修改，所谓修改，其实只是删去了几句不影响技术内容的话。<a href="/2017/10/14/context-and-scope-bonus-scene-closure/">关于闭包，我最近写了一篇新的文章，提到了静态作用域，相比本文，是对闭包的更深一层的解释，可以作为本文的后续阅读。</a>至于本文，也不是已经没有阅读的价值，因为它说明了以下两点：</p>
+<ol>
+<li>闭包是一个概念，JavaScript 编程中常常用到闭包，但仅仅学会使用闭包，并不等于知道闭包本身是什么；而本文，正是从概念本身解释闭包。</li>
+<li>理解闭包与对象的关系，对于理解闭包非常有帮助，因为二者的功能有很大的重叠。</li>
+</ol>
+<h3 id="以下是旧文"><a href="#以下是旧文" class="headerlink" title="以下是旧文"></a>以下是旧文</h3><p>关于什么是闭包，很多“高手”会给出一段“特权函数”访问外部作用域变量的 JavaScript 代码，并且告诉你，闭包就是局部变量在函数返回之后继续存在。那么，你如何理解“闭包是穷人的对象”、“对象是穷人的闭包”？</p>
+<a id="more"></a>
+
+<p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
+<ul>
+<li>以下内容根据《代码的未来》、“犀牛书”、以及《Thinking in Java》整理</li>
+</ul>
+<p>&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;</p>
+<h3 id="什么是闭包？"><a href="#什么是闭包？" class="headerlink" title="什么是闭包？"></a>什么是闭包？</h3><p>闭包（Closure）这个词的意思是封闭，将外部作用域中的局部变量封闭起来的函数对象称为闭包。被封闭起来的变量与封闭它的函数对象有相同的生命周期。</p>
+<h3 id="什么是函数对象？"><a href="#什么是函数对象？" class="headerlink" title="什么是函数对象？"></a>什么是函数对象？</h3><p>函数对象是作为对象来使用的函数，这里的对象是指编程语言操作的数据。</p>
+<h3 id="函数对象与闭包"><a href="#函数对象与闭包" class="headerlink" title="函数对象与闭包"></a>函数对象与闭包</h3><p>函数对象不一定是闭包。</p>
+<p>C 语言中，可以获取一个函数的指针，并通过指针间接调用此函数。这就是 C 语言中的对象（函数对象也是对象）。但 C 语言中的函数对象不是闭包——它不能访问外部作用域的局部变量。</p>
+<p>JavaScript 中，每个函数都有一个与之相关联的作用域链。每次调用 JavaScript 函数的时候，都会为之创建一个新的对象用来保存局部变量，并把这个对象添加至作用域链中。当函数返回时，再将这个对象删除，此对象会被当做垃圾回收。但如果这个函数定义了嵌套的函数，并将它存储在某处的属性里，就意味着有了一个外部引用指向这个嵌套的函数。它就不会被当作垃圾回收，它所指向的变量绑定对象同样不会被回收。</p>
+<p>由此可见，JavaScript 中的函数对象是闭包——可以把外部作用域的局部变量“封闭”起来。</p>
+<h3 id="什么是对象？"><a href="#什么是对象？" class="headerlink" title="什么是对象？"></a>什么是对象？</h3><p>面向对象中的“对象”是指问题空间中的元素（猫、狗）及其在解空间中的表示（new Cat(); new Dog()）。对象是过程（函数）与数据的结合。</p>
+<h3 id="对象与闭包"><a href="#对象与闭包" class="headerlink" title="对象与闭包"></a>对象与闭包</h3><p>对象是在数据中以方法的形式内含了过程，闭包是在过程中以环境的形式内含了数据。所谓“闭包是穷人的对象”、“对象是穷人的闭包”，就是说使用其中的一种方式，就能实现另一种方式能够实现的功能。</p>
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>保护函数内的变量安全：如迭代器、生成器。<br>在内存中维持变量：如缓存数据、柯里化。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/closure/" rel="tag">#closure</a>
+          
+            <a href="/tags/%E5%AF%B9%E8%B1%A1/" rel="tag">#对象</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/06/12/see-their-own-lives/" rel="next" title="看到自己的生活">
+                <i class="fa fa-chevron-left"></i> 看到自己的生活
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2013/07/21/a-secret-makes-a-woman-woman/" rel="prev" title="A secret makes a woman woman">
+                A secret makes a woman woman <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a href="http://www.jiathis.com/share?uid=2149398" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript">
+var jiathis_config = {data_track_clickback:'true'};
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=2149398" charset="utf-8"></script>
+<!-- JiaThis Button END -->
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.png"
+               alt="天方夜" />
+          <p class="site-author-name" itemprop="name">天方夜</p>
+          <p class="site-description motion-element" itemprop="description">天方夜的博客</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">36</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">70</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#新读（2017年10月19日）"><span class="nav-number">1.</span> <span class="nav-text">新读（2017年10月19日）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以下是旧文"><span class="nav-number">2.</span> <span class="nav-text">以下是旧文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是闭包？"><span class="nav-number">3.</span> <span class="nav-text">什么是闭包？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是函数对象？"><span class="nav-number">4.</span> <span class="nav-text">什么是函数对象？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#函数对象与闭包"><span class="nav-number">5.</span> <span class="nav-text">函数对象与闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是对象？"><span class="nav-number">6.</span> <span class="nav-text">什么是对象？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对象与闭包"><span class="nav-number">7.</span> <span class="nav-text">对象与闭包</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应用场景"><span class="nav-number">8.</span> <span class="nav-text">应用场景</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <a href="https://www.zhihu.com/people/tianfangye" target="_blank" rel="noopener">
+  <div class="copyright" >
+    
+    &copy; 
+    <span itemprop="copyrightYear">2022</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">天方夜</span>
+  </div>
+</a>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io" target="_blank" rel="noopener">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next" target="_blank" rel="noopener">
+    NexT.Muse
+  </a>
+</div>
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  
+  
+
+  
+
+  
+
+</body>
+</html>
